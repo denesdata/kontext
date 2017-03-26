@@ -19,17 +19,20 @@
 
 <script>
   // sample data array
-  d3.json("../f_jo.json", function(error, data) {
+  d3.json("../g_jo.json", function(error, data) {
     //console.log(d2)
   // instantiate d3plus
+  var ids=["type","to","from", "al", "ap"];
   var visualization = d3plus.viz()
     .container("#viz")     // container DIV to hold the visualization
     .data(data)     // data to use with the visualization
     .type("bubbles")       // visualization type
-    .id(["to","from", "al", "ap"]) // nesting keys
-    .depth(0)              // 0-based depth
+    .id(ids) // nesting keys
+    .depth(1)              // 0-based depth
     .size("weekly flights")         // key name to size bubbles
-    .color("from")        // color by each group
+    .color(function(d){
+      return d[ids[d.d3plus.depth]];
+    })        // color by each group
     .font({"family":"Righteous","size":15,"align":"center","secondary":{"family":"Righteous"}})
     .legend(false)
     .draw()                // finally, draw the visualization!
