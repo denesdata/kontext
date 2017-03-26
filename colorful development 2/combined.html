@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2015 by csaladenes
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Colorful Development: Dynamic RGB HDI #development #hdi #undp @csaladenes" />
+    <meta name="keywords" content="development, human development, human development index, rgb, rgb color wheel, rgb hdi, colorful development, colorful, csaladenes, d3.js, d3" />
+	<meta property="og:image" content="rgbhdi.jpg" />
+    <meta property="og:description" content="Colorful Development: Dynamic RGB HDI #development #hdi #undp @csaladenes" />
+    <meta property="og:title" content="Colorful Development: Dynamic RGB HDI" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="blog.csaladen.es" />
+    <meta property="fb:admins" content="100943737036023614165" />
+    <title>Colorful Development: Dynamic RGB HDI</title>
+    <link rel="shortcut icon" href="favicon.png" />
+<style id="jsbin-css">
+html,
+body {
+  font-family: "Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height:100%;
+  width:100%;
+}
+div.tooltip {
+  line-height: 1;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 6px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 4px;
+  z-index:2000;
+  position:absolute;
+}
+svg circle {
+  opacity: 0.8;
+}
+.dragdealer {
+  height: 18px;
+  background: #ddd;
+  z-index: 50;
+}
+.dragdealer .handle {
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+.dragdealer .orange-bar {
+  width: 45px;
+  height: 18px;
+  background: #555;
+  color: #FFF;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+  font-weight: bold;
+}
+.dragdealer .orange-bar:hover {
+  background: #111
+}
+.country {
+fill: #ccc;
+stroke: #fff;
+stroke-width: .5px;
+stroke-linejoin: round;
+}
+.country:hover {
+cursor:pointer;
+}
+#emph{
+cursor:pointer;
+}
+a{
+color:#555;
+}
+</style>
+</head>
+
+<body>
+<!--HELP POPUP-->
+<div id="imgcontainer" onmousewheel="scroll(event.wheelDelta)" style="width:1260px;height:530px;opacity:0;">
+
+            <div id="helppop" style="font-size:14px;padding:5px;position:absolute; left:0 top:0; margin-left:500px; width:700px;margin-top:43px; z-index:200; background-color:rgba(0,0,0,0.9); color:#fff; line-height:20px;" onclick="document.getElementById('helppop').style.visibility='hidden'">
+                <ul>
+                    <li>Click on a country to add/remove it to/from the HDI RGB wheel.</li>
+					<li>Click on a bubble on the HDI RGB wheel to remove it.</li>
+					<li>You can show/hide all available data points for the selected year in the bottom right corner.</li>
+					<li><i>Emphasize</i> increases the color brightness of countries but does not modifiy the relative colors.</li>
+					<li>You can go forwards/backwards in time using the mouse scroll, the arrow keys or the buttons below.</li>
+					<li>By default, the bubble size is set to be proportional to the HDI deficit.</li>
+					<li>You can set bubble size either to show the HDI deficit or the Population.</li>
+					<li>The <i>Size</i> slider changes the size of all bubbles at once.</li>
+					<li>The <i>Power</i> slider changes the size of larger bubbles more, highlighting the hierarchy.</li>
+					<li>The <i>Filter</i> slider filters bubbles starting with the lowest sizes first.</li>
+					<li>The bubbles added to the color wheel are preserved over time.</li>
+					<li style="margin-top:10px;">The page automatically adjusts to your screen size and reloads on window resize.</li>
+					<li style="margin-top:10px;">Click on this box to hide it. Reload the page to show it again or press <b>H</b>.</li>
+					</ul>
+            </div>
+  <object id="rgbwheel" style="position:fixed;float:left;top:40px;left:20px;opacity:1;z-index:-3;width:420px;height:420px;opacity:1;" data="RGB_color_wheel.svg" type="image/svg+xml"></object>
+  <svg id="rgbshadow" height="0" width="0" style="position:fixed;float:left;top:0px;left:0px;opacity:1;z-index:-2;">
+
+    <defs>
+      <radialgradient id="grad1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+        <stop offset="0%" style="stop-color:rgb(0,0,0);stop-opacity:1" />
+        <stop offset="100%" style="stop-color:rgb(0,0,0);stop-opacity:0" />
+      </radialgradient>
+    </defs>
+
+    <ellipse cx="50%" cy="50%" rx="42%" ry="42%" fill="url(#grad1)" />
+
+    <line x1="50%" y1="50%" x2="92.5%" y2="50%" style="stroke:black;stroke-width:2" />
+    <line x1="50%" y1="49%" x2="50%" y2="51%" style="stroke:black;stroke-width:2" />
+    <line x1="54.3%" y1="49%" x2="54.3%" y2="51%" style="stroke:black;stroke-width:2" />
+    <line x1="58.6%" y1="49%" x2="58.6%" y2="51%" style="stroke:black;stroke-width:2" />
+    <line x1="62.8%" y1="49%" x2="62.8%" y2="51%" style="stroke:black;stroke-width:2" />
+    <line x1="67.2%" y1="49%" x2="67.2%" y2="51%" style="stroke:black;stroke-width:2" />
+    <line x1="71.4%" y1="49%" x2="71.4%" y2="51%" style="stroke:black;stroke-width:2" />
+    <line x1="75.7%" y1="49%" x2="75.7%" y2="51%" style="stroke:black;stroke-width:2" />
+    <line x1="80%" y1="49%" x2="80%" y2="51%" style="stroke:black;stroke-width:2" />
+    <line x1="84.3%" y1="49%" x2="84.3%" y2="51%" style="stroke:black;stroke-width:2" />
+    <line x1="88.6%" y1="49%" x2="88.6%" y2="51%" style="stroke:black;stroke-width:2" />
+    <line x1="92.6%" y1="49%" x2="92.6%" y2="51%" style="stroke:black;stroke-width:2" />
+
+    <text x="57%" y="48%" fill="black">0.1</text>
+    <text x="65.5%" y="48%" fill="black">0.2</text>
+    <text x="73.9%" y="48%" fill="black">0.3</text>
+    <text x="82.5%" y="48%" fill="black">0.4</text>
+    <text x="91.2%" y="48%" fill="black">0</text>
+    <text x="92.3%" y="48%" fill="white">.5</text>
+
+    <circle cx="50%" cy="50%" r="21.4%" fill="none" stroke="black" stroke-width="2" stroke-dasharray="5,5" />
+    <circle cx="50%" cy="50%" r="30%" fill="none" stroke="black" stroke-width="2" stroke-dasharray="5,5" />
+    <circle cx="50%" cy="50%" r="13%" fill="none" stroke="black" stroke-width="2" stroke-dasharray="5,5" />
+
+    <text x="66.2%" y="53.5%" fill="black">HDI component inequality</text>
+	
+	<text id="yr2" x="45%" y="27%" fill="black">2013</text>
+
+  </svg>
+  <canvas id="myCanvas" style="position:fixed;float:left;top:40px;left:20px;opacity:1;z-index:-1;"></canvas>
+  <div id="chart" style="margin:0px; opacity:1;"></div>
+  <div id="controls">
+  <div id="pslider" title="Drag slider to set diagram circle diameters" class="dragdealer" style="position:fixed;float:left;top:504px;left:290px;opacity:1;width:130px;">
+    <div class="handle orange-bar">size</div>
+  </div>
+  <div id="hslider" title="Drag slider to set circle difference" class="dragdealer" style="position:fixed;float:left;top:504px;left:470px;opacity:1;width:130px;">
+    <div class="handle orange-bar">power</div>
+  </div>
+  <div id="cslider" title="Drag slider to filter diagram circles from lowest to highest" class="dragdealer" style="position:fixed;float:left;top:504px;left:640px;opacity:1;width:130px;">
+    <div class="handle orange-bar">filter</div>
+  </div>
+  <div style="position:fixed;float:left;top:502px;left:150px;opacity:1;width:150px;">
+    <input type="radio" title="HDI" onclick="redraw('hdi');" name="r1" id="b0" value="0" checked />HDI
+    <input type="radio" title="Population" onclick="redraw('population');" name="r1" id="b1" value="1" />Pop.
+  </div>
+  <div style="position:fixed;float:left;top:500px;left:20px;opacity:1;">
+    Adjust bubbles:</div>
+<div style="position:fixed;float:left;top:500px;left:800px;opacity:1;">
+  <input type="button" title="prev" onclick="scroll(-1);" value="<" /> <span><b id="yr">2013</b></span>
+    <input type="button" title="next" onclick="scroll(1);" value=">" />
+  </div>
+  <div id="emph" style="position:fixed;float:left;top:500px;left:1150px;opacity:1;"><input style="font-size:10px; width:70px;" type="button" value="Emphasize"></div>
+  
+  <div style="position:fixed;float:left;top:500px;left:1050px;opacity:1;"><input style="font-size:10px; width:70px;" onclick="showall(true);" type="button" value="Show all"></div>
+  
+  <div style="position:fixed;float:left;top:500px;left:950px;opacity:1;"><input style="font-size:10px; width:70px;" onclick="showall(false);" type="button" value="Hide all"></div>
+  </div>
+  
+      <div style="position:fixed;float:left;top:450px;left:730px;opacity:1;font-size:10px;width:150px;">Source: <a href="http://hdr.undp.org" target="_blank">hdr.undp.org</a></div>
+	  <div style="position:fixed;float:left;top:450px;left:890px;opacity:1;font-size:10px;width:150px;"><a href="http://www.csaladen.es" target="_blank">csaladen.es</a> | <a href="https://twitter.com/csaladenes" target="_blank">@csaladenes</a></div>
+<div style="position:fixed;float:left;top:10px;left:560px;opacity:1;width:600px;"><a href="https://csaladenes.wordpress.com/2015/01/09/colorful-development-dynamic-graphs/" title="open blog post" alt="open blog post"target="_blank">Colorful Development: RGB-coded Multidimensional Human Development Index<a></div>
+</div>
+  
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="dragdealer.js"></script>
+  
+      <script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
+      <script src="http://d3js.org/topojson.v1.min.js"></script>
+<script id="jsbin-javascript">
+
+//scale content
+var scal=Math.min(document.getElementById("imgcontainer").parentElement.offsetWidth/document.getElementById("imgcontainer").offsetWidth,document.getElementById("imgcontainer").parentElement.offsetHeight/document.getElementById("imgcontainer").offsetHeight)
+	document.getElementById("imgcontainer").style.WebkitTransform="scale("+scal+")";
+	document.getElementById("imgcontainer").style.OTransform="scale("+scal+")";
+	document.getElementById("imgcontainer").style.MozTransform="scale("+scal+")";
+	document.getElementById("imgcontainer").style.msTransform="scale("+scal+")";
+	document.getElementById("imgcontainer").style.Transform="scale("+scal+")";
+
+	document.getElementById("imgcontainer").style.WebkitTransformOrigin="0 0";
+	document.getElementById("imgcontainer").style.OTransformOrigin="0 0";
+	document.getElementById("imgcontainer").style.MozTransformOrigin="0 0";
+	document.getElementById("imgcontainer").style.msTransformOrigin="0 0";
+	document.getElementById("imgcontainer").style.TransformOrigin="0 0";
+
+//rgb color wheel adapted from: http://upload.wikimedia.org/wikipedia/commons/c/c5/RGB_color_wheel_10.svg
+
+//var fpath = "https://dl.dropboxusercontent.com/u/333992592/_playground/";
+var fpath=""
+//var years = ['1980', '1985', '1990', '2000', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013'];
+var years = ['1980','1981','1982','1983','1984','1985','1986','1987','1988','1989', '1990','1991','1992','1993','1994','1995','1996','1997','1998','1999', '2000','2001','2002','2003','2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013'];
+var year = years.length-1;
+
+//render map
+
+var projection = d3.geo.naturalEarth ()
+         
+         var path = d3.geo.path()
+             .projection(projection);
+			 
+		var gscaler=2.6;
+		var gk;
+		var gp;
+		
+//render colorwheel
+		
+var width = 420,
+  height = 420
+  radius = 208;
+
+var svg = d3.select("#chart").append("svg")
+  .attr("width", width+960)
+  .attr("height", height)
+  .style("margin-top", "40px")
+  .style("margin-left", "20px")
+var rgbs = d3.select("#rgbshadow")
+  .attr("width", radius * 2 + "px")
+  .attr("height", radius * 2 + "px")
+  .style("top", 40 + "px")
+  .style("left", 20 + "px");
+  
+var tiptext = "no data";
+
+// Define div for tooltips
+var tooltipdiv = d3.select("body")
+	.append("div")  
+	.attr("class", "tooltip")            
+	.style("visibility", "hidden")
+	.on("mouseover",function(){
+		tooltipdiv.style("visibility", "visible");})
+	.on("mouseout",function(){
+		tooltipdiv.style("visibility", "hidden");})
+	.on("click",function(){
+		tooltipdiv.style("visibility", "hidden");})
+	.attr("onmousewheel","scroll(event.wheelDelta)");
+var old;
+var tipshow=function(d){
+            tooltipdiv.style("visibility", "visible");
+
+			if (!d || d!=old){
+			tooltipdiv.html(function(d) {
+				var ineq=Math.max.apply(Math,[tiptext[2],tiptext[3],tiptext[4]])-Math.min.apply(Math,[tiptext[2],tiptext[3],tiptext[4]]);
+				return '<table><tr><td colspan="2"  style="color:lime;">' + tiptext[0] + '</td></tr><tr><td>HDI</td><td>' + tiptext[5] + '</td></tr><tr><td>Health</td><td>' + tiptext[2] + '</td></tr><tr><td>Education</td><td>' + tiptext[3] + '</td></tr><tr><td>Income</td><td>' + tiptext[4] + '</td></tr><tr><td>Population</td><td>' + (tiptext[6]/1000).toFixed(2) + ' M</td></tr><tr><td>comp. ineq.</td><td>' + ineq.toFixed(3) + '</td></tr></table>';
+			  })	 
+				.style("left", Math.min(((width+700)),(d3.event.pageX+30)) + "px")			 
+				.style("top", (d3.event.pageY - 30) + "px");
+				}
+			
+}	
+var tiphide=function(d){
+	old=d;
+	tooltipdiv.style("visibility", "hidden");			
+}
+
+d3.select("#rgbshadow").selectAll("text")
+  .attr("font-size", 0.045 * radius);
+d3.select("#yr2")
+  .attr("font-size", 0.1 * radius);
+d3.select("#rgbwheel").attr("data", fpath + "RGB_color_wheel.svg");
+
+//fill canvas
+
+var hdirgb = function(value, cx, cy, cr) {
+  var x = cx;
+  var y = cy;
+
+  var r = 1 - value[2];
+  var g = 1 - value[3];
+  var b = 1 - value[4];
+
+  var minx = Math.min(r, g, b);
+  //var minx=0;
+  r = r - minx;
+  g = g - minx;
+  b = b - minx;
+
+  var rr = cr * 2;
+  x = cx + rr * (Math.sin(2 * Math.PI / 3) * r + Math.sin(4 * Math.PI / 3) * g + Math.sin(0 * Math.PI / 3) * b);
+  y = cy + rr * (Math.cos(2 * Math.PI / 3) * r + Math.cos(4 * Math.PI / 3) * g + Math.cos(0 * Math.PI / 3) * b);
+  return [x, y];
+};
+
+var ga = 0.2;
+var gb = 0.7;
+var gc = 0;
+
+var addpoint = function(value, pop, id) {
+  //point size
+
+  //pop or HDI
+  if (document.getElementById("b1").checked) s = Math.pow((pop[0]) / 10, 1 / (3.2 - gb)) * (radius / 600) + (ga * 20 + 2);
+  else s=Math.pow((1.1-value[5])*7,3/(2-gb))*(radius/600)+(ga*20+2);
+  
+  svg.append("circle")
+	.attr("class","point")
+	.attr("myid",id)
+	.style("visibility",function(e){
+		if (visi[id]) return "visible";
+		else return "hidden";
+	})
+    .attr("cx", hdirgb(value, width/2, height/2, radius)[0])
+    .attr("cy", hdirgb(value, width/2, height/2, radius)[1])
+    //.attr("r",3+25*value[5])
+    .attr("r", s)
+    .data([value.concat(pop), ""])
+    .style("fill", function() {
+      var r = 1 - value[2];
+      var g = 1 - value[3];
+      var b = 1 - value[4];
+      var minx = Math.min(r, g, b);
+      var base = 0;
+      r = r - minx + base;
+      g = g - minx + base;
+      b = b - minx + base;
+      var m = 255 * gscaler;
+      return d3.rgb(m * r, m * g, m * b);
+    })
+    .style("stroke", "black")
+    .style("stroke-width", 1)
+    
+  svg.append("text")
+	.attr("class","point")
+	.attr("myid",id)
+	.style("visibility",function(e){
+		if (visi[id]) return "visible";
+		else return "hidden";
+	})
+    .attr("x", hdirgb(value, width/2, height/2, radius)[0])
+    .attr("y", hdirgb(value, width/2, height/2, radius)[1])
+    .attr("dy", s / 1.2 * 0.4) //center text in circles
+    .text(pop[1])
+    .attr("text-anchor", "middle")
+    .attr("font-size", s / 1.2)
+    .style("fill", "white")
+    .style("opacity", 1);
+	
+  svg.append("circle")
+	.attr("class","point")
+	.attr("myid",id)
+	.style("visibility",function(e){
+		if (visi[id]) return "visible";
+		else return "hidden";
+	})
+    .attr("cx", hdirgb(value, width/2, height/2, radius)[0])
+    .attr("cy", hdirgb(value, width/2, height/2, radius)[1])
+    //.attr("r",3+25*value[5])
+    .attr("r", s)
+    .data([value.concat(pop), ""])
+    .style("fill", function() {
+      var r = 1 - value[2];
+      var g = 1 - value[3];
+      var b = 1 - value[4];
+      var minx = Math.min(r, g, b);
+      var base = 0;
+      r = r - minx + base;
+      g = g - minx + base;
+      b = b - minx + base;
+      var m = 255 * gscaler;
+      return d3.rgb(m * r, m * g, m * b);
+    })
+    .style("opacity", 0.1)
+	.on("mouseover", function(d) {
+            tiptext = d;
+            tipshow(d);
+            return;
+          })
+    .on("mouseout", tiphide)
+	.on("click", function(){
+						filter(id);
+						return;	});
+};
+
+var draw = function() {};
+var redraw = function() {};
+var redraw2 = function() {};
+var scroll = function() {};
+
+var d2 = [];
+var p2 = [];
+var id2 = [];
+
+function sortme(d, p, what) {
+   
+   d2 = [];
+   p2 = [];
+   id2 = [];     
+  
+  var sorter = [];
+  for (var k in d) {
+    sorter.push({
+      id: k,
+      name: d[k][0],
+      hdi_old: d[k][1],
+      hdi: d[k][5],
+      health: d[k][2],
+      education: d[k][3],
+      income: d[k][4],
+      population: p[k][0],
+      code: p[k][1]
+    });
+  }
+
+  sorter.sort(function(a, b) {
+    if (what == "hdi") return a[what] - b[what];
+    else return -(a[what] - b[what]);
+  });
+
+
+  for (var i in sorter) {
+    var a = [];
+    var b = [];
+    a.push(sorter[i].name);
+    a.push(sorter[i].hdi_old);
+    a.push(sorter[i].health);
+    a.push(sorter[i].education);
+    a.push(sorter[i].income);
+    a.push(sorter[i].hdi);
+    b.push(sorter[i].population);
+    b.push(sorter[i].code);
+    d2.push(a);
+    p2.push(b);
+	id2.push(sorter[i].id);
+  }
+
+}
+
+filter = function(id){
+	visi[id]=!visi[id];
+	d3.selectAll(".point").style("visibility",function(){
+		if (visi[this.getAttribute("myid")]) return "visible";
+		else return "hidden";
+	})	
+}
+
+var visi=[];
+setvisi=function(){
+d3.json(fpath + years[year] + "hdi.json", function(d) {
+			  for (i in d){
+				visi[i]=true;
+			  }
+			  })
+}
+setvisi();
+
+var showall=function(a){
+	for (i in visi) visi[i]=a;
+	scroll(0);
+}
+scroll(0);
+
+scroll = function(a) {
+  if (a < 0) year = Math.max(0, year - 1);
+  else if (a==0) year=year;
+  else year = Math.min(years.length - 1, year + 1);
+  d3.json(fpath + years[year] + "hdi.json", function(d) {
+  
+    d3.json(fpath + years[year] + "pop.json", function(p) {
+
+      //country name, hdi, health, education, income, calculated hdi, population
+
+	  //colorwheel
+	  
+      draw = function() {
+
+        var ee = [];
+
+        d3.select("#chart").selectAll("svg circle")
+          .attr("r", function(e, i) {
+            ee = ee.concat([e]);
+            if (document.getElementById("b1").checked)
+              return Math.pow((e[6]) / 10, 1 / (3.2 - gb)) * (radius / 600) + (ga * 20 + 2);
+            else return Math.pow((1.1 - e[5]) * 7, 3 / (2 - gb)) * (radius / 600) + (ga * 20 + 2);
+          })
+		  
+          	  
+
+        d3.select("#chart").selectAll("svg text")
+        //adjust font size after bubble size
+        .attr("font-size", function(e, i) {
+          if (document.getElementById("b1").checked)
+            return (Math.pow((ee[i * 2][6]) / 10, 1 / (3.2 - gb)) * (radius / 600) + (ga * 20 + 2)) / 1.2;
+          else return (Math.pow((1.1 - ee[i * 2][5]) * 7, 3 / (2 - gb)) * (radius / 600) + (ga * 20 + 2)) / 1.2;
+        })
+        //center text in circles
+        .attr("dy", function(e, i) {
+          if (document.getElementById("b1").checked)
+            return (Math.pow((ee[i * 2][6]) / 10, 1 / (3.2 - gb)) * (radius / 600) + (ga * 20 + 2)) / 1.2 * 0.4;
+          else return (Math.pow((1.1 - ee[i * 2][5]) * 7, 3 / (2 - gb)) * (radius / 600) + (ga * 20 + 2)) / 1.2 * 0.4;
+        });
+				 
+      };
+
+      redraw = function(what) {
+        d3.select("#chart").selectAll("svg circle").remove();
+        d3.select("#chart").selectAll("svg text").remove();
+       sortme(d, p, what);
+        for (var ii = 0; ii < Math.round(d2.length*(1-gc)); ii++) {
+          addpoint(d2[ii], p2[ii], id2[ii]);
+        }
+        draw();
+      };
+
+	  
+		
+	  //world map
+	
+	
+	d3.json(fpath+"world.json", function(world) {
+			  
+			//update global	
+         	  var k=d;
+				
+			  gk=k;
+			  gp=p;
+
+			  redraw2=function(d,i,scaler){
+				gscaler=scaler;
+				if (d.id in k) {
+					var r=1-k[d.id][2];
+					var g=1-k[d.id][3];
+					var b=1-k[d.id][4];
+					var minx=Math.min(r,g,b);
+					var base=0;
+					r=r-minx+base;
+					g=g-minx+base;
+					b=b-minx+base;
+					var m=255*scaler;
+					return d3.rgb(m*r,m*g,m*b);
+					}
+				return;
+				}
+				
+				countries = topojson.feature(world, world.objects.countries).features,
+         		  neighbors = topojson.neighbors(world.objects.countries.geometries);
+         	  svg.selectAll(".country")
+         		  .data(countries)
+         		.enter().insert("path")
+         		  .attr("class", "country")
+				  .attr("transform", "translate(210,-50),scale(1.18)")
+         		  .attr("d", path)
+				  .on("mouseover", function(d){
+						tiptext=gk[d.id].concat(gp[d.id][0]);
+						tipshow(d);
+						return;	})
+				  .on("click", function(d){
+						filter(d.id);
+						return;	})
+				  .on("mouseout", tiphide)
+         		  .style("fill",  function(d,i){return redraw2(d,i,2.6)})
+					
+				d3.select("#emph").on("click",function(){
+					
+					if (gscaler<3) {svg.selectAll(".country").style("fill", function(d,i){return redraw2(d,i,4)})
+					} else {
+					svg.selectAll(".country").style("fill", function(d,i){return redraw2(d,i,2.6)})
+					}
+					if (document.getElementById("b1").checked) redraw("population");
+					else redraw("hdi");
+					});
+					
+			//redraw countries
+			svg.selectAll(".country").style("fill", function(d,i){return redraw2(d,i,gscaler)})
+			
+			//redraw dots
+			if (document.getElementById("b1").checked) redraw("population");
+			else redraw("hdi");	
+					
+         	});	
+	
+  });//close pop
+  
+  });//close hdi
+
+  d3.select("#yr").text(years[year]);
+  d3.select("#yr2").text(years[year]);
+  
+};
+
+//init
+scroll(0);
+
+
+var rgbs = d3.select("#myCanvas")
+  .attr("width", width)
+  .attr("height", height);
+
+function drawTextAlongArc(context, str, centerX, centerY, radi, angle) {
+  var len = str.length,
+    s;
+  context.save();
+  context.translate(centerX, centerY);
+  context.rotate(-1 * angle / 2);
+  context.rotate(-1 * (angle / len) / 2);
+  for (var n = 0; n < len; n++) {
+    context.rotate(angle / len);
+    context.save();
+    context.translate(0, -1 * radi);
+    s = str[n];
+    context.fillText(s, 0, 0);
+    context.restore();
+  }
+  context.restore();
+}
+var canvas = document.getElementById('myCanvas');
+var context = canvas.getContext('2d');
+var centerX = width-210;
+var centerY = height-210;
+
+
+angle = Math.PI * 2;
+
+radius=205;
+
+radi = radius * 0.78;
+context.font = 5 + radius / 25 + 'pt Trebuchet MS';
+context.fillStyle = 'black';
+context.strokeStyle = 'black';
+drawTextAlongArc(context, 'ome   Income and Education   Education  Education and Health   Health       Health and Income   Inc', centerX, centerY, radi, angle);
+
+radi = radius * 0.70;
+context.font = 5 + radius / 25 + 'pt Trebuchet MS';
+context.fillStyle = 'black';
+context.strokeStyle = 'black';
+drawTextAlongArc(context, 'icit        Deficit           Deficit         Deficit        Deficit         Deficit          Def', centerX, centerY, radi, angle);
+
+radi = radius * 0.31;
+context.font = 5 + radius / 25 + 'pt Trebuchet MS';
+context.fillStyle = 'black';
+context.strokeStyle = 'black';
+drawTextAlongArc(context, 'RGB HDI', centerX, centerY, radi, angle/4);
+
+var densityslider = new Dragdealer("pslider", {
+  x: 0.2,
+  //steps: 5,
+  //snap: true,
+  animationCallback: function(a) {
+    ga = a;
+    draw();
+  }
+});
+
+var densityslider2 = new Dragdealer("hslider", {
+  x: 0.7,
+  //steps: 5,
+  //snap: true,
+  animationCallback: function(a) {
+    gb = a;
+    draw();
+  }
+});
+
+var densityslider3 = new Dragdealer("cslider", {
+  x: 0,
+  //steps: 5,
+  //snap: true,
+  animationCallback: function(a) {
+    gc = a;
+    //redraw dots
+			if (document.getElementById("b1").checked) redraw("population");
+			else redraw("hdi");	
+  }
+});
+
+document.addEventListener("keydown", function(event) {
+  if ((event.keyCode >= 33 && event.keyCode <= 34) || (event.keyCode >= 37 && event.keyCode <= 40) || (event.keyCode == 72 )) {
+    switch (event.keyCode) {
+	  case 72: // h for help
+		document.getElementById('helppop').style.visibility='visible';
+		break;
+      case 33: // pg up
+      case 37: // left
+      case 38: // up
+        scroll(-1);
+        break;
+      case 34: // pg down
+      case 39: // right
+      case 40: // down 
+        scroll(1);
+        break;	    
+    }
+
+    event.preventDefault();
+  }
+}, false);
+
+window.onresize = function() {
+  window.location.reload();
+};
+
+
+d3.select("#imgcontainer").transition().delay(1000).duration(500).style("opacity","1");
+</script>
+</body>
+
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <style>
+         html,
+         body {
+         font-family: "Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
+         margin: 0;
+         padding: 0;
+		 overflow:hidden;
+         }
+		 .d3-tip {
+		  line-height: 1;
+		  font-weight: bold;
+		  font-size: 12px;
+		  padding: 6px;
+		  background: rgba(0, 0, 0, 0.8);
+		  color: #fff;
+		  border-radius: 4px;
+		}
+		svg circle{
+			opacity:0.8;
+		}
+		.dragdealer {
+            height: 18px;
+            background: #EEE;
+            z-index: 50;
+        }
+        .dragdealer .handle {
+            top: 0;
+            left: 0;
+            cursor: pointer;
+        }
+        .dragdealer .orange-bar {
+            width: 45px;
+            height: 18px;
+            background: #F80;
+            color: #FFF;
+            font-size: 14px;
+            line-height: 16px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .dragdealer .orange-bar:hover {
+            background: #F60
+        }
+      </style>
+   </head>
+   <body>
+		
+	<object id="rgbwheel" style="position:fixed;float:left;top:0px;left:0px;opacity:1;z-index:-100;width:100%;height:100%;opacity:0.8;" data="http://upload.wikimedia.org/wikipedia/commons/c/c5/RGB_color_wheel_10.svg" type="image/svg+xml" ></object>
+	 <svg id="rgbshadow" height="0" width="0" style="position:fixed;float:left;top:0px;left:0px;opacity:1;z-index:-99;">
+		<defs>
+		   <radialGradient id="grad1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+			  <stop offset="26%" style="stop-color:rgb(0,0,0);stop-opacity:1" />
+			  <stop offset="86%" style="stop-color:rgb(255,255,255);stop-opacity:0" />
+		   </radialGradient>
+		</defs>
+		<ellipse cx="50%" cy="50%" rx="51%" ry="51%" fill="url(#grad1)" />
+	 </svg>
+	  <canvas id="myCanvas" style="position:fixed;float:left;top:0px;left:0px;width:100%;height:100%;opacity:1;z-index:-90;"></canvas>		 
+      <div id="chart" style="margin:0px;"></div>
+      <script src="http://d3js.org/d3.v3.min.js"></script>
+	  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+	  <script src="dragdealer.js"></script>
+      <script>
+        var width = window.innerWidth,
+            height = window.innerHeight;
+			radius =Math.min(height,width)/2-10;
+		
+        var svg = d3.select("#chart").append("svg")
+            .attr("width", width)
+            .attr("height", height);
+		var rgbs = d3.select("#rgbshadow")
+			.attr("width", radius*2+"px")
+            .attr("height", radius*2+"px")
+			.style("top", height/2-radius+"px")			
+			.style("left",width/2-radius+"px")
+		var tiptext="no data";
+		var tip = d3.tip()
+			  .attr('class', 'd3-tip')
+			  .offset([-10,-10])
+			  .direction('w')
+			  .html(function(d) {
+				return '<table><tr><td colspan="2"  style="color:lime;">'+tiptext[0]+'</td></tr><tr><td>HDI</td><td>'+tiptext[5]+'</td></tr><tr><td>Health</td><td>'+tiptext[2]+'</td></tr><tr><td>Education</td><td>'+tiptext[3]+'</td></tr><tr><td>Income</td><td>'+tiptext[4]+'</td></tr></table>'			   })
+		svg.call(tip);
+		
+		var hdirgb=function(value,cx,cy,cr) {
+			var x=cx;
+			var y=cy;
+			
+			var r=1-value[2];
+			var g=1-value[3];
+			var b=1-value[4];
+			
+			var minx=Math.min(r,g,b);
+			//var minx=0;
+			r=r-minx;
+			g=g-minx;
+			b=b-minx;
+			
+			var rr=cr*2;
+			x=cx+rr*(Math.sin(2*Math.PI/3)*r+Math.sin(4*Math.PI/3)*g+Math.sin(0*Math.PI/3)*b);
+			y=cy+rr*(Math.cos(2*Math.PI/3)*r+Math.cos(4*Math.PI/3)*g+Math.cos(0*Math.PI/3)*b);
+			return [x,y];
+		}
+		
+		var ga=0.2;
+		var gb=0.7;
+		
+		var addpoint=function(value,pop){
+			s=Math.pow((pop[0])/10000,1/(3.2-gb))*(radius/600)+(ga*20+2)
+			//s=6+Math.pow((pop[0])/10000,1/2.4)*(radius/600);
+			svg.append("circle")
+				.attr("cx",hdirgb(value,width/2,height/2,radius)[0])
+				.attr("cy",hdirgb(value,width/2,height/2,radius)[1])
+				//.attr("r",3+25*value[5])
+				.attr("r",s)
+				.data([value.concat(pop),""])
+				.style("fill",function(){
+					var r=1-value[2];
+					var g=1-value[3];
+					var b=1-value[4];
+					var minx=Math.min(r,g,b);
+					var base=0;
+					r=r-minx+base;
+					g=g-minx+base;
+					b=b-minx+base;
+					var m=255*2.5;
+					return d3.rgb(m*r,m*g,m*b);
+				})
+				.style("stroke",function(){
+					var r=1-value[2];
+					var g=1-value[3];
+					var b=1-value[4];
+					var minx=Math.min(r,g,b);
+					var dia=Math.max(r,g,b)-Math.min(r,g,b);
+					if (dia<0) {
+						return "white"
+					} else {
+						return "black";
+					}
+				})
+				.style("stroke-width",2)
+			svg.append("text")
+				.attr("x",hdirgb(value,width/2,height/2,radius)[0])
+				.attr("y",hdirgb(value,width/2,height/2,radius)[1]+5)
+				.text(pop[1])
+				.attr("text-anchor", "middle")
+				.attr("font-size", s/1.2)
+				.style("fill",function(){
+					var r=1-value[2];
+					var g=1-value[3];
+					var b=1-value[4];
+					var minx=Math.min(r,g,b);
+					var dia=Math.max(r,g,b)-Math.min(r,g,b);
+					var dia=Math.max(r,g,b)-Math.min(r,g,b);
+					if (dia<1) {
+						return "white"
+					} else {
+						return "black";
+					}
+				})
+			svg.append("circle")
+				.attr("cx",hdirgb(value,width/2,height/2,radius)[0])
+				.attr("cy",hdirgb(value,width/2,height/2,radius)[1])
+				//.attr("r",3+25*value[5])
+				.attr("r",s)
+				.data([value.concat(pop),""])
+				.style("fill",function(){
+					var r=1-value[2];
+					var g=1-value[3];
+					var b=1-value[4];
+					var minx=Math.min(r,g,b);
+					var base=0;
+					r=r-minx+base;
+					g=g-minx+base;
+					b=b-minx+base;
+					var m=255*2.5;
+					return d3.rgb(m*r,m*g,m*b);
+				})
+				.style("opacity",0.1)
+			
+		}
+		
+		var draw=function(){}
+		
+		d3.json("hdi.json", function(d){
+			d3.json("pop.json", function(p){		
+				//console.log(p.order());
+				
+				 
+				for(var key in d) {
+					addpoint(d[key],p[key]);
+				}
+			var selection=d3.select("#chart").selectAll("svg circle");
+			selection.on("mouseover", function(d){
+						tiptext=d;
+						tip.show(d);
+						return;	})
+				  .on("mouseout", tip.hide)
+			
+			
+			draw=function(){
+				//s=6+Math.pow((pop[0])/10000,1/2.4)*(radius/600);
+				var ee=[];
+				d3.select("#chart").selectAll("svg circle")
+				//.transition()
+				.attr("r",function(e,i){
+					ee=ee.concat([e]);
+					return Math.pow((e[6])/10000,1/(3.2-gb))*(radius/600)+(ga*20+2);
+				});
+				
+				d3.select("#chart").selectAll("svg text")
+				//.transition()
+				.attr("font-size",function(e,i){
+					return (Math.pow((ee[i*2][6])/10000,1/(3.2-gb))*(radius/600)+(ga*20+2))/1.2;
+				})
+			}
+			})
+		})
+		
+		
+		var rgbs = d3.select("#myCanvas")
+			.attr("width", width)
+            .attr("height", height)
+		function drawTextAlongArc(context, str, centerX, centerY, radi, angle) {
+              var len = str.length, s;
+              context.save();
+              context.translate(centerX, centerY);
+              context.rotate(-1 * angle / 2);
+              context.rotate(-1 * (angle / len) / 2);
+              for(var n = 0; n < len; n++) {
+                context.rotate(angle / len);
+                context.save();
+                context.translate(0, -1 * radi);
+                s = str[n];
+                context.fillText(s, 0, 0);
+                context.restore();
+              }
+              context.restore();
+            }
+            var canvas = document.getElementById('myCanvas') 
+            var context = canvas.getContext('2d')
+            var  centerX = width/2
+            var  centerY = height/2
+			
+            
+            angle = Math.PI * 2
+           
+			radi = radius*0.78;
+			context.font = 5+radius/25+'pt Trebuchet MS';
+            context.fillStyle = 'black';
+            context.strokeStyle = 'black'; 
+            drawTextAlongArc(context, 'ome   Income and Education   Education  Education and Health   Health       Health and Income   Inc', centerX, centerY, radi, angle);
+			
+			radi = radius*0.70;
+			context.font = 5+radius/25+'pt Trebuchet MS';
+            context.fillStyle = 'black';
+            context.strokeStyle = 'black'; 
+            drawTextAlongArc(context, 'icit        Deficit           Deficit         Deficit        Deficit         Deficit          Def', centerX, centerY, radi, angle);
+        
+      </script>
+	  <div id="pslider" title="Drag slider to set diagram circle diameters" class="dragdealer" style="position:fixed;float:left;top:10px;left:10px;opacity:1;width:100px;">
+                        <div class="handle orange-bar">size
+                            <script>
+                                var densityslider = new Dragdealer("pslider", {
+                                    x: 0.2,
+                                    //steps: 5,
+                                    //snap: true,
+                                    animationCallback: function(a) {
+										ga=a;
+										draw();
+                                    }
+                                });
+                            </script>
+                        </div>
+                    </div>
+		<div id="hslider" title="Drag slider to set diagram circle diameters" class="dragdealer" style="position:fixed;float:left;top:35px;left:10px;opacity:1;width:100px;">
+                        <div class="handle orange-bar">power
+                            <script>
+                                var densityslider = new Dragdealer("hslider", {
+                                    x: 0.7,
+                                    //steps: 5,
+                                    //snap: true,
+                                    animationCallback: function(a) {
+										gb=a;
+                                        draw();
+                                    }
+                                });
+                            </script>
+                        </div>Adjust circles
+                    </div>
+		<script>
+		window.onresize = function() {
+			window.location.reload();
+		}
+		</script>
+   </body>
+</html>

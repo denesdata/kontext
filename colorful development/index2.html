@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <style>
+         html,
+         body {
+         font-family: "Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
+         margin: 0;
+         padding: 0;
+         }
+         .country {
+         fill: #ccc;
+         stroke: #fff;
+         stroke-width: .5px;
+         stroke-linejoin: round;
+         }
+         .graticule {
+         fill: none;
+         stroke: #000;
+         stroke-opacity: .3;
+         stroke-width: .5px;
+         }
+         .graticule.outline {
+         stroke: #333;
+         stroke-opacity: 1;
+         stroke-width: 1.5px;
+         }
+		 .d3-tip {
+		  line-height: 1;
+		  font-weight: bold;
+		  font-size: 12px;
+		  padding: 6px;
+		  background: rgba(0, 0, 0, 0.8);
+		  color: #fff;
+		  border-radius: 4px;
+		}
+		#emph{
+			cursor:pointer;
+		}
+      </style>
+   </head>
+   <body>
+		
+	  <div style="position:fixed;float:left;top:10px;left:230px;opacity:1;">Colorful Development: RGB-coded Multidimensional Human Development Index</div>
+      <div style="position:fixed;float:left;top:450px;left:300px;opacity:1;font-size:8px;">Source: <a href="http://hdr.undp.org" target="_blank">hdr.undp.org</a></div>
+	  <div style="position:fixed;float:left;top:450px;left:660px;opacity:1;font-size:8px;"><a href="http://www.csaladen.es" target="_blank">csaladen.es</a> | <a href="https://twitter.com/csaladenes" target="_blank">@csaladenes</a></div>
+      <div id="chart" style="margin-left:40px;"></div>
+      <script src="http://d3js.org/d3.v3.min.js"></script>
+      <script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
+      <script src="http://d3js.org/topojson.v1.min.js"></script>
+	  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+      <script>
+         var width = 960,
+             height = 500;
+         
+         var projection = d3.geo.naturalEarth (),
+             color = d3.scale.category20(),
+             graticule = d3.geo.graticule();
+         
+         var path = d3.geo.path()
+             .projection(projection);
+         
+         var svg = d3.select("#chart").append("svg")
+             .attr("width", width)
+             .attr("height", height);
+         
+         svg.append("path")
+             .datum(graticule)
+             .attr("class", "graticule")
+             .attr("d", path);
+         
+         svg.append("path")
+             .datum(graticule.outline)
+             .attr("class", "graticule outline")
+             .attr("d", path);
+			 
+         var f=function() {
+			var labels=["Health","Education","Income"];
+			for (i = 3; i < 10; i++) {
+				for (j = 0; j < 4; j++) {
+					svg.append("rect")
+						.attr("x",120+j*21+Math.floor((j+1)/4)*7)
+						.attr("y",180+i*16)
+						.attr("width",20)
+						.attr("height",15)
+						.style("fill", function(){
+							if (j==0) return d3.rgb((i/10)*255,0,0);
+							if (j==1) return d3.rgb(0,(i/10)*255,0);
+							if (j==2) return d3.rgb(0,0,(i/10)*255);
+							if (j==3) return d3.rgb((i/10)*255,(i/10)*255,(i/10)*255);
+							})
+					if (i==3) {
+						svg.append("text")
+							.attr("x",120+j*21+Math.floor((j+1)/4)*7)
+							.attr("y",225)
+							.attr("dy", 15)
+							.attr("transform","rotate(-90, "+(120+j*21+Math.floor((j+1)/4)*7)+" 225)")
+							.style("font-size",16)
+							.text(labels[j]);
+					}
+				}
+			}
+			svg.append("text")
+					.attr("x",125)
+					.attr("y",343)
+					.attr("dy", 15)
+					.style("font-size",16)
+					.text("Deficit");
+			svg.append("text")
+					.attr("x",210)
+					.attr("y",335)
+					.attr("dy", 15)
+					.style("font-size",14)
+					.attr("transform","rotate(-90, 210 335)")
+					.text("<<-- Imbalanced");
+		};
+		f();
+		
+		var tiptext="no data";
+		var tip = d3.tip()
+			  .attr('class', 'd3-tip')
+			  .offset([-10,-10])
+			  .direction('w')
+			  .html(function(d) {
+				return '<table><tr><td colspan="2"  style="color:lime;">'+tiptext[0]+'</td></tr><tr><td>HDI</td><td>'+tiptext[5]+'</td></tr><tr><td>Health</td><td>'+tiptext[2]+'</td></tr><tr><td>Education</td><td>'+tiptext[3]+'</td></tr><tr><td>Income</td><td>'+tiptext[4]+'</td></tr></table>'			   })
+  
+		svg.call(tip);
+		
+		
+		
+        d3.json("hdi.json", function(k){
+         	d3.json("world.json", function(world) {
+			
+			 var redraw=function(d,i,scaler){
+				gscaler=scaler;
+				if (d.id in k) {
+					var r=1-k[d.id][2];
+					var g=1-k[d.id][3];
+					var b=1-k[d.id][4];
+					var minx=Math.min(r,g,b);
+					var base=0;
+					r=r-minx+base;
+					g=g-minx+base;
+					b=b-minx+base;
+					var m=255*scaler;
+					return d3.rgb(m*r,m*g,m*b);
+					}
+				return;
+				}
+			
+         	  var countries = topojson.feature(world, world.objects.countries).features,
+         		  neighbors = topojson.neighbors(world.objects.countries.geometries);
+			  var gscaler=2.5;
+         	  svg.selectAll(".country")
+         		  .data(countries)
+         		.enter().insert("path", ".graticule")
+         		  .attr("class", "country")
+         		  .attr("d", path)
+         		  
+				  .on("mouseover", function(d){
+						tiptext=k[d.id];
+						tip.show(d);
+						return;	})
+				  .on("mouseout", tip.hide)
+				  .style("fill", function(d, i) {
+         				return redraw(d,i,gscaler);
+         		  })
+			  
+				d3.select("#emph").on("click",(function(){
+					
+					if (gscaler<3) {svg.selectAll(".country").style("fill", function(d,i){return redraw(d,i,4)})
+					} else {
+					svg.selectAll(".country").style("fill", function(d,i){return redraw(d,i,2.5)})
+					}}))
+					
+         	});
+         });
+      </script>
+	  <div id="emph" style="position:fixed;float:left;top:10px;left:10px;opacity:1;"><input style="font-size:10px;" type="button" value="Emphasize"></input></div>
+   </body>
+</html>

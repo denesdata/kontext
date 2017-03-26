@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <style>
+         html,
+         body {
+         font-family: "Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
+         margin: 0;
+         padding: 0;
+         }
+         .country {
+         fill: #ccc;
+         stroke: #fff;
+         stroke-width: .5px;
+         stroke-linejoin: round;
+         }
+         .graticule {
+         fill: none;
+         stroke: #000;
+         stroke-opacity: .3;
+         stroke-width: .5px;
+         }
+         .graticule.outline {
+         stroke: #333;
+         stroke-opacity: 1;
+         stroke-width: 1.5px;
+         }
+		 .d3-tip {
+		  line-height: 1;
+		  font-weight: bold;
+		  font-size: 12px;
+		  padding: 6px;
+		  background: rgba(0, 0, 0, 0.8);
+		  color: #fff;
+		  border-radius: 4px;
+		}
+		#emph{
+			cursor:pointer;
+		}
+      </style>
+   </head>
+   <body>
+      
+	  <div style="font-size:9px;position:fixed;float:left;top:410px;left:65px;">
+	  
+         <div><b>Reds:</b> Health deficit</div>
+		 <div><b>Blues:</b> Income deficit</div>
+		 <div><b>Greens:</b> Education deficit</div>
+		 <div><b>Brightness:</b> Magnitude of deficit</div>
+	  </div>
+      <div style="position:fixed;float:left;top:230px;left:150px;opacity:1;">
+         <object data="http://upload.wikimedia.org/wikipedia/commons/c/c5/RGB_color_wheel_10.svg" width="150" height="150" type="image/svg+xml" ></object>
+      </div>
+      <div style="position:fixed;float:left;top:230px;left:150px;opacity:1;">
+         <svg height="150" width="150">
+            <defs>
+               <radialGradient id="grad1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                  <stop offset="32%" style="stop-color:rgb(0,0,0);
+                     stop-opacity:1" />
+                  <stop offset="96%" style="stop-color:rgb(0,0,0);stop-opacity:0" />
+               </radialGradient>
+            </defs>
+            <ellipse cx="50%" cy="50%" rx="42%" ry="42%" fill="url(#grad1)" />
+         </svg>
+      </div>
+      <div style="position:fixed;float:left;top:210px;left:140px;">
+         <canvas id="myCanvas" width="180" height="180"></canvas>
+         <script>
+            function drawTextAlongArc(context, str, centerX, centerY, radius, angle) {
+              var len = str.length, s;
+              context.save();
+              context.translate(centerX, centerY);
+              context.rotate(-1 * angle / 2);
+              context.rotate(-1 * (angle / len) / 2);
+              for(var n = 0; n < len; n++) {
+                context.rotate(angle / len);
+                context.save();
+                context.translate(0, -1 * radius);
+                s = str[n];
+                context.fillText(s, 0, 0);
+                context.restore();
+              }
+              context.restore();
+            }
+            var canvas = document.getElementById('myCanvas'), 
+              context = canvas.getContext('2d'),
+              centerX = 85,
+              centerY = 95,
+              angle = Math.PI * 0.4,
+              radius = 78;
+            
+            context.font = '10pt Trebuchet MS bold';
+            context.textAlign = 'center';
+            context.fillStyle = 'black';
+            context.strokeStyle = 'black';
+            
+            drawTextAlongArc(context, 'HDI RGB Wheel', centerX, centerY, radius, angle);
+            
+            angle = Math.PI * 2,
+              radius = 40;
+            
+            context.font = '9pt Trebuchet MS';
+            context.fillStyle = 'white';
+            context.strokeStyle = 'white';
+            
+            drawTextAlongArc(context, 'o m e       E d u c a t i o n      H e a l t h       I n c ', centerX, centerY, radius, angle);
+         </script>
+      </div>
+      <div style="position:fixed;float:left;top:10px;left:230px;opacity:1;">Colorful Development: RGB-coded Multidimensional Human Development Index</div>
+      <div style="position:fixed;float:left;top:450px;left:300px;opacity:1;font-size:8px;">Source: <a href="http://hdr.undp.org" target="_blank">hdr.undp.org</a></div>
+	  <div style="position:fixed;float:left;top:450px;left:660px;opacity:1;font-size:8px;"><a href="http://www.csaladen.es" target="_blank">csaladen.es</a> | <a href="https://twitter.com/csaladenes" target="_blank">@csaladenes</a></div>
+      <div style="position:fixed;float:left;top:353px;left:415px;opacity:1;font-size:9px;">
+         <div><span>South Africa LEI:0.568 EI:0.694 II:0.72 - </span><span style="color:#8C2300;"><b>Red Shift</b></span><span> - Lower Health than Education and Income<span></div>
+         <div><span>Pakistan LEI:0.717 EI:0.371 II:0.58 - </span><span style="color:#00D96C;"><b>Green Shift</b></span><span> - Lower Education than Health and Income<span></div>
+         <div><span>Madagascar LEI:0.688 EI:0.459 II:0.391 - </span><span style="color:#2693FF;"><b>Blue Shift</b></span><span> - Lower Income than Health and Education<span></div>
+         <div><span>Ukraine LEI:0.746 EI:0.796 II:0.666 - </span><span style="color:#8C008C;"><b>Purple Shift</b></span><span> - Lower Income and Health than Education<span></div>
+         <div><span>Angola LEI:0.491 EI:0.473 II:0.626 - </span><span style="color:#B3B300;"><b>Yellow Shift</b></span><span> - Lower Education and Health than Income<span></div>
+      </div>
+      <div id="chart" style="margin-left:40px;"></div>
+      <script src="http://d3js.org/d3.v3.min.js"></script>
+      <script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
+      <script src="http://d3js.org/topojson.v1.min.js"></script>
+	  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+      <script>
+         var width = 960,
+             height = 500;
+         
+         var projection = d3.geo.naturalEarth (),
+             color = d3.scale.category20(),
+             graticule = d3.geo.graticule();
+         
+         var path = d3.geo.path()
+             .projection(projection);
+         
+         var svg = d3.select("#chart").append("svg")
+             .attr("width", width)
+             .attr("height", height);
+         
+         svg.append("path")
+             .datum(graticule)
+             .attr("class", "graticule")
+             .attr("d", path);
+         
+         svg.append("path")
+             .datum(graticule.outline)
+             .attr("class", "graticule outline")
+             .attr("d", path);
+        var coordinates = [0, 0];
+		
+		var tiptext="no data";
+		var tip = d3.tip()
+			  .attr('class', 'd3-tip')
+			  .offset([-10,-10])
+			  .direction('w')
+			  .html(function(d) {
+				return '<table><tr><td colspan="2"  style="color:lime;">'+tiptext[0]+'</td></tr><tr><td>HDI</td><td>'+tiptext[5]+'</td></tr><tr><td>Health</td><td>'+tiptext[2]+'</td></tr><tr><td>Education</td><td>'+tiptext[3]+'</td></tr><tr><td>Income</td><td>'+tiptext[4]+'</td></tr></table>'			   })
+  
+		svg.call(tip);
+		
+        d3.json("hdi.json", function(k){
+         	d3.json("world.json", function(world) {
+         	  var redraw=function(d,i,scaler){
+				gscaler=scaler;
+				if (d.id in k) {
+					var r=1-k[d.id][2];
+					var g=1-k[d.id][3];
+					var b=1-k[d.id][4];
+					var minx=Math.min(r,g,b);
+					var base=0;
+					r=r-minx+base;
+					g=g-minx+base;
+					b=b-minx+base;
+					var m=255*scaler;
+					return d3.rgb(m*r,m*g,m*b);
+					}
+				return;
+				}
+				
+				var countries = topojson.feature(world, world.objects.countries).features,
+         		  neighbors = topojson.neighbors(world.objects.countries.geometries);
+				var gscaler=2.5;
+         	  svg.selectAll(".country")
+         		  .data(countries)
+         		.enter().insert("path", ".graticule")
+         		  .attr("class", "country")
+         		  .attr("d", path)
+				  .on("mouseover", function(d){
+						tiptext=k[d.id];
+						tip.show(d);
+						return;	})
+				  .on("mouseout", tip.hide)
+         		  .style("fill",  function(d,i){return redraw(d,i,2.5)})
+					
+
+				d3.select("#emph").on("click",(function(){
+					
+					if (gscaler<3) {svg.selectAll(".country").style("fill", function(d,i){return redraw(d,i,4)})
+					} else {
+					svg.selectAll(".country").style("fill", function(d,i){return redraw(d,i,2.5)})
+					}}))
+         	});
+         });
+      </script>
+	  <div id="emph" style="position:fixed;float:left;top:10px;left:10px;opacity:1;"><input style="font-size:10px;" type="button" value="Emphasize"></input></div>
+   
+   </body>
+</html>

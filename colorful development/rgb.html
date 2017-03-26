@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <style>
+         html,
+         body {
+         font-family: "Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
+         margin: 0;
+         padding: 0;
+         }
+         .country {
+         fill: #ccc;
+         stroke: #fff;
+         stroke-width: .5px;
+         stroke-linejoin: round;
+         }
+         .graticule {
+         fill: none;
+         stroke: #000;
+         stroke-opacity: .3;
+         stroke-width: .5px;
+         }
+         .graticule.outline {
+         stroke: #333;
+         stroke-opacity: 1;
+         stroke-width: 1.5px;
+         }
+      </style>
+   </head>
+   <body>
+      <div style="position:fixed;float:left;top:100px;left:100px;opacity:0.8;">
+         <object data="http://upload.wikimedia.org/wikipedia/commons/c/c5/RGB_color_wheel_10.svg" width="500" height="500" type="image/svg+xml" ></object>
+      </div>
+      <div style="position:fixed;float:left;top:100px;left:100px;opacity:1;">
+         <svg height="500" width="500">
+            <defs>
+               <radialGradient id="grad1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+			  <stop offset="32%" style="stop-color:rgb(0,0,0);stop-opacity:1" />
+			  <stop offset="96%" style="stop-color:rgb(0,0,0);stop-opacity:0" />
+		   </radialGradient>
+            </defs>
+            <ellipse cx="50%" cy="50%" rx="42%" ry="42%" fill="url(#grad1)" />
+			<line x1="250" y1="250" x2="458" y2="250" style="stroke:rgb(255,255,255);stroke-width:2" />
+			<line x1="250" y1="245" x2="250" y2="255" style="stroke:rgb(255,255,255);stroke-width:2" />
+			<line x1="270" y1="245" x2="270" y2="255" style="stroke:rgb(255,255,255);stroke-width:2" />
+			<line x1="290" y1="245" x2="290" y2="255" style="stroke:rgb(255,255,255);stroke-width:2" />
+			<line x1="310" y1="245" x2="310" y2="255" style="stroke:rgb(255,255,255);stroke-width:2" />
+			<line x1="330" y1="245" x2="330" y2="255" style="stroke:rgb(255,255,255);stroke-width:2" />
+			<line x1="350" y1="245" x2="350" y2="255" style="stroke:rgb(255,255,255);stroke-width:2" />
+			<line x1="370" y1="245" x2="370" y2="255" style="stroke:rgb(255,255,255);stroke-width:2" />
+			<line x1="390" y1="245" x2="390" y2="255" style="stroke:rgb(255,255,255);stroke-width:2" />
+			<line x1="410" y1="245" x2="410" y2="255" style="stroke:rgb(255,255,255);stroke-width:2" />
+			<line x1="430" y1="245" x2="430" y2="255" style="stroke:rgb(255,255,255);stroke-width:2" />
+			<line x1="450" y1="245" x2="450" y2="255" style="stroke:rgb(255,255,255);stroke-width:2" />
+			
+			<text x="280" y="240" fill="white">0.1</text>
+			<text x="320" y="240" fill="white">0.2</text>
+			<text x="360" y="240" fill="white">0.3</text>
+			<text x="400" y="240" fill="white">0.4</text>
+         </svg>
+      </div>
+	  <div style="position:fixed;float:left;top:327px;left:295px; text-align:left; font-size:14px; font-weight:bold; color:white;">Darker<br>Colors:<br>Balanced HDI</div>
+	  <div style="position:fixed;float:left;top:327px;left:602px; text-align:left; font-size:14px;font-weight:bold;">Lighter<br>Colors:<br>Imbalanced HDI</div>
+      <div style="position:fixed;float:left;top:0px;left:0px;">
+         <canvas id="myCanvas" width="700" height="700"></canvas>
+         <script>
+            function drawTextAlongArc(context, str, centerX, centerY, radius, angle) {
+              var len = str.length, s;
+              context.save();
+              context.translate(centerX, centerY);
+              context.rotate(-1 * angle / 2);
+              context.rotate(-1 * (angle / len) / 2);
+              for(var n = 0; n < len; n++) {
+                context.rotate(angle / len);
+                context.save();
+                context.translate(0, -1 * radius);
+                s = str[n];
+                context.fillText(s, 0, 0);
+                context.restore();
+              }
+              context.restore();
+            }
+            var canvas = document.getElementById('myCanvas'), 
+              context = canvas.getContext('2d'),
+              centerX = 350,
+              centerY = 350,
+              angle = Math.PI * 0.4,
+              radius = 255;
+            
+            context.font = '20pt Trebuchet MS bold';
+            context.textAlign = 'center';
+            context.fillStyle = 'black';
+            context.strokeStyle = 'black';
+            drawTextAlongArc(context, 'HDI RGB Wheel', centerX, centerY, radius, angle);
+            
+            angle = Math.PI * 2,
+            
+			//radius = 180;
+            //context.font = '14pt Trebuchet MS';
+            //context.fillStyle = 'white';
+            //context.strokeStyle = 'white';
+            //drawTextAlongArc(context, 'ome            Education           Health             Inc', centerX, centerY, radius, angle);
+			
+			radius = 185;
+			context.font = '14pt Trebuchet MS';
+            context.fillStyle = 'black';
+            context.strokeStyle = 'black'; 
+            drawTextAlongArc(context, 'es         Cyans           Greens         Yellows         Reds          Purples        Blu', centerX, centerY, radius, angle);
+			
+			radius = 145;
+			context.font = '10pt Trebuchet MS';
+            context.fillStyle = 'white';
+            context.strokeStyle = 'white'; 
+            drawTextAlongArc(context, 'ome   Income and Education   Education  Education and Health   Health       Health and Income   Inc', centerX, centerY, radius, angle);
+			
+			radius = 125;
+			context.font = '10pt Trebuchet MS';
+            context.fillStyle = 'white';
+            context.strokeStyle = 'white'; 
+            drawTextAlongArc(context, 'icit        Deficit           Deficit         Deficit        Deficit         Deficit          Def', centerX, centerY, radius, angle);
+         </script>
+      </div>
+   </body>
+</html>
