@@ -1,0 +1,1558 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Energy Trilemma Colorwheel: Sustainability | Security | Affordability #energytrilemma #energy #sustainability #dataviz @csaladenes" />
+    <meta name="keywords" content="energy, renewable energy, energy trilemma, world energy council, wec, wecc, exploratorium, sustainability, affordability, security, colorwheel, dataviz, data visualization, lancaster university, masdar institute, rgb, rgb color wheel, contextual performance index, rgb hdi, colorful development, colorful, csaladenes, d3.js, d3" />
+	<meta property="og:image" content="http://blog.csaladen.es/energy3/snapshot.png" />
+    <meta property="og:description" content="Energy Trilemma Colorwheel: Sustainability | Security | Affordability #energytrilemma #energy #sustainability #dataviz @csaladenes" />
+    <meta property="og:title" content="Energy Trilemma Colorwheel: Sustainability | Security | Affordability" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="blog.csaladen.es" />
+    <meta property="fb:admins" content="100943737036023614165" />
+    <title>Energy Trilemma Colorwheel: Sustainability | Security | Affordability</title>
+	<link rel="shortcut icon" href="favicon.ico" />
+<style>
+html,
+        body {
+            font-family: "Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+        }
+
+table,tr,td{
+  border-collapse:collapse;
+  margin:0;
+  padding:4;
+  font-size:12;
+}
+td{
+}
+.background {
+  pointer-events: all;
+}
+
+.feature{
+  fill: #666;
+  cursor: pointer;
+}
+.feature.active {
+}
+.feature:hover {
+}
+
+div.tooltip {
+	line-height: 1;
+	font-weight: bold;
+	font-size: 12px;
+	padding: 6px;
+	background: rgba(0, 0, 0, 0.6);
+	color: #000;
+	border-radius: 4px;
+	border-color: black;
+	border: solid 1px;
+	z-index: 2000;
+	position: absolute;
+}
+a {
+   text-decoration: none;
+}
+#articletitle:hover
+{
+   text-decoration: underline;
+}
+#social {
+	position: fixed;
+	top: 0;
+	right: 0;
+	text-decoration: none;
+	text-align:right;
+	padding: 3px;
+	z-index: 800;
+	white-space:nowrap;
+	overflow:hidden;
+	opacity:0;
+}
+.button:hover{
+	outline:1px solid #666;
+	-moz-box-shadow: 0 0 10px #888;
+	-webkit-box-shadow: 0 0 10px #888;
+	box-shadow:  0 0 10px #888;
+}
+.button:hover{
+	stroke:"white";
+}
+</style>
+<script type="text/javascript">var switchTo5x=true;</script>
+<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+<script type="text/javascript">stLight.options({publisher: "505a26ad-d820-47bd-a500-7f49d04a30f5", doNotHash: true, doNotCopy: false, hashAddressBar: false});</script>
+
+<body>
+<img height=0 width=0 src="snapshot.png"/>
+<script src="d3.v3.min.js"></script>
+<script src="d3.geo.projection.v0.min.js"></script>
+<script src="topojson.v1.min.js"></script>
+<img src="snapshot.png" style="visibility:hidden; position:fixed;float:left;left:0px;top:0px;" />
+<div id="container" style="position:fixed;float:left;top:0px;left:0px;width:900px;height:500px;margin:0px;opacity:0;border:solid 1px;">
+<div id="watermark" style="color:rgba(50,50,50,0.3);position:fixed;float:left;top:20px;left:350px;font-size:290px;">HDI</div>
+<a id="e3ma" style="position:fixed;float:left;top:150px;left:50px;opacity:0;" href="http://www.worldenergy.org/publications/2015/world-energy-trilemma-2015-priority-actions-on-climate-change-and-how-to-balance-the-trilemma/" target="_blank"><img style="height:300px;" alt="read more about the Energy Trilemma" title="read more about the Energy Trilemma" src="4.png"/></a>
+<div id="mapcontainer" style="cursor:move;position:fixed;float:left;top:20px;left:330px;width:570px;height:300px;margin:0px;opacity:1;"></div>
+
+<div id="barchart" style="opacity:0;">
+<div style="position:fixed;float:left;top:320px;left:480px;width:410px;height:3px;border-top:dashed 2px rgba(50,50,50,0.3);margin:0px;opacity:1;"></div>
+<svg id="chartcontainer" width="410" height="130" style="position:fixed;float:left;top:320px;left:480px;margin:0px;opacity:1;"></svg>
+</div>
+
+<div id="wheel1" style="opacity:0;">
+<object id="rgbwheel1" style="position:fixed;float:left;top:0px;left:0px;opacity:1;z-index:100;width:330px;height:330px;opacity:1;" data="RGB_color_wheel.svg" type="image/svg+xml"></object>
+<svg id="rgbshadow1" style="opacity:1;z-index:110;">
+
+    <defs>
+      <radialgradient id="grad1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+        <stop offset="0%" style="stop-color:#000;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#000;stop-opacity:0" />
+      </radialgradient>
+    </defs>
+
+    <circle cx="50%" cy="50%" r="42%" fill="url(#grad1)" />
+	<circle cx="10%" cy="10%" r="7%" fill="#fff" style="cursor:pointer;opacity:0;" onclick="if (colorscaler==4) colorscaler=1.3/r_extent; else colorscaler=4;render();"/>
+	<circle cx="13%" cy="98%" r="7%" fill="#fff" style="cursor:pointer;opacity:0;" onclick="inverted=!inverted;render();"/>
+    
+</svg>
+<canvas id="canvas_rgb" style="z-index:105;"></canvas>
+<canvas id="canvas10" style="z-index:105;"></canvas>
+<canvas id="canvas11" style="z-index:105;"></canvas>
+<canvas id="canvas120" style="z-index:105;"></canvas>
+<canvas id="canvas121" style="z-index:105;"></canvas>
+<canvas id="canvas130" style="z-index:105;"></canvas>
+<canvas id="canvas131" style="z-index:105;"></canvas>
+</div>
+
+<div id="wheel2" style="opacity:0;">
+<object id="rgbwheel2" style="position:fixed;float:left;top:270px;left:230px;opacity:1;z-index:100;width:230px;height:230px;opacity:1;" data="RGB_color_wheel.svg" type="image/svg+xml"></object>
+<svg id="rgbshadow2" style="opacity:1;z-index:110;">
+
+    <defs>
+      <radialgradient id="grad1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+        <stop offset="0%" style="stop-color:#000;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#000;stop-opacity:0" />
+      </radialgradient>
+    </defs>
+
+    <circle cx="50%" cy="50%" r="42%" fill="url(#grad1)" />
+    
+</svg>
+<canvas id="canvas20" style="z-index:105;"></canvas>
+<canvas id="canvas21" style="z-index:105;"></canvas>
+<canvas id="canvas220" style="z-index:105;"></canvas>
+<canvas id="canvas221" style="z-index:105;"></canvas>
+<canvas id="canvas230" style="z-index:105;"></canvas>
+<canvas id="canvas231" style="z-index:105;"></canvas>
+</div>
+
+<div id="wheel3" style="opacity:0;">
+<object id="rgbwheel3" style="position:fixed;float:left;top:340px;left:60px;opacity:1;z-index:100;width:150px;height:150px;opacity:1;" data="RGB_color_wheel.svg" type="image/svg+xml"></object>
+<svg id="rgbshadow3" style="opacity:1;z-index:110;">
+
+    <defs>
+      <radialgradient id="grad1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+        <stop offset="0%" style="stop-color:#000;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#000;stop-opacity:0" />
+      </radialgradient>
+    </defs>
+
+    <circle cx="50%" cy="50%" r="42%" fill="url(#grad1)" />
+    
+</svg>
+<canvas id="canvas30" style="z-index:105;"></canvas>
+<canvas id="canvas31" style="z-index:105;"></canvas>
+</div>
+
+<div class="signature" style="position:fixed;float:left;top:459px;left:804px;opacity:1;font-size:8px;text-align:center;z-index:800;"><a class="signature" href="http://www.csaladen.es" rel="author" target="_blank">csaladen.es</a> | <a class="signature" href="https://twitter.com/csaladenes" target="_blank">@csaladenes</a><br>
+	
+	<a href="http://www.worldenergy.org/publications/2015/world-energy-trilemma-2015-priority-actions-on-climate-change-and-how-to-balance-the-trilemma/" target="_blank"><img style="height:21px;" alt="read more about the Energy Trilemma" title="read more about the Energy Trilemma" src="3.png"/></a>
+	<a href="http://www.worldenergy.org/" target="_blank"><img alt="data from World Energy Council" title="data from World Energy Council" style="height:23px;" src="wec.png"/></a>
+	<a href="http://blog.csaladen.es" target="_blank"><img alt="Blog Home" title="Blog Home" style="height:21px;margin-top:2px;" id="logo" src="tsne.png"/></a>
+	
+</div>
+
+<div id="deficit" class="signature button" onclick="inverted=!inverted;render();" style="position:fixed;float:left;top:472px;left:590px;opacity:1;font-size:14px;text-align:center;z-index:800;width:80px;background-color:rgba(50,50,50,0.3);text-align:center;cursor:pointer;">
+</div>
+<div id="indicator" class="signature button" onclick="hdiselector=(hdiselector+1)%2;render();" style="position:fixed;float:left;top:472px;left:480px;opacity:1;font-size:14px;text-align:center;z-index:800;width:80px;background-color:rgba(50,50,50,0.3);text-align:center;cursor:pointer;">
+</div>
+<div id="selector" class="signature button" onclick="step();" style="position:fixed;float:left;top:310px;left:590px;height:20px;line-height:20px;opacity:0;font-size:14px;text-align:center;z-index:800;width:80px;background-color:rgba(50,50,50,0.3);text-align:center;cursor:pointer;">continue →
+</div>
+<div id="controls" class="signature button" style="position:fixed;float:left;top:472px;left:700px;opacity:1;font-size:14px;text-align:center;z-index:800;width:80px;background-color:rgba(50,50,50,0.3);text-align:center;">
+	<span class="signature" onclick="year=Math.max(2010,year-1);render();" style="cursor:pointer;">&nbsp;&lt;&nbsp;&nbsp;</span>
+	<span class="signature" id="year"></span>
+	<span class="signature" onclick="year=Math.min(2015,year+1);render();" style="cursor:pointer;">&nbsp;&nbsp;&gt;&nbsp;</span>
+	
+</div>
+<a href="http://wp.me/pBH3w-8e" id="articletitle" title="open blog post" alt="open blog post"target="_blank" class="signature" style="position:fixed;float:left;font:25px;top:3px;left:450px;"></a>
+<div id="cwbutton" style="opacity:0;">
+<svg onclick="inverted=!inverted;render();"
+	style="position:fixed;float:left;top:300px;left:20px;z-index:100;cursor:pointer;"
+   viewBox="0 -200 2000 2000"
+   width="60px"
+   height="60px">
+  <g id="up" 
+     >
+    <path
+       d="m 1284,641 q 0,27 -18,45 l -362,362 -91,91 q -18,18 -45,18 -27,0 -45,-18 L 632,1048 270,686 q -18,-18 -18,-45 0,-27 18,-45 l 91,-91 q 18,-18 45,-18 27,0 45,18 L 640,694 V 192 q 0,-26 19,-45 19,-19 45,-19 h 128 q 26,0 45,19 19,19 19,45 v 502 l 189,-189 q 19,-19 45,-19 26,0 45,19 l 91,91 q 18,18 18,45 z m 252,-1 z"
+       style="fill:rgba(50,50,50,0.3)" id="up1"/>
+	<path 
+       d="m 1284,641 q 0,27 -18,45 l -362,362 -91,91 q -18,18 -45,18 -27,0 -45,-18 L 632,1048 270,686 q -18,-18 -18,-45 0,-27 18,-45 l 91,-91 q 18,-18 45,-18 27,0 45,18 L 640,694 V 192 q 0,-26 19,-45 19,-19 45,-19 h 128 q 26,0 45,19 19,19 19,45 v 502 l 189,-189 q 19,-19 45,-19 26,0 45,19 l 91,91 q 18,18 18,45 z m 252,-1 Q 1536,431 1433,254.5 1330,78 1153.5,-25 977,-128 768,-128 559,-128 382.5,-25 206,78 103,254.5 0,431 0,640 0,849 103,1025.5 206,1202 382.5,1305 559,1408 768,1408 977,1408 1153.5,1305 1330,1202 1433,1025.5 1536,849 1536,640 z"
+       style="fill:rgba(50,50,50,0.3)" />
+  </g>
+</svg>
+<svg version="1.1" onclick="hdiselector=(hdiselector+1)%2;render();" x="0px" y="0px" width="50px" 
+	 height="50px" viewBox="0 0 480 480" style="position:fixed;float:left;top:215px;left:320px;z-index:100;" xml:space="preserve">
+	<circle 	 cx="240", cy="240", r="210" fill="rgba(50,50,50,0.3)" style="cursor:pointer;"/>
+  <path style="cursor:pointer;" id="reload" d="M160.469,242.194c0-44.414,36.023-80.438,80.438-80.438c19.188,0,36.711,6.844,50.5,18.078L259.78,209.93l99.945,11.367
+  	l0.805-107.242l-30.766,29.289c-23.546-21.203-54.624-34.164-88.804-34.164c-73.469,0-133.023,59.562-133.023,133.016
+  	c0,2.742,0.242-2.266,0.414,0.445l53.68,7.555C161.03,245.108,160.469,247.562,160.469,242.194z M371.647,237.375l-53.681-7.555
+  	c1.017,5.086,1.556,2.617,1.556,7.992c0,44.414-36.008,80.431-80.43,80.431c-19.133,0-36.602-6.798-50.383-17.97l31.595-30.078
+  	l-99.93-11.366l-0.812,107.25l30.789-29.312c23.531,21.141,54.57,34.055,88.688,34.055c73.468,0,133.023-59.555,133.023-133.008
+  	C372.062,235.078,371.812,240.085,371.647,237.375z"/>
+</svg>
+<div style="z-index:200">
+<svg version="1.1" x="0px" y="0px" width="50px" 
+	 height="50px" viewBox="0 0 480 480" style="position:fixed;float:left;top:7px;left:7px;" xml:space="preserve">
+	<circle  cx="240", cy="240", r="210" fill="rgba(50,50,50,0.3)" style="cursor:pointer;"/>
+	<circle  cx="300", cy="180", r="75" style="cursor:pointer;" class="signaturefill"/>
+	<circle  cx="180", cy="300", r="75" style="cursor:pointer;" class="signaturefill"/>
+	<circle  cx="300", cy="180", r="75" fill="rgba(0,0,0,0.6)"  style="cursor:pointer;"/>
+</svg>
+</div>
+</div>
+<div id="helpbutton" style="opacity:0;">
+<svg version="1.1" x="0px" y="0px" width="35px" 
+	 height="200px" viewBox="0 0 480 480" style="position:fixed;float:left;top:317px;left:10px;z-index:100;" xml:space="preserve">
+<circle  cx="240", cy="1000", r="210" fill="rgba(50,50,50,0.3)" style="cursor:pointer;" />
+<circle class="hide" cx="240", cy="500", r="210" fill="rgba(50,50,50,0.3)" style="cursor:pointer;"/>
+<circle  class="show" cx="240", cy="0", r="210" fill="rgba(50,50,50,0.3)" style="cursor:pointer;" />
+<circle class="hide signaturefill" cx="240", cy="500", r="20" style="cursor:pointer;" />
+<circle class="show signaturefill" cx="330", cy="-50", r="50" style="cursor:pointer;" />
+<circle class="show signaturefill"  cx="190", cy="110", r="40" style="cursor:pointer;"/>
+<circle class="show signaturefill" cx="160", cy="20", r="40" style="cursor:pointer;" />
+<circle class="show signaturefill" cx="310", cy="140", r="30" style="cursor:pointer;"/>
+<circle class="show signaturefill" cx="210", cy="-100", r="60" style="cursor:pointer;"/>
+<circle class="show signaturefill" cx="290", cy="30", r="70" style="cursor:pointer;"/>
+</svg>
+<a href="http://wp.me/pBH3w-8e" target="_blank" class="signature" style="position:fixed;float:left;top:455px;left:21px;z-index:100;cursor:pointer;font-size:30px;"><b>?</b></a>
+</div>
+
+
+<div id="social">
+	<span class='st_facebook'></span>
+	<span class='st_twitter'></span>
+	<span class='st_googleplus'></span>
+	<span class='st_linkedin'></span>
+	<span class='st_tumblr'></span>
+	<span class='st_reddit'></span>
+	<span class='st_email'></span>
+</div>
+
+<div id="t1" style="text-align:center; opacity:0; width:500px; position:fixed; left:380px; top:345px; z-order:301;" class="signature tutorial">Welcome to the Energy Trilemma Colorwheel!
+	<br>This visualization uses public World Energy Council <br>data to 
+	explore the component deficit/advantage <br>in their two curated indicators:
+	<br>Energy Trilemma & Contextual Performance
+</div>
+<div id="t2" style="text-align:center; position:fixed; left:380px; top:345px; opacity:1; width:500px; z-order:301;" class="signature tutorial">	
+	This is a complex visualization with 3 interlinked parts.
+	<br>The map above, two colorwheels - and a bar chart.
+	<br>We will see what do the colors symbolize in a minute,
+	<br>but let me walk you through the user interface first.
+</div>
+<div id="t3" style="text-align:center; position:fixed; left:380px; top:345px; opacity:1; width:500px; z-order:301;" class="signature tutorial">	
+	Hover over any country to display info about the 
+	<br>Energy Trilemma (E3I) & Contextual Performance (CXP).
+	<br>Change the indicator, switch between Advantage/Deficit,
+	<br>↓ and select the year using these buttons below ↓
+	<br><span style="font-size:11px">(we will see the difference between Advantage and Deficit soon)</span>
+</div>
+<div id="t4" style="text-align:center; position:fixed; left:380px; top:345px; opacity:1; width:500px; z-order:301;" class="signature tutorial">	
+	We present the <a style="color:#bbb;" href="http://www.worldenergy.org/publications/2015/world-energy-trilemma-2015-priority-actions-on-climate-change-and-how-to-balance-the-trilemma/" target="_blank">Energy Trilemma</a> from a completely new angle.
+	<br>Rather than looking at the absolute values or rankings,
+	<br>we analyze the imbalance between its components.
+	<br>Check out our previous, similar approaches on HDI 
+	<br><a style="color:#bbb;" href="https://csaladenes.wordpress.com/2014/12/07/colorful-development-rgb-coded-multidimensional-hdi/" target="_blank">here</a>, <a style="color:#bbb;" href="https://csaladenes.wordpress.com/2015/01/09/colorful-development-dynamic-graphs/" target="_blank">here</a> and <a style="color:#bbb;" href="https://csaladenes.wordpress.com/2015/03/27/colorful-development-cartagena-datafest-2015/" target="_blank">here</a>.
+</div>
+<div id="t5" style="text-align:center; position:fixed; left:380px; top:345px; opacity:1; width:500px; z-order:301;" class="signature tutorial">	
+	For this we use a <a style="color:#bbb;" href="https://en.wikipedia.org/wiki/Color_wheel" target="_blank">colorwheel</a>.
+	<br>In the <span style="color:#D22E2E">R</span><span style="color:lime">G</span><span style="color:#3838DD">B</span> color space, every color is uniquely defined 
+	<br>by a triplet of <span style="color:#D22E2E"> red</span>, <span style="color:lime">green</span> and <span style="color:#3838DD">blue</span> values (each 0-100%). 
+	<br>By convention, <span style="color:black">black</span> is (<span style="color:#D22E2E">0</span>, <span style="color:lime">0</span>, <span style="color:#3838DD">0</span>) and <span style="color:white">white</span> is (<span style="color:#D22E2E">1</span>, <span style="color:lime">1</span>, <span style="color:#3838DD">1</span>).
+</div>
+<div id="t6" style="text-align:center; position:fixed; left:380px; top:345px; opacity:1; width:500px; z-order:301;" class="signature tutorial">	
+	Points closer to the center are darker.
+	<br>The center point has a triplet value of (<span style="color:#D22E2E">0</span>, <span style="color:lime">0</span>, <span style="color:#3838DD">0</span>).
+	<br>As we drift away from the center,
+	<br>points get brighter. The <span style="color:#D22E2E">red</span> "corner" is (<span style="color:#D22E2E">1</span>, <span style="color:lime">0</span>, <span style="color:#3838DD">0</span>).
+</div>
+<div id="t6b" style="text-align:center; position:fixed; left:380px; top:345px; opacity:1; width:500px; z-order:301;" class="signature tutorial">	
+	<br>
+	<br>Now, let's swap <span style="color:#D22E2E">R</span><span style="color:lime">G</span><span style="color:#3838DD">B</span> for
+	<span style="color:#D22E2E"> security</span>, <span style="color:lime">sustainability</span> and <span style="color:#3838DD">affordability</span>.
+</div>
+<div id="t7" style="text-align:center; font-size:13px; position:fixed; left:380px; top:345px; opacity:1; width:500px; z-order:301;" class="signature tutorial">	
+	Every country gets a color and thus a place on the colorwheel.
+	<br>Larger bubbles are the more populous countries.
+	<br>Countries with similar values for each component
+	<br>are in the middle. We call them <i>balanced</i>.
+	<br>Others have a <i>imbalance</i> or <i>Deficit</i> in one of the 3 components.
+	<br>For larger imbalances, bubbles drift towards the edge. 
+	<br>This information is also coded in the color brightness.
+</div>
+<div id="t8" style="text-align:center; position:fixed; left:380px; top:345px; opacity:1; width:500px; z-order:301;" class="signature tutorial">	
+	Now we understand the colors on the map.
+	<br>Again, we can use component Deficit or Advantage.
+	<br>In fact, let's add a second colorwheel!
+	<br>Then we can switch between indicators, let's see → 
+</div>
+<div id="t9" style="text-align:center; position:fixed; left:380px; top:345px; opacity:1; width:500px; z-order:301;" class="signature tutorial">	
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← Here is the second colorwheel.
+	<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← ← And there's a third one, as the legend.
+	<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The map is always colored after the main wheel.
+	<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Colorwheel bubbles are interactive, try it out!
+</div>
+<div id="t10" style="text-align:center; font-size: 15px; position:fixed; left:380px; top:345px; opacity:1; width:500px; z-order:301;" class="signature tutorial">	
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The last element is a bar chart. This will appear here.
+	<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We have countries sorted left-right by population.
+	<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bars show the geometric mean of indicator components.
+	<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is an overall metric about the indicator
+	<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and should be used in conjunction with the colorwheels.
+	<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is it! Explore the interface and have fun!
+</div>
+
+</div>
+
+<script>
+//colors
+var bgcolor="#222";
+d3.select("#container").style("background-color",bgcolor);
+
+//define startup parameters
+var year=2015;
+var inverted=false;
+
+//var indicator=["edu","gni","le"]
+//var indicator=["le","edu","gni"]; //before switch between security and sustainability
+var indicator=["edu","le","gni"];
+//var hdi=["hdi","ihdi"];
+var hdi=["e3","cp"];
+var hdititles=["E3I","CXP"];
+var watermarkmargin=["50px","0px"];
+var hdiselector=0;
+var deficit="Deficit";
+
+//whether to draw gii
+var giion=false;
+
+//define extent of rgbplot - for HDI only 50% of the axis is needed, for E3I 100%
+var r_extent=1.1;
+var colorscaler=1.3/r_extent;
+
+// init div for tooltips
+var tiptext;
+var tooltipdiv = d3.select("body")
+	.append("div")  
+	.attr("class", "tooltip")            
+	.style("visibility", "hidden")
+	.on("click",function(){
+		tooltipdiv.style("visibility", "hidden");})
+var old;
+tipshow=function(d){}
+tiphide=function(d){}
+			
+//normalize colorwheel components for all wheels
+for (var i=1;i<4;i++){
+	var styles=["width","height"];
+	for (s in styles){
+		d3.select("#rgbshadow"+i).attr(styles[s],d3.select("#rgbwheel"+i).style(styles[s]));
+		for (var j=0;j<4;j++) {
+			if (j<2) d3.select("#canvas"+i+j).attr(styles[s],d3.select("#rgbwheel"+i).style(styles[s]));
+			else if (i<3) for (var k=0;k<2;k++) d3.select("#canvas"+i+j+k).attr(styles[s],d3.select("#rgbwheel"+i).style(styles[s]));
+		}
+		if (i<2) d3.select("#canvas_rgb").attr(styles[s],d3.select("#rgbwheel1").style(styles[s]));
+	}
+	styles=["position","float","top","left"];
+	for (s in styles){
+		d3.select("#rgbshadow"+i).style(styles[s],d3.select("#rgbwheel"+i).style(styles[s]));
+		for (var j=0;j<4;j++) {
+			if (j<2) d3.select("#canvas"+i+j).style(styles[s],d3.select("#rgbwheel"+i).style(styles[s]));
+			else if (i<3) for (var k=0;k<2;k++) d3.select("#canvas"+i+j+k).style(styles[s],d3.select("#rgbwheel"+i).style(styles[s]));
+		}
+		if (i<2) d3.select("#canvas_rgb").attr(styles[s],d3.select("#rgbwheel1").style(styles[s]));
+	}
+	for (var j=0;j<4;j++) {
+		if (j<2) d3.select("#canvas"+i+j).style("opacity","0");
+		else for (var k=0;k<2;k++) d3.select("#canvas"+i+j+k).style("opacity","0")
+	}
+	for (var j=1;j<6;j++){
+		if (j<5) d3.select("#rgbshadow"+i).append("circle")
+				.attr("class","legend2")
+				.attr("cx","50%")
+				.attr("cy","50%")
+				.attr("r",j/5*41.6+"%")
+				.style("fill","none")
+				.style("stroke", bgcolor)
+				.style("stroke-width", 1)
+				.style("stroke-dasharray","5,5")
+		if (i>2) if (j>1) d3.select("#rgbshadow"+i).append("text")
+				.attr("class","legend2")
+				.attr("x",51.5+(j-1)/5*41.6+"%")
+				.attr("y","49%")
+				.style("fill","black")
+				.style("stroke","black")
+				.style("stroke-width", 0.5)
+				.style("font-size","6px")
+				.text((j-0.5)/5)
+	}
+	//d3.select("#rgbshadow"+i).append("circle")
+	//	.attr("class","legend1")
+	//	.attr("cx","50%")
+	//	.attr("cy","50.15%")
+	//	.attr("r","41.6%")
+	//	.style("fill","none")
+	//	.style("stroke-width", 1)
+}
+
+//main colorwheels grid
+for (var i=1;i<3;i++){
+	d3.select("#rgbshadow"+i).append("circle")
+		.attr("class","legend1")
+		.attr("cx","50%")
+		.attr("cy","50%")
+		.attr("r","47.5%")
+		.style("fill","none")
+		.style("stroke-width", 0.7)	
+		.style("stroke", "#444")	
+}
+
+//legend grid
+d3.select("#rgbshadow3").append("circle")
+	.attr("class","legend1")
+	.attr("cx","50%")
+	.attr("cy","50%")
+	.attr("r","49.5%")
+	.style("fill","none")
+	.style("stroke-width", 0.5)
+	.style("stroke", "#444")	
+
+function drawTextAlongArc(context, str, centerX, centerY, radi, angle, initangle, csize) {
+  var len = str.length,s;
+  if (angle==0) angle=Math.PI/csize*len;
+  context.save();
+  context.translate(centerX, centerY);
+  context.rotate(initangle);
+  context.rotate(-1 * angle / 2);
+  context.rotate(-1 * (angle / len) / 2);
+  for (var n = 0; n < len; n++) {
+    context.rotate(angle / len);
+    context.save();
+    context.translate(0, -1 * radi);
+    s = str[n];
+    context.fillText(s, 0, 0);
+    context.restore();
+  }
+  context.restore();
+}
+
+var ringtext=['Security','Sustainability','Affordability'];
+var ringtext2=['Societal','Political','Economic'];
+var ringtext_rgb=['Red','Green','Blue'];
+
+function defannotate(canvas){
+var context = canvas.getContext('2d');
+var centerX = canvas.width/2;
+var centerY = canvas.height/2+1;
+angle = Math.PI * 2;
+radius=canvas.height/2;
+radi = radius * 0.56;
+context.fillStyle = bgcolor;
+context.strokeStyle = 'black';
+drawTextAlongArc(context, deficit, centerX, centerY, radi, angle/8, 0, 0);
+}
+
+function annotate(canvas,ringtext){
+var context = canvas.getContext('2d');
+var centerX = canvas.width/2;
+var centerY = canvas.height/2+1;
+angle = Math.PI * 2;
+radius=canvas.height/2;
+radi = radius * 0.86;
+
+context.font = radius/15 + 'pt Trebuchet MS';
+context.strokeStyle = 'none';
+ringtext.forEach(function(d,i){
+	var c=[80,80,80]
+	c[i]=255;
+	context.fillStyle = d3.rgb(c[0],c[1],c[2]);
+	drawTextAlongArc(context, " • "+d+" • ", centerX, centerY, radi, Math.PI/3, Math.PI*(1/3-i*2/3), 50);
+})
+
+context.font = radius/20 + 'pt Trebuchet MS';
+ringtext.forEach(function(d,i){
+	var c=[255,255,255]
+	if (i>0) c[i-1]=80
+	else c[2]=80;
+	context.fillStyle = d3.rgb(c[0],c[1],c[2]);
+	if (i<2) tx=ringtext[i+1]+" & "+ringtext[i]
+	else tx=ringtext[i]+" & "+ringtext[0]
+	//drawTextAlongArc(context, tx, centerX, centerY, radi, 0, Math.PI*(-i*2/3), 80);
+	drawTextAlongArc(context, tx, centerX, centerY, radi, Math.PI/3, Math.PI*(-i*2/3), 80);
+})
+
+
+radi = radius * 0.71;
+context.fillStyle = bgcolor;
+context.strokeStyle = 'black';
+drawTextAlongArc(context, '     component', centerX, centerY, radi, angle/6, 0, 0);
+
+};
+
+function annotatetitle(canvas,ind){
+var context = canvas.getContext('2d');
+var centerX = canvas.width/2;
+var centerY = canvas.height/2+1;
+angle = Math.PI * 2;
+radius=canvas.height/2;
+
+radi = radius * 0.71;
+context.font = radius/11 + 'pt Trebuchet MS';
+context.fillStyle = bgcolor;
+context.strokeStyle = 'black';
+drawTextAlongArc(context, ind.toUpperCase()+'      ', centerX, centerY, radi, angle/5, 0, 0);
+};
+
+function annotatelegend(canvas){
+var context = canvas.getContext('2d');
+var centerX = canvas.width/2;
+var centerY = canvas.height/2+1;
+angle = Math.PI * 2;
+radius=canvas.height/2;
+
+radi = radius * 0.87;
+context.font = radius/11 + 'pt Trebuchet MS';
+//context.fillStyle = fgcolor;
+context.strokeStyle = 'none';
+ringtext.forEach(function(d,i){
+	var c=[80,80,80]
+	c[i]=255;
+	context.fillStyle = d3.rgb(c[0],c[1],c[2]);
+	drawTextAlongArc(context, d, centerX, centerY, radi, Math.PI/3, Math.PI*(1/3-i*2/3), 50);
+})
+
+radi = radius * 0.7;
+context.fillStyle = bgcolor;
+context.strokeStyle = 'none';
+drawTextAlongArc(context, 'Inidicator component', centerX, centerY, radi, angle/3.5, 0, 0);
+
+radi = radius * 0.54;
+context.fillStyle = bgcolor;
+context.strokeStyle = 'none';
+drawTextAlongArc(context, deficit, centerX, centerY, radi, angle/6, 0, 0);
+
+context.strokeStyle = bgcolor;
+context.beginPath();
+context.moveTo(centerX,centerY+1);
+context.lineTo(centerX+radius * 0.84,centerY+1);
+context.stroke();
+};
+
+//add annotations
+setcolors();
+annotate(document.getElementById('canvas_rgb'),ringtext_rgb);
+annotate(document.getElementById('canvas10'),ringtext2);
+annotate(document.getElementById('canvas20'),ringtext);
+annotate(document.getElementById('canvas11'),ringtext);
+annotate(document.getElementById('canvas21'),ringtext2);
+
+annotatelegend(document.getElementById('canvas30'));
+defannotate(document.getElementById('canvas130'));
+defannotate(document.getElementById('canvas230'));
+inverted=!inverted;
+setcolors();
+annotatelegend(document.getElementById('canvas31'));
+defannotate(document.getElementById('canvas131'));
+defannotate(document.getElementById('canvas231'));
+inverted=!inverted;
+
+for (var i=1;i<3;i++){
+	for (var k=0;k<2;k++){
+		annotatetitle(document.getElementById('canvas'+i+'2'+k),hdititles[k]);
+	}
+}
+
+//draw map and colorwheel components
+
+var width = document.getElementById("mapcontainer").offsetWidth - 2,
+    height = document.getElementById("mapcontainer").offsetHeight - 2,
+    active = d3.select(null);
+
+var projection = d3.geo.naturalEarth();
+
+var defaultZoom = 0.82;
+var defaultTranslateX = -150;
+var defaultTranslateY = -25;
+	
+var path = d3.geo.path()
+    .projection(projection);
+ 
+var svg = d3.select("#mapcontainer").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .on("click", stopped, true);
+	
+var cw1=d3.select("#rgbshadow1");
+var cw2=d3.select("#rgbshadow2");
+var cw3=d3.select("#rgbshadow3");
+
+svg.append("rect")
+    .attr("class", "background")
+    .attr("width", width)
+    .attr("height", height)
+	.style("fill", "none")
+    .on("click", reset);
+
+var g = svg.append("g");
+	
+var zoom = d3.behavior.zoom()
+    .translate([defaultTranslateX, defaultTranslateY])
+    .scale(defaultZoom)
+    .scaleExtent([defaultZoom, 8])
+    .on("zoom", zoomed);
+
+svg
+    .call(zoom) // delete this line to disable free zooming
+    .call(zoom.event);
+	
+var scale=defaultZoom;
+var translate=[defaultTranslateX, defaultTranslateY];
+
+function clicked(id) {
+  var d=worldsave[id];
+  if (active.node() === d3.select(".feature.c"+id).node()) return reset();
+  active.classed("active", d3.select(".feature.c"+id).node());
+  active = d3.select(d3.select(".feature.c"+id).node()).classed("active", d3.select(".feature.c"+id).node());
+
+  var bounds = path.bounds(d),
+      dx = bounds[1][0] - bounds[0][0],
+      dy = bounds[1][1] - bounds[0][1],
+      x = (bounds[0][0] + bounds[1][0]) / 2,
+      y = (bounds[0][1] + bounds[1][1]) / 2;
+      
+  scale = .6 / Math.max(dx / width, dy / height);
+  
+  translate = [width / 2 - scale * x, height / 2 - scale * y];
+
+  svg.transition()
+      .duration(750)
+      .call(zoom.translate(translate).scale(scale).event);
+
+if (editmode) {
+
+visi[id]=!visi[id];
+
+if (visi[id]) {
+var origMap=d3.select(".feature.c"+id).node();
+		emupe = d3.select(origMap.parentNode.appendChild(origMap.cloneNode(true), origMap.nextSibling));
+		emupe
+		.attr("id","cc"+id)
+		.attr("class","etemp").style("stroke","white").style("stroke-width","1px").style("fill","none")
+			.on("click", reset)
+		  .on("mouseover", function(){return tipshow(id)})
+		  .on("mouseout", function(){return tiphide(id)});
+}
+if (!visi[id]) {
+reset();
+d3.select("#cc"+id).transition().duration(500)
+		.style("opacity", 0).remove()
+}
+
+render();
+}
+else 
+{
+cleanup();
+		
+		var origMap=d3.select(".feature.c"+id).node();
+		mupe = d3.select(origMap.parentNode.appendChild(origMap.cloneNode(true), origMap.nextSibling));
+		mupe.classed(".feature.c"+id,false)
+		mupe
+		.attr("class","temp").style("stroke","white").style("stroke-width","1px").style("fill","none")
+			.on("click", reset)
+		  .on("mouseover", function(){return tipshow(id)})
+		  .on("mouseout", function(){return tiphide(id)});
+		  
+	var origNodes=d3.selectAll(".cw.p"+id)[0]
+  for (var i=0;i<origNodes.length;i++)  {
+	  origNode=origNodes[i]
+	  dupe = d3.select(origNode.parentNode.appendChild(origNode.cloneNode(true), origNode.nextSibling));
+	  dupe.style("opacity", 0.0)
+		.transition()
+		.duration(500)
+		.style("opacity", 1.0)	
+		.attr("class","temp")
+	
+	dupe.select(".below")
+		  .on("click", reset)
+		  .on("mouseover", function(){return tipshow(id)})
+		  .on("mouseout", function(){return tiphide(id)})
+
+	dupe.select(".code")
+		  .on("click", reset)
+		  .on("mouseover", function(){return tipshow(id)})
+		  .on("mouseout", function(){return tiphide(id)})
+}
+}	
+}
+function cleanup(){
+d3.selectAll(".temp").selectAll(".cw").classed("cw",false)
+d3.selectAll(".temp").transition().duration(500)
+		.style("opacity", 0).remove()
+}
+
+var tipcleanup=function(){};
+var etipcleanup=function(){};
+
+function reset() {
+	cleanup();
+	tipcleanup();
+	//etipcleanup();
+
+  active.classed("active", false);
+  active = d3.select(null);
+  scale=defaultZoom;
+  translate=[defaultTranslateX, defaultTranslateY];
+  svg.transition()
+      .duration(750)
+      .call(zoom.translate([defaultTranslateX, defaultTranslateY]).scale(defaultZoom).event);
+
+}
+
+function zoomed() {
+  scale=d3.event.scale;
+  translate=d3.event.translate;
+  g.style("stroke-width", 1.5 / d3.event.scale + "px");
+  g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+}
+
+// If the drag behavior prevents the default click,
+// also stop propagation so we don’t click-to-zoom.
+function stopped() {
+  if (d3.event.defaultPrevented) d3.event.stopPropagation();
+}	
+
+function geomean(gmean){
+	var n=gmean.length;
+	var g=1;
+	for (i in gmean) {
+		g=g*(gmean[i]+0.001); //add very small number to prevent zeroes
+	}
+	return Math.pow(g,1/n);
+}
+
+var drawmap=function(){};
+var drawpoints=function(){};
+var map;
+var hdiorder=[];
+var worldsave={};
+var dupe;
+var editmode=false;
+var visi={};
+	
+	
+d3.json("data.json", function(rawhdidata){
+	
+	//format data
+	hdidata=rawhdidata
+	for (d in hdidata){
+		for (y in hdidata[d][hdi[0]]){
+			for (i in hdi) {
+				hdidata[d][hdi[i]][y]['geo']=geomean([hdidata[d][hdi[i]][y]['gni'],hdidata[d][hdi[i]][y]['edu'],hdidata[d][hdi[i]][y]['le']])
+			}
+		}
+	}
+	
+	//set tooltip content
+	var tooltipqueued;
+	tipcleanup=function(){
+	
+	d3.selectAll(".ttemp").transition().duration(200)
+		.style("opacity", 0).remove()
+			
+	d3.selectAll(".below.p"+old+","+".l"+old).transition().duration(200).style("stroke","black").style("stroke-width","1px")
+				
+            
+	};
+	
+	etipcleanup=function(){
+	
+	d3.selectAll(".etemp").transition().duration(200)
+		.style("opacity", 0).remove()
+			
+	d3.selectAll(".below.p"+old+","+".l"+old).transition().duration(200).style("stroke","black").style("stroke-width","1px")
+				
+            
+	};
+	
+	tipshow=function(d){
+			tooltipqueued = setTimeout(function() {
+			tipcleanup();
+			
+tooltipdiv.style("visibility", "visible");
+			
+			var origMap=d3.select(".feature.c"+d).node();
+		mupe = d3.select(origMap.parentNode.appendChild(origMap.cloneNode(true), origMap.nextSibling));
+		mupe.classed(".feature.c"+d,false)
+		mupe.on("click", reset)
+		  .on("mouseover", function(){return tipshow(d)})
+		  .on("mouseout", function(){return tiphide(d)})
+		.attr("class","ttemp").style("stroke","white").style("stroke-width","1px").style("fill","none")
+		.style("opacity","0").transition().duration(200).style("opacity","1")
+			;
+			
+			d3.selectAll(".below.p"+d).transition().duration(200).style("stroke","#fff").style("stroke-width","2px");
+			d3.selectAll(".l"+d).transition().duration(200).style("stroke","#fff").style("stroke-width","1px");
+			old=d;
+			},200)
+			
+
+			tiptext=hdidata[d];
+			//if (!d || d!=old){
+			tooltipdiv.html(function(d) {
+				return '<table id="tt"><tr><td style="color:#fff;">' + tiptext.name + '&nbsp;&nbsp;</td><td style="text-align:right;">' + (tiptext.population[year]/1000000).toFixed(2) + ' M</td></tr><tr"><td><table><tr><td>'+hdititles[0]+'&nbsp;&nbsp;&nbsp;</td><td style="text-align:right;">' + 
+					parseInt((Math.pow((tiptext[hdi[0]][year].edu * tiptext[hdi[0]][year].le * tiptext[hdi[0]][year].gni),1/3))*1000)/1000 +	'&nbsp;&nbsp;</td></tr></table></td><td><table><tr><td><table style="width:100%;"><tr><td>'+ringtext[1]+'</td><td style="text-align:right;width:60px;">'+ tiptext[hdi[hdiselector]][year].le+'</td></tr></table></td></tr><tr><td><table style="width:100%;"><tr><td>'+ringtext[0]+'&nbsp;&nbsp;</td><td style="text-align:right;">'+ tiptext[hdi[0]][year].edu+'</td></tr></table></td></tr><tr><td><table style="width:100%;"><tr><td>'+ringtext[2]+'</td><td style="text-align:right;">'+ tiptext[hdi[0]][year].gni+'</td></tr></table></td></tr></table></td></tr><tr><td><table><tr><td>'+hdititles[1]+'&nbsp;&nbsp;</td><td style="text-align:right;">' + 
+					parseInt((Math.pow((tiptext[hdi[1]][year].edu * tiptext[hdi[1]][year].le * tiptext[hdi[1]][year].gni),1/3))*1000)/1000 +	'&nbsp;&nbsp;</td></tr></table></td><td><table><tr><td><table style="width:100%;"><tr><td>'+ringtext2[1]+'</td><td style="text-align:right;width:60px;">'+ tiptext[hdi[1]][year].le+'</td></tr></table></td></tr><tr><td><table style="width:100%;"><tr><td>'+ringtext2[0]+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="text-align:right;">'+ tiptext[hdi[1]][year].edu+'</td></tr></table></td></tr><tr><td><table style="width:100%;"><tr><td>'+ringtext2[2]+'</td><td style="text-align:right;">'+ tiptext[hdi[1]][year].gni+'</td></tr></table></td></tr></table></td></tr></table>';
+			  })	 
+			
+			.style("left", Math.min(document.getElementById("container").parentElement.offsetWidth-300,(d3.event.pageX + 30)) + "px")
+				.style("top", Math.min(document.getElementById("container").parentElement.offsetHeight-330	,(d3.event.pageY - 30)) + "px");
+				
+			
+				
+			
+	}	
+	tiphide=function(d){
+		window.clearTimeout(tooltipqueued);
+		tooltipdiv.style("visibility", "hidden");
+		//tipcleanup();
+	}
+	
+	//save all data for sorting
+	function resort(){
+		hdiorder=[];
+		for (var k in hdidata) {
+			hdiorder.push({"population":hdidata[k].population[year],"id":k})
+			//set initially all visible
+			visi[k]=true;
+		}
+		hdiorder.sort(function(a, b) {
+			  return b.population-a.population;
+		  });
+	}
+	
+	function allvisible(){
+	reset();
+	etipcleanup();
+	//tipcleanup();
+	editmode=false;
+	for (var k in visi) {
+			visi[k]=true;
+		}
+	}
+	
+	function allhidden(){
+	reset();
+	etipcleanup();
+	//tipcleanup();
+	editmode=true;
+	for (var k in visi) {
+			visi[k]=false;
+		}
+	}
+	
+	d3.selectAll(".hide").on("click",function(){allhidden();render();});
+	d3.selectAll(".show").on("click",function(){allvisible();render();});
+	
+	//rgb color generator with scaler
+	function rgbcolor(values){
+			var p=values;
+			var m=255*colorscaler;
+			var minx = Math.min.apply(Math, values);
+			for (var i=0;i<values.length;i++){
+				p[i]=(values[i]-minx)*m;
+			}
+			return d3.rgb(p[0],p[1],p[2]);
+		  }
+	
+	//draw map	
+	d3.json("world.json", function(error, world) {
+	  
+	  var features=topojson.feature(world, world.objects.countries).features
+	  for (k in features) worldsave[features[k].id]=features[k];
+	  
+	  map=g.selectAll("path")
+		  .data(features)
+		  .enter()
+		  .append("path")
+		  .attr("d", path)
+		  .attr("class", function(d){return "feature c"+d.id})
+		  .on("click", function(d){return clicked(d.id)})
+		  .on("mouseover", function(d){return tipshow(d.id)})
+		  .on("mouseout", function(d){return tiphide(d.id)})
+	  
+	  drawmap=function(){
+	  map.transition().duration(2000)
+		  .style("fill",function(d){
+			if (d.id in hdidata){
+			if (hdidata[d.id][hdi[hdiselector]][year]) {
+				if ((hdidata[d.id][hdi[hdiselector]][year].le!="NaN")&&(hdidata[d.id][hdi[hdiselector]][year].edu!="NaN")&&(hdidata[d.id][hdi[hdiselector]][year].gni!="NaN")){
+					if (inverted) var values=[hdidata[d.id][hdi[hdiselector]][year][indicator[0]],hdidata[d.id][hdi[hdiselector]][year][indicator[1]],hdidata[d.id][hdi[hdiselector]][year][indicator[2]]]
+					else var values=[1-hdidata[d.id][hdi[hdiselector]][year][indicator[0]],1-hdidata[d.id][hdi[hdiselector]][year][indicator[1]],1-hdidata[d.id][hdi[hdiselector]][year][indicator[2]]]
+					return rgbcolor(values);
+				}};
+			};
+			return "#666";
+		  });
+	  }
+	  
+	  drawmap(map);
+	 
+	  g.append("path")
+	      .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
+		  .attr("class", "mesh")
+		  .attr("d", path)
+		  .style("fill","none")
+		  .style("stroke",bgcolor)
+		  .style("stroke-width","1px")
+		  .style("stroke-linecap","round")
+		  .style("stroke-linejoin","round")
+	});
+	
+	//rgb plot generator - universal, for any number of focus colors, not just 3
+	function rgbplot(values, r) {
+	  var p=values;
+	  var minx = Math.min.apply(Math, values);
+	  for (var i=0;i<values.length;i++){
+		p[i]=values[i]-minx;
+	  }
+	  var rr = r / r_extent; //define extent of rgbplot - for HDI only 50% of the axis is needed
+	  var x = r;
+	  var y = r;
+	  for (var i=0;i<values.length;i++){
+		x = x + rr * Math.sin(((i+1)%values.length) * 2 * Math.PI / values.length) * p[i];
+		y = y + rr * Math.cos(((i+1)%values.length) * 2 * Math.PI / values.length) * p[i];
+	  }
+	  return [x, y];
+	};
+	
+	function arr(year,field){
+		var a = [];
+		for (var k in hdiorder) {
+		  a.push(hdidata[hdiorder[k].id][field][year]);
+		  a[a.length-1]["id"]=hdiorder[k].id;			  
+		}
+		return a;
+	}
+	
+	//draw colorwheel legend
+	function addlegendpoints(colorwheel) {
+		var r=colorwheel.node().width.baseVal.value/2;
+		if (giion) var legenddata=[{"v1":0.5,"v2":0.8,"v3":0.7,"pop":70000000,"gii":1,"txt1":"Populous","txt2":"country"},{"v1":0.9,"v2":0.6,"v3":0.9,"pop":10000000,"gii":1,"txt1":"Small","txt2":"country"},{"v1":0.6,"v2":0.6,"v3":0.9,"pop":20000000,"gii":1,"txt1":"Imalanced","txt2":"indicator"},{"v1":0.6,"v2":0.6,"v3":0.7,"pop":20000000,"gii":1,"txt1":"Balanced","txt2":"indicator"},{"v1":0.8,"v2":0.5,"v3":0.5,"pop":20000000,"gii":1,"txt1":"Security","txt2":"imbalance"},{"v1":0.6,"v2":0.55,"v3":0.5,"pop":20000000,"gii":0.4,"txt1":"High","txt2":"G I I"},{"v1":0.5,"v2":0.6,"v3":0.5,"pop":20000000,"gii":0.8,"txt1":"Low","txt2":"G I I"}];
+		else var legenddata=[{"v1":0.5,"v2":0.8,"v3":0.7,"pop":70000000,"gii":1,"txt1":"Populous","txt2":"country"},{"v1":0.9,"v2":0.6,"v3":0.9,"pop":10000000,"gii":1,"txt1":"Small","txt2":"country"},{"v1":0.6,"v2":0.6,"v3":0.9,"pop":20000000,"gii":1,"txt1":"Imalanced","txt2":"indicator"},{"v1":0.6,"v2":0.6,"v3":0.7,"pop":20000000,"gii":1,"txt1":"Balanced","txt2":"indicator"},{"v1":0.8,"v2":0.5,"v3":0.5,"pop":20000000,"gii":1,"txt1":"Security","txt2":"imbalance"}];
+		var points=colorwheel.selectAll("g")
+			.data(legenddata)
+			.enter()
+			.append("g")
+		var legendscaler=r_extent/0.5
+		points.attr("transform", function(d) {
+				return "translate("+rgbplot([d.v1*legendscaler,d.v2*legendscaler,d.v3*legendscaler], r)[0]+","+rgbplot([d.v1*legendscaler,d.v2*legendscaler,d.v3*legendscaler], r)[1]+")"; 
+			})
+		points.append("ellipse")
+			.attr("cx",function(d){return 0;})
+			.attr("cy",function(d){return 0;})
+			.attr("rx",function(d){return Math.pow(d.pop/10000,1/3);})
+			.attr("ry",function(d){return Math.pow(d.pop/10000,1/3);})
+			.style("fill",function(d){return rgbcolor([d.v1*legendscaler,d.v2*legendscaler,d.v3*legendscaler]);})
+			.style("stroke", "black")
+			.style("stroke-width", 1)
+			.style("opacity",0.8);
+		if (giion) {
+			points.append("ellipse")
+				.attr("cx",function(d){return 0;})
+				.attr("cy",function(d){return 0;})
+				.attr("rx",function(d){return Math.pow(d.pop/10000,1/3);})
+				.attr("ry",function(d){
+					if (d.gii!=1) return Math.pow(d.pop/10000,1/3)*d.gii;
+					else return 0;})
+				.style("fill",function(d){return rgbcolor([d.v1*legendscaler,d.v2*legendscaler,d.v3*legendscaler]);})
+				.style("stroke", "white")
+				.style("stroke-width", 0.7)
+				.style("opacity",0.3);
+		}
+		points.append("text")
+			.attr({
+			  "alignment-baseline": "middle",
+			  "text-anchor": "middle"
+			})
+			.attr("font-size",function(d){return Math.pow(d.pop/80000,1/3);})
+			.style("fill", "white")
+			.style("opacity", 0.8)
+			.append("tspan")
+			.attr("x", 0)
+			.text(function(d){return d.txt1;})
+			.append("tspan")
+			.attr("x", 0)
+			.attr("dy", function(d){return Math.pow(d.pop/80000,1/3);})
+			.text(function(d){return d.txt2;})	
+		}
+	addlegendpoints(cw3);
+	
+	//draw main colorwheels
+	function addpoints(colorwheel,ind,pointscaler) {
+		var r=colorwheel.node().width.baseVal.value/2;
+		var points=colorwheel.selectAll(".cw")
+			.data(arr(year,ind), function(d){return d.id})
+		
+		points	
+			.enter()
+			.append("g")
+			.attr("class", function(d){return "cw p"+d.id})
+			.on("mouseover", function(d){tipshow(d.id);})
+		  .on("mouseout", function(d){tiphide(d.id);})
+		  .on("click", function(d){return clicked(d.id)})
+		  .style("cursor","pointer")
+		
+		points.exit().remove()
+
+		points.style("visibility",function(d){
+				if ((d.le!="NaN")&&(d.edu!="NaN")&&(d.gni!="NaN")) return "visible"; 
+			}).transition().duration(500).style("opacity",function(d){if (visi[d.id]) return 0.8;else return 0;}).transition().duration(2000)
+			.attr("transform", function(d) {
+				if ((d.le!="NaN")&&(d.edu!="NaN")&&(d.gni!="NaN")){
+					if (inverted) var values=[d[indicator[0]], d[indicator[1]], d[indicator[2]]]
+					else var values=[1-d[indicator[0]], 1-d[indicator[1]], 1-d[indicator[2]]]
+					return "translate("+rgbplot(values, r)[0]+","+rgbplot(values, r)[1]+")";
+				}
+				return "translate("+r+","+r+")scale(0,0)";
+				})
+			.style("fill",function(d){
+				if ((d.le!="NaN")&&(d.edu!="NaN")&&(d.gni!="NaN")){
+					if (inverted) var values=[d[indicator[0]], d[indicator[1]], d[indicator[2]]]
+					else var values=[1-d[indicator[0]], 1-d[indicator[1]], 1-d[indicator[2]]]
+					return rgbcolor(values);
+					
+					//monochrome
+					//return d3.rgb(255*(1-d.geo),255*(1-d.geo),255*(1-d.geo));
+				};
+				return "black";
+			  })
+			.each("end",function() {
+    d3.select(this).style("visibility",function(d){
+				if ((d.le!="NaN")&&(d.edu!="NaN")&&(d.gni!="NaN")&&(visi[d.id])) return "visible"; else return "hidden";
+			})})
+		
+		points.append("ellipse")
+			.attr("class", function(d){return "cw below p"+d.id})
+			.attr("cx",function(d){return 0;})
+			.attr("cy",function(d){return 0;})
+			.attr("rx",function(d){
+				var pr=String(Math.pow(hdidata[d.id].population[year]/10000,1/3)*pointscaler);
+				if (pr=="NaN") return 0
+				else return pr;
+			})
+			.attr("ry",function(d){
+				var gini=1;
+				//if (hdidata[d.id]["gii"][year]!="NaN") gini=1-hdidata[d.id]["gii"][year];
+				var pr=String(Math.pow(hdidata[d.id].population[year]/10000,1/3)*pointscaler*gini);
+				if (pr=="NaN") return 0
+				else return pr;
+			})			
+			  .style("stroke", "black")
+			  .style("stroke-width", 1)
+			  .style("opacity",0.8);
+		if (giion) {
+			points.append("ellipse")
+				.attr("class", function(d){return "cw above p"+d.id})
+				
+				.attr("cx",function(d){return 0;})
+				.attr("cy",function(d){return 0;})
+				.attr("rx",function(d){
+					return Math.pow(hdidata[d.id].population[year]/10000,1/3)*pointscaler;
+				})
+				.attr("ry",function(d){
+					var gini=0;
+					if (hdidata[d.id]["gii"][year]!="NaN") gini=1-hdidata[d.id]["gii"][year];
+					return Math.pow(hdidata[d.id].population[year]/10000,1/3)*pointscaler*gini;
+				})
+				.style("fill","none")
+				  .style("stroke", "white")
+				  .style("stroke-width", 0.5)
+				  .style("opacity",0.5);
+		}
+		points.append("text")
+			.attr("class", function(d){return "cw code p"+d.id})
+			
+			.attr("text-anchor","middle")
+			.attr("font-size",function(d){return (2+Math.pow(hdidata[d.id].population[year]/40000,1/3))*pointscaler;})
+			.attr("dy", function(d){
+				var pr=String(((Math.pow(hdidata[d.id].population[year]/40000,1/3))/2-1)*pointscaler);
+				if (pr=="NaN") return 0
+				else return pr;
+			})
+			.style("fill", "white")
+			.style("opacity", 0.8)
+			.text(function(d){return hdidata[d.id].code;})
+		}
+	
+	//draw colorbars
+	function addbars(chart,ind) {
+		var r=chart.node().width.baseVal.value;
+		var p=chart.node().height.baseVal.value;
+		var n=200;
+		var bars=chart.selectAll("rect")
+			.data(arr(year,ind))
+		
+		bars.enter()
+			.append("rect")
+			.attr("class", function(d){return "l"+d.id})
+			.on("mouseover", function(d){tipshow(d.id);return;	})
+		  .on("mouseout", function(d){tiphide(d.id);return;})
+		  .on("click", function(d){return clicked(d.id)})
+		  .style("cursor","pointer")
+			  .style("stroke", "black")
+			  .style("stroke-width", 1)
+			  .style("opacity",0.8)
+			.attr("width",r/n);
+	
+		bars.exit().remove()
+		
+		bars
+			  .transition().duration(1000)
+			.style("fill",function(d){
+				if ((d.le!="NaN")&&(d.edu!="NaN")&&(d.gni!="NaN")){
+					if (inverted) var values=[d[indicator[0]], d[indicator[1]], d[indicator[2]]]
+					else var values=[1-d[indicator[0]], 1-d[indicator[1]], 1-d[indicator[2]]]
+					return rgbcolor(values);
+				};
+				return "#667";
+			  })
+		.transition().duration(1000)
+		.attr("height",function(d){
+				if ((d.le!="NaN")&&(d.edu!="NaN")&&(d.gni!="NaN")){
+					values=[d[indicator[0]], d[indicator[1]], d[indicator[2]]];
+					return Math.pow((values[0]*values[1]*values[2]),1/3)*p;
+				};
+				return 0;
+			  })
+		.attr("transform",function(d,i){
+				if ((d.le!="NaN")&&(d.edu!="NaN")&&(d.gni!="NaN")){
+					values=[d[indicator[0]], d[indicator[1]], d[indicator[2]]];
+					return "translate("+(i/n)*r+","+(1-Math.pow((values[0]*values[1]*values[2]),1/3))*p+")";
+				};
+				return "translate(0,0)";
+			  }).transition().duration(500).style("opacity",function(d){if (visi[d.id]) return 0.8;else return 0.1;})
+			
+					  
+
+		}
+		
+	drawpoints=function(){
+		//resort();
+		addpoints(cw1,hdi[hdiselector%2],1);
+		var t1=d3.select("#rgbwheel1").style("width")
+		t1=t1.slice(0,t1.length-2)
+		var t2=d3.select("#rgbwheel2").style("width")
+		t2=t2.slice(0,t2.length-2)
+		addpoints(cw2,hdi[(hdiselector+1)%2],t2/t1);
+		addbars(d3.select("#chartcontainer"),hdi[hdiselector]);
+	}
+	resort();
+	drawpoints();
+}); 
+	
+var rescale = function() {
+//draw gradient border left
+svg.append("defs").append("linearGradient")
+.attr("id","myLinearGradient1")
+.attr("x1","0%")
+.attr("y1","0%")
+.attr("x2","100%")
+.attr("y2","0%")
+.attr("spreadMethod","pad")
+
+d3.select("#myLinearGradient1")
+.append("stop")
+.attr("offset","30%")
+.attr("stop-color",bgcolor)
+.attr("stop-opacity","1")
+
+d3.select("#myLinearGradient1")
+.append("stop")
+.attr("offset","100%")
+.attr("stop-color",bgcolor)
+.attr("stop-opacity","0");
+
+svg.append("rect")
+.attr("x","-2")
+.attr("y","-2")
+.attr("width","20")
+.attr("height",height+4)
+.style("fill","url(#myLinearGradient1)")
+
+//draw gradient border right
+svg.append("defs").append("linearGradient")
+.attr("id","myLinearGradient2")
+.attr("x1","0%")
+.attr("y1","0%")
+.attr("x2","100%")
+.attr("y2","0%")
+.attr("spreadMethod","pad")
+
+d3.select("#myLinearGradient2")
+.append("stop")
+.attr("offset","0%")
+.attr("stop-color",bgcolor)
+.attr("stop-opacity","0")
+
+d3.select("#myLinearGradient2")
+.append("stop")
+.attr("offset","70%")
+.attr("stop-color",bgcolor)
+.attr("stop-opacity","1");
+
+svg.append("rect")
+.attr("x",width-18)
+.attr("y","-2")
+.attr("width","20")
+.attr("height",height+4)
+.style("fill","url(#myLinearGradient2)")
+
+//draw gradient border bottom
+svg.append("defs").append("linearGradient")
+.attr("id","myLinearGradient3")
+.attr("x1","0%")
+.attr("y1","0%")
+.attr("x2","0%")
+.attr("y2","100%")
+.attr("spreadMethod","pad")
+
+d3.select("#myLinearGradient3")
+.append("stop")
+.attr("offset","0%")
+.attr("stop-color",bgcolor)
+.attr("stop-opacity","0")
+
+d3.select("#myLinearGradient3")
+.append("stop")
+.attr("offset","70%")
+.attr("stop-color",bgcolor)
+.attr("stop-opacity","1");
+
+svg.append("rect")
+.attr("x","-2")
+.attr("y",height-18)
+.attr("width",width+4)
+.attr("height","20")
+.style("fill","url(#myLinearGradient3)")
+
+//draw gradient border top
+svg.append("defs").append("linearGradient")
+.attr("id","myLinearGradient4")
+.attr("x1","0%")
+.attr("y1","0%")
+.attr("x2","0%")
+.attr("y2","100%")
+.attr("spreadMethod","pad")
+
+d3.select("#myLinearGradient4")
+.append("stop")
+.attr("offset","30%")
+.attr("stop-color",bgcolor)
+.attr("stop-opacity","1")
+
+d3.select("#myLinearGradient4")
+.append("stop")
+.attr("offset","100%")
+.attr("stop-color",bgcolor)
+.attr("stop-opacity","0");
+
+svg.append("rect")
+.attr("x","-2")
+.attr("y","-2")
+.attr("width",width+4)
+.attr("height","20")
+.style("fill","url(#myLinearGradient4)")
+
+//scale content
+var scal = Math.min((document.getElementById("container").parentElement.offsetWidth) / document.getElementById("container").offsetWidth, (document.getElementById("container").parentElement.offsetHeight) / document.getElementById("container").offsetHeight)
+document.getElementById("container").style.WebkitTransform = "scale(" + scal + ")";
+document.getElementById("container").style.OTransform = "scale(" + scal + ")";
+document.getElementById("container").style.MozTransform = "scale(" + scal + ")";
+document.getElementById("container").style.msTransform = "scale(" + scal + ")";
+document.getElementById("container").style.Transform = "scale(" + scal + ")";
+
+document.getElementById("container").style.WebkitTransformOrigin = "0 0";
+document.getElementById("container").style.OTransformOrigin = "0 0";
+document.getElementById("container").style.MozTransformOrigin = "0 0";
+document.getElementById("container").style.msTransformOrigin = "0 0";
+document.getElementById("container").style.TransformOrigin = "0 0";
+
+var sscal = 0.8;
+document.getElementById("social").style.WebkitTransform = "scale(" + sscal + ") translate(47px,0px)";
+document.getElementById("social").style.OTransform = "scale(" + sscal + ") translate(47px,0px)";
+document.getElementById("social").style.MozTransform = "scale(" + sscal + ") translate(47px,0px)";
+document.getElementById("social").style.msTransform = "scale(" + sscal + ") translate(47px,0px)";
+document.getElementById("social").style.Transform = "scale(" + sscal + ") translate(47px,0px)";
+
+document.getElementById("social").style.WebkitTransformOrigin = "0 0";
+document.getElementById("social").style.OTransformOrigin = "0 0";
+document.getElementById("social").style.MozTransformOrigin = "0 0";
+document.getElementById("social").style.msTransformOrigin = "0 0";
+document.getElementById("social").style.TransformOrigin = "0 0";
+
+};
+
+document.addEventListener("keydown", function(event) {
+  if ((event.keyCode >= 33 && event.keyCode <= 34) || (event.keyCode >= 37 && event.keyCode <= 40) || (event.keyCode == 72 )) {
+    switch (event.keyCode) {
+	  case 33: // pg up
+      case 37: // left
+      case 38: // up
+        year=Math.max(2010,year-1);render();
+        break;
+      case 34: // pg down
+      case 39: // right
+      case 40: // down 
+        year=Math.min(2015,year+1);render();
+        break;	    
+    }
+
+    event.preventDefault();
+  }
+}, false);
+
+window.onresize = function() {
+rescale();
+}
+
+function setcolors(){
+//set colors
+//if (inverted) fgcolor="#f768a1"; else fgcolor="#69f5bf";
+//if (inverted) fgcolor="#d24cff"; else fgcolor="#6cd900";
+if (inverted) fgcolor="#f768a1"; else fgcolor="#4cff79";
+d3.selectAll(".signature").transition().duration(2000).style("color",fgcolor);
+d3.selectAll(".signaturefill").transition().duration(2000).style("fill",fgcolor);
+d3.select("#container").transition().duration(2000).style("border-color",fgcolor);
+tooltipdiv.style("color",fgcolor);
+document.getElementById("watermark").innerHTML=hdititles[hdiselector].toUpperCase(); 
+d3.select("#watermark").transition().duration(2000).style("margin-left",watermarkmargin[hdiselector]);
+if (!(inverted)) deficit="Advantage"; else deficit="Deficit";
+if (inverted) logo="tsne_inverted.png"; else logo="tsne.png";
+d3.select("#logo").attr("src",logo);
+if (inverted) deficit2="Advantage"; else deficit2="Deficit";
+d3.select("#deficit").text(deficit2);
+
+//d3.selectAll(".legend1").transition().duration(2000).style("stroke", fgcolor)
+//d3.selectAll(".legend2").transition().duration(2000).style("stroke", bgcolor)
+	
+d3.select("#year").text(year);
+d3.select("#indicator").text(hdititles[(hdiselector)%2].toUpperCase());
+if (year<2010) d3.select("#chartcontainer2").style("visibility","hidden");
+else d3.select("#chartcontainer2").style("visibility","visible");
+
+if (inverted) var j=1; else j=0
+d3.select("#up").attr("transform","rotate("+j*180+" 775,625)")
+d3.select("#up1").transition().duration(2000).style("fill",fgcolor)
+d3.select("#reload").attr("transform","rotate("+((hdiselector)%2)*90+" 240,240)").transition().duration(2000).style("fill",fgcolor)
+}
+
+function render(){
+cleanup();
+//set colors
+setcolors();
+//draw annotations
+if (inverted) var j=1; else j=0
+for (var i=3;i<4;i++) {
+	d3.select("#canvas"+i+(j)%2).transition().duration(2000).style("opacity","0");
+	d3.select("#canvas"+i+(j+1)%2).transition().duration(2000).style("opacity","1");
+}
+for (var i=1;i<3;i++) {
+	d3.select("#canvas"+i+(hdiselector)%2).transition().duration(2000).style("opacity","0");
+	d3.select("#canvas"+i+(hdiselector+1)%2).transition().duration(2000).style("opacity","1");
+	d3.select("#canvas"+i+"3"+(j)%2).transition().duration(2000).style("opacity","0");
+	d3.select("#canvas"+i+"3"+(j+1)%2).transition().duration(2000).style("opacity","1");
+}
+d3.select("#canvas12"+(hdiselector)%2).transition().duration(2000).style("opacity","1");
+d3.select("#canvas12"+(hdiselector+1)%2).transition().duration(2000).style("opacity","0");
+d3.select("#canvas22"+(hdiselector)%2).transition().duration(2000).style("opacity","0");
+d3.select("#canvas22"+(hdiselector+1)%2).transition().duration(2000).style("opacity","1");
+//draw map
+drawmap();
+//draw points
+drawpoints();
+//title
+if ((hdiselector)%2==0) {
+	d3.select("#articletitle").text("Energy Trilemma Index")
+	//d3.selectAll(".bar").filter("."+hdi[1]).transition().duration(2000).style("opacity","0");
+	//d3.selectAll(".bar").filter("."+hdi[0]).transition().duration(2000).style("opacity","1");
+}
+else {
+	d3.select("#articletitle").text("Contextual Performance  Index");
+	//d3.selectAll(".bar").filter("."+hdi[0]).transition().duration(2000).style("opacity","0");
+	//d3.selectAll(".bar").filter("."+hdi[1]).transition().duration(2000).style("opacity","1");
+}
+d3.select("#articletitle").transition().duration(2000).style("margin-left",watermarkmargin[hdiselector]).style("color",fgcolor);
+}
+
+//init content
+rescale();
+reset();
+render();
+
+//////////////
+//show content
+//////////////
+
+//hide everything
+d3.select("#e3ma").style("visibility", "hidden");
+d3.select("#social").style("visibility", "hidden");
+d3.select("#wheel1").style("visibility", "hidden");
+d3.select("#wheel2").style("visibility", "hidden");
+d3.select("#wheel3").style("visibility", "hidden");
+d3.select("#barchart").style("visibility", "hidden");
+d3.select("#cwbutton").style("visibility", "hidden");
+d3.select("#helpbutton").style("visibility", "hidden");
+d3.selectAll(".signature").style("visibility", "hidden").style("opacity", "0");
+
+//start showing
+d3.select("#container").transition().delay(1000).duration(500).style("opacity", "1");
+d3.select("#t1").style("color",fgcolor).style("visibility","visible").transition().delay(4000).duration(500).style("opacity", "1");
+d3.select("#selector").style("color",fgcolor).style("visibility","visible").transition().delay(6000).duration(500).style("opacity", "1");
+
+//tutorial stepper function
+var s=0;
+function step(){
+	s=s+1;
+	if (s==1) {
+		d3.select("#t1").transition().delay(0).duration(500).style("opacity", "0");
+		d3.selectAll(".signature").style("visibility", "visible").transition().delay(500).duration(500).style("opacity", "1");
+		d3.selectAll(".tutorial").transition().delay(500).duration(0).style("visibility", "hidden").style("opacity", "0");
+		d3.select("#t2").style("color",fgcolor).style("visibility", "visible").transition().delay(500).duration(500).style("opacity", "1");
+	}
+	if (s==2) {
+		d3.select("#t2").transition().delay(0).duration(500).style("opacity", "0");
+		d3.select("#t2").transition().delay(500).duration(0).style("visibility", "hidden");
+		d3.select("#t3").style("color",fgcolor).style("visibility", "visible").transition().delay(500).duration(500).style("opacity", "1");
+	}
+	if (s==3) {
+		inverted=!inverted;render();
+		setTimeout(function(){
+			inverted=!inverted;render();
+		},2000);
+	}
+	if (s==4) {
+		d3.select("#t3").transition().delay(0).duration(500).style("opacity", "0");
+		d3.select("#t3").transition().delay(500).duration(0).style("visibility", "hidden");
+		d3.select("#t4").style("color",fgcolor).style("visibility", "visible").transition().delay(500).duration(500).style("opacity", "1");
+		d3.select("#e3ma").style("visibility", "visible").transition().delay(1000).duration(500).style("opacity", "0.5");
+	}
+	if (s==5) {
+		d3.select("#t4").transition().delay(0).duration(500).style("opacity", "0");
+		d3.select("#t4").transition().delay(500).duration(0).style("visibility", "hidden");
+		d3.select("#t5").style("color",fgcolor).style("visibility", "visible").transition().delay(500).duration(500).style("opacity", "1");
+		d3.select("#e3ma").transition().delay(500).duration(2000).style("left", "430px").style("top", "20px").style("opacity", "0.1");
+		d3.select("#wheel1").style("visibility", "visible").transition().delay(2000).duration(500).style("opacity", "0.9");
+		d3.selectAll("#rgbshadow1").style("opacity", "0");
+		d3.selectAll("#rgbshadow1 ellipse").style("opacity", "0");
+		d3.selectAll("#rgbshadow1 text").style("opacity", "0");
+		d3.selectAll("#canvas10").style("opacity", "0");
+		d3.selectAll("#canvas11").style("opacity", "0");
+		d3.selectAll("#canvas120").style("opacity", "0");
+		d3.selectAll("#canvas121").style("opacity", "0");
+		d3.selectAll("#canvas130").style("opacity", "0");
+		d3.selectAll("#canvas131").style("opacity", "0");
+		d3.selectAll(".legend1").style("opacity", "0");
+		d3.selectAll(".legend2").style("opacity", "0");
+		d3.selectAll("#rgbshadow1").transition().delay(1000).duration(500).style("opacity", "1");
+	}
+	if (s==6) {
+		d3.select("#t5").transition().delay(0).duration(500).style("opacity", "0");
+		d3.select("#t5").transition().delay(500).duration(0).style("visibility", "hidden");
+		d3.select("#t6").style("color",fgcolor).style("visibility", "visible").transition().delay(500).duration(500).style("opacity", "1");
+		d3.selectAll("#rgbshadow1 ellipse").transition().delay(1000).duration(500).style("opacity", "0.8");
+		d3.selectAll(".legend1").transition().delay(1000).duration(500).style("opacity", "1");
+	}
+	if (s==7) {
+		d3.select("#t6").transition().delay(0).duration(500).style("opacity", "0");
+		d3.select("#t6").transition().delay(500).duration(0).style("visibility", "hidden");
+		d3.select("#t6b").style("color",fgcolor).style("visibility", "visible").transition().delay(500).duration(500).style("opacity", "1");
+		setTimeout(function(){
+			d3.selectAll("#canvas_rgb").transition().delay(1000).duration(500).style("opacity", "0").style("visibility", "hidden");
+			d3.selectAll("#canvas11").transition().delay(1000).duration(500).style("opacity", "1");
+			d3.selectAll("#canvas120").transition().delay(1000).duration(500).style("opacity", "1");
+			d3.selectAll("#canvas131").transition().delay(1000).duration(500).style("opacity", "1");		
+		},3000)
+	}
+	if (s==8) {
+		d3.select("#t6b").transition().delay(0).duration(500).style("opacity", "0");
+		d3.select("#t6b").transition().delay(500).duration(0).style("visibility", "hidden");
+		d3.select("#t7").style("color",fgcolor).style("visibility", "visible").transition().delay(500).duration(500).style("opacity", "1");
+		d3.select("#wheel1").transition().delay(500).duration(500).style("opacity", "1");
+		d3.selectAll("#rgbshadow1 text").transition().delay(1000).duration(500).style("opacity", "0.8");
+	}
+	if (s==9) {
+		d3.select("#t7").transition().delay(0).duration(500).style("opacity", "0");
+		d3.select("#t7").transition().delay(500).duration(0).style("visibility", "hidden");
+		d3.select("#t8").style("color",fgcolor).style("visibility", "visible").transition().delay(500).duration(500).style("opacity", "1");
+		setTimeout(function(){
+			inverted=!inverted;render();
+		},3000);
+		setTimeout(function(){
+			inverted=!inverted;render();
+		},6000);
+	}
+	if (s==10) {
+		d3.select("#t8").transition().delay(0).duration(500).style("opacity", "0");
+		d3.select("#t8").transition().delay(500).duration(0).style("visibility", "hidden");
+		d3.select("#t9").style("color",fgcolor).style("visibility", "visible").transition().delay(500).duration(500).style("opacity", "1");
+		d3.selectAll(".legend2").transition().delay(1000).duration(500).style("opacity", "1");		
+		d3.select("#wheel2").style("visibility", "visible").transition().delay(1000).duration(500).style("opacity", "1");
+		d3.select("#wheel3").style("visibility", "visible").transition().delay(1500).duration(500).style("opacity", "1");
+	}
+	if (s==11){
+		setTimeout(function(){
+			hdiselector=(hdiselector+1)%2;render();
+		},500);
+		setTimeout(function(){
+			hdiselector=(hdiselector+1)%2;render();
+		},3500);
+	}
+	if (s==12) {
+		d3.select("#t9").transition().delay(0).duration(500).style("opacity", "0");
+		d3.select("#t9").transition().delay(500).duration(0).style("visibility", "hidden");
+		d3.select("#t10").style("color",fgcolor).style("visibility", "visible").transition().delay(500).duration(500).style("opacity", "1");
+		d3.select("#cwbutton").style("visibility", "visible").transition().delay(3000).duration(500).style("opacity", "1");
+		d3.select("#helpbutton").style("visibility", "visible").transition().delay(3500).duration(500).style("opacity", "1");
+	}
+	if (s==13) {
+		d3.select("#t10").transition().delay(0).duration(500).style("opacity", "0");
+		d3.select("#t10").transition().delay(500).duration(0).style("visibility", "hidden");
+		d3.select("#barchart").style("visibility", "visible").transition().delay(1000).duration(500).style("opacity", "1");
+		d3.select("#social").style("visibility", "visible").transition().delay(4000).duration(500).style("opacity", "1");
+		d3.select("#selector").transition().delay(500).duration(500).style("opacity", "0");
+		d3.select("#selector").transition().delay(1000).duration(500).style("visibility", "hidden");
+	}
+}
+
+</script>
+</body>

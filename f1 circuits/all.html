@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="The Geocenter of Formula 1 venues between 1950-2014 #f1 #d3js @csaladenes" />
+    <meta name="keywords" content="f1, formula 1, center of gravity, geocenter, csaladenes, d3.js, d3" />
+	<meta property="og:image" content="f1venues.jpg" />
+    <meta property="og:description" content="The Geocenter of Formula 1 venues between 1950-2014 #f1 #d3js @csaladenes" />
+    <meta property="og:title" content="The Geocenter of Formula 1 venues between 1950-2014" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="blog.csaladen.es" />
+    <meta property="fb:admins" content="100943737036023614165" />
+    <title>The Geocenter of Formula 1 venues between 1950-2014</title>
+    <style>
+        html,
+        body {
+            font-family: "Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+        }
+        .country {
+            fill: #ccc;
+            stroke: #fff;
+            stroke-width: .5px;
+            stroke-linejoin: round;
+        }
+        .graticule {
+            fill: none;
+            stroke: #000;
+            stroke-opacity: .3;
+            stroke-width: .5px;
+        }
+        .graticule.outline {
+            stroke: #333;
+            stroke-opacity: 1;
+            stroke-width: 1.5px;
+        }
+        div.tooltip {
+            line-height: 1;
+            font-weight: bold;
+            font-size: 12px;
+            padding: 6px;
+            background: rgba(255, 255, 255, 0.8);
+            color: #000;
+            border-radius: 4px;
+            border-color: black;
+            border: solid 1px;
+            z-index: 2000;
+            position: absolute;
+        }
+        .dragdealer {
+            height: 18px;
+            background: #ddd;
+            z-index: 50;
+        }
+        .dragdealer .handle {
+            top: 0;
+            left: 0;
+            cursor: pointer;
+			z-index: 52;
+        }
+        .dragdealer .orange-bar {
+            width: 75px;
+            height: 18px;
+            background: #555;
+            color: #FFF;
+            font-size: 14px;
+            line-height: 19px;
+            text-align: center;
+            font-weight: bold;
+			z-index: 52;
+        }
+        .dragdealer .orange-bar:hover {
+            background: #111
+        }
+		a {
+		   text-decoration: none;
+		   color:#333;
+		}
+		#social {
+			position: fixed;
+            bottom: 0;
+            right: 0;
+            text-decoration: none;
+			padding: 3px;
+			padding-top:1px;
+            z-index: 800;
+			white-space:nowrap;
+			overflow:hidden;
+        }
+    </style>
+	<script type="text/javascript">var switchTo5x=true;</script>
+	<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+	<script type="text/javascript">stLight.options({publisher: "505a26ad-d820-47bd-a500-7f49d04a30f5", doNotHash: true, doNotCopy: false, hashAddressBar: false});</script>
+</head>
+
+<body>
+    <div id="container" style="width:900px;height:500px;margin-left:-100px;opacity:0;">
+        <div id="chart" style="margin-left:40px;"></div>
+        
+		<div style="position:fixed;float:left;top:388px;left:580px;opacity:1;font-size:10px;">Geocenter of <b>all</b> F1 venues <b>weighted</b> by number of races</div>
+		<div style="position:fixed;float:left;top:10px;left:300px;opacity:1;"><a href="https://csaladenes.wordpress.com/2015/02/01/the-geocenter-of-formula-1-venues-between-1950-2014/" target="_blank">All Formula 1 venues between 1950-2014 and their geocenter</a></div>
+		<div style="position:fixed;float:left;top:450px;left:300px;opacity:1;font-size:8px;color:#333;">Source: <a href="http://en.wikipedia.org/wiki/List_of_Formula_One_circuits" target="_blank">Wikipedia - List of Formula One circuits</a></div>
+		<div style="position:fixed;float:left;top:450px;left:480px;opacity:1;font-size:8px;color:#333;">Logo: <a href="http://en.wikipedia.org/wiki/File:F1_logo.svg" target="_blank">Wikipedia - F1 logo (considered fair use)</a></div>
+		<div style="position:fixed;float:left;top:450px;left:660px;opacity:1;font-size:8px;color:#333;"><a href="http://www.csaladen.es" target="_blank">csaladen.es</a> | <a href="https://twitter.com/csaladenes" target="_blank">@csaladenes</a></div>
+		<img style="position:fixed;float:left;top:340px;left:430px;opacity:1;height:50px;" src="http://upload.wikimedia.org/wikipedia/en/4/45/F1_logo.svg"/>
+		
+    </div>
+	<div id="social" style="opacity:0; z-index:800;">
+		<span class='st_facebook'></span>
+		<span class='st_twitter'></span>
+		<span class='st_googleplus'></span>
+		<span class='st_linkedin'></span>
+		<span class='st_tumblr'></span>
+		<span class='st_reddit'></span>
+		<span class='st_email'></span>
+	</div>
+	
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <script src="dragdealer.js"></script>
+    <script>
+        var tiptext = "no data";
+
+        var tooltipdiv = d3.select("body")
+            .append("div")
+            .attr("class", "tooltip")
+            .style("visibility", "hidden")
+
+        var tipshow = function(center) {
+            tooltipdiv.style("visibility", "visible");
+
+            tooltipdiv.html(function() {
+					if (center) {
+					return '<table><tr><td colspan="2"  style="color:red;">' + tiptext.place +
+                        '</td></tr><tr><td>Latitude:</td><td>' + Math.round(tiptext.lat * 100) / 100 +
+                        '</td></tr><tr><td>Longitude:</td><td>' + Math.round(tiptext.lon * 100) / 100 +
+                        '</td></tr></table>';
+					}
+					else {
+                    return '<table><tr><td colspan="2"  style="color:red;">' + tiptext.place +
+                        '</td></tr><tr><td>Circuit:</td><td>' + tiptext.name +
+                        '</td></tr><tr><td>Races:</td><td>' + tiptext.races +
+                        '</td></tr></table>';
+					}
+                })
+                .style("left", (d3.event.pageX + 30) + "px")
+                .style("top", (d3.event.pageY - 30) + "px");
+
+        }
+        var tiphide = function() {
+            tooltipdiv.style("visibility", "hidden");
+        }
+
+        var scroll = function() {};
+
+        var width = 960,
+            height = 470;
+
+        var projection = d3.geo.naturalEarth(),
+            graticule = d3.geo.graticule();
+
+        var path = d3.geo.path()
+            .projection(projection);
+
+        var svg = d3.select("#chart").append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        svg.append("path")
+            .datum(graticule)
+            .attr("class", "graticule")
+            .attr("d", path);
+
+        svg.append("path")
+            .datum(graticule.outline)
+            .attr("class", "graticule outline")
+            .attr("d", path);
+				
+        d3.json("world.json", function(world) {
+            var countries = topojson.feature(world, world.objects.countries).features,
+                neighbors = topojson.neighbors(world.objects.countries.geometries);
+
+            svg.selectAll(".country")
+                .data(countries)
+                .enter().insert("path", ".graticule")
+                .attr("class", "country")
+                .attr("d", path)
+        });
+        d3.json("circs.json", function(c) {
+            //enter circuit ids
+            for (var i in c) {
+                c[i].id = "c" + i;
+            }
+
+            svg.selectAll(".pin")
+                .data(c)
+                .enter().append("svg:image")
+                .attr("xlink:href", "flag.png")
+                .attr("width", 15)
+                .attr("height", 25)
+                .attr("x", function(d) {
+                    return projection([d.coord[1], d.coord[0]])[0] - 9
+                })
+                .attr("y", function(d) {
+                    return projection([d.coord[1], d.coord[0]])[1] - 24
+                })
+                .attr("lat", function(d) {
+                    return d.coord[0]
+                })
+                .attr("lon", function(d) {
+                    return d.coord[1]
+                })
+
+            .attr("id", function(d) {
+                    return d.id
+                })
+                .on("mouseover", function(d) {
+                    tiptext = d;
+                    tipshow();
+                    return;
+                })
+                .on("mouseout", tiphide)
+        });
+
+        svg.append("circle")
+            .attr("r", 8)
+            .attr("cx", 0)
+            .attr("cy", 0)
+            .attr("id", "cgrav")
+			
+		svg.append("circle")
+            .attr("r", 5)
+            .attr("cx", 530)
+            .attr("cy", 395)
+            .attr("fill", "black")
+		
+        var draw = function() {
+            d3.json("calendar.json", function(a) {
+                var lat = 0;
+                var lon = 0;
+				var n = 0;
+				for (var year=1950;year<2015;year++){
+					for (var i in a[year]) {
+						lat = lat + parseFloat(d3.select("#c" + a[year][i])[0][0].getAttribute("lon"));
+						lon = lon + parseFloat(d3.select("#c" + a[year][i])[0][0].getAttribute("lat"));
+						n = n+1;
+					}
+                }
+                lat = lat / n;
+                lon = lon / n;
+                projection([lat, lon])[0]
+                var xs = projection([lat, lon])[0];
+                var ys = projection([lat, lon])[1];
+                d3.select("#cgrav")
+                    .attr("cx", xs)
+                    .attr("cy", ys)
+            });
+        }
+
+        var rescale = function() {
+            //scale content
+            var scal = Math.min(document.getElementById("container").parentElement.offsetWidth / document.getElementById("container").offsetWidth, document.getElementById("container").parentElement.offsetHeight / document.getElementById("container").offsetHeight)
+            document.getElementById("container").style.WebkitTransform = "scale(" + scal + ")";
+            document.getElementById("container").style.OTransform = "scale(" + scal + ")";
+            document.getElementById("container").style.MozTransform = "scale(" + scal + ")";
+            document.getElementById("container").style.msTransform = "scale(" + scal + ")";
+            document.getElementById("container").style.Transform = "scale(" + scal + ")";
+
+            document.getElementById("container").style.WebkitTransformOrigin = "0 0";
+            document.getElementById("container").style.OTransformOrigin = "0 0";
+            document.getElementById("container").style.MozTransformOrigin = "0 0";
+            document.getElementById("container").style.msTransformOrigin = "0 0";
+            document.getElementById("container").style.TransformOrigin = "0 0";
+        };
+
+        window.onresize = function() {
+            rescale();
+        }
+
+        //init content
+		draw();
+        rescale();
+        d3.select("#container").transition().delay(1000).duration(500).style("opacity", "1");
+		d3.select("#social").transition().delay(3000).duration(500).style("opacity", "1");
+    </script>
+	
+</body>
+
+</html>
