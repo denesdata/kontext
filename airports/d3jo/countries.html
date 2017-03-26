@@ -1,4 +1,3 @@
-
 <!doctype html>
 <meta charset="utf-8">
 
@@ -20,16 +19,20 @@
 
 <script>
   // sample data array
-  d3.json("../g_ro.json", function(error, data) {
+  d3.json("../f_jo.json", function(error, data) {
+    var d4=data.filter(function(d){
+      return ((d["country"]=="Saudi Arabia") | (d["country"]=="United Arab Emirates") | (d["country"]=="Egypt") | (d["country"]=="Iraq") | (d["country"]=="Kuwait")| (d["country"]=="Lebanon")| (d["country"]=="Turkey")| (d["country"]=="Jordan"))
+    })
+    //console.log(d2)
   // instantiate d3plus
-  var ids=["type","hcountry","to","from","al", "ap"];
+  var ids=["country","to","from", "al", "ap"];
   var visualization = d3plus.viz()
     .container("#viz")     // container DIV to hold the visualization
-    .data(data)     // data to use with the visualization
+    .data(d4)     // data to use with the visualization
     .type("bubbles")       // visualization type
     .id(ids) // nesting keys
     .depth(1)              // 0-based depth
-    .size("heti járatszám")         // key name to size bubbles
+    .size("weekly flights")         // key name to size bubbles
     .color(function(d){
       return d[ids[d.d3plus.depth]];
     })        // color by each group

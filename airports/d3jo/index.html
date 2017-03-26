@@ -20,16 +20,16 @@
 
 <script>
   // sample data array
-  d3.json("../g_hu.json", function(error, data) {
+  d3.json("../g_jo.json", function(error, data) {
   // instantiate d3plus
-  var ids=["type","hcountry","to","from","al", "ap"];
+  var ids=["type","country","to","from","al", "ap"];
   var visualization = d3plus.viz()
     .container("#viz")     // container DIV to hold the visualization
     .data(data)     // data to use with the visualization
     .type("bubbles")       // visualization type
     .id(ids) // nesting keys
     .depth(1)              // 0-based depth
-    .size("heti járatszám")         // key name to size bubbles
+    .size("weekly flights")         // key name to size bubbles
     .color(function(d){
       return d[ids[d.d3plus.depth]];
     })        // color by each group

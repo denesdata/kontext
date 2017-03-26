@@ -119,20 +119,20 @@
 
 	<div id="container" style="width:900px;height:500px;margin:0px;opacity:0;border:solid 1px #667;">
 		<div style="position:fixed;float:left;top:486px;left:800px;opacity:1;font-size:8px;color:#667;white-space: nowrap;overflow:hidden;"><a href="http://www.csaladen.es" target="_blank">csaladen.es</a> | <a href="https://twitter.com/csaladenes" target="_blank">@csaladenes</a></div>
-		<div style="position:fixed;float:left;top:450px;left:215px;opacity:1;font-size:27px;"><a href="http://csaladenes.egologo.ro/?p=934" target="_blank" style="color:#667;">MAGYARORSZÁGI REPÜLŐTÉRKÉP</a></div>
-		<div style="position:fixed;float:left;top:480px;left:215px;opacity:1;font-size:12.5px;"><a href="http://csaladenes.egologo.ro/?p=934" target="_blank" style="color:#667;">Az ország repülőtereinek forgalma vizualizálva, heti járatok száma szerint</a></div>
-		<div style="position:fixed;float:left;top:5px;left:95px;opacity:1;font-size:12.5px;"><a href="http://csaladenes.egologo.ro/?p=934" target="_blank" style="color:#667;">tovább a bejegyzésre →</a></div>
-		<div style="position:fixed;float:left;top:433px;left:841px;opacity:1;cursor:pointer;" id="logo">
-			<a href="http://csaladenes.egologo.ro/?p=934" target="_blank"><img style="width:55px;border:none;" src="../szekelydata.png" alt="Leírás" title="Leírás" /></a>
+		<div style="position:fixed;float:left;top:450px;left:300px;opacity:1;font-size:28px;"><a href="http://csaladenes.egologo.ro/?p=934" target="_blank" style="color:#667;">JORDANIAN FLIGHT MAP</a></div>
+		<div style="position:fixed;float:left;top:480px;left:300px;opacity:1;font-size:12.5px;"><a href="http://csaladenes.egologo.ro/?p=934" target="_blank" style="color:#667;">Weekly plane traffic from Jordanian airports visualized</a></div>
+		<div style="position:fixed;float:left;top:5px;left:95px;opacity:1;font-size:12.5px;"><a href="http://csaladenes.egologo.ro/?p=934" target="_blank" style="color:#667;">read the blog post →</a></div>
+		<div style="position:fixed;float:left;top:435px;left:848px;opacity:1;cursor:pointer;" id="logo">
+			<a href="http://csaladenes.egologo.ro/?p=934" target="_blank"><img style="width:47px;border:none;" src="../../tsne.png" alt="Leírás" title="Leírás" /></a>
 		</div>
 		<div style="position:fixed;float:left;top:0px;left:0px;height:100%;width:90px;opacity:0.7;background-color:#001;"></div>
 		
-		<div style="position:fixed;float:left;top:15px;left:20px;opacity:1;cursor:pointer;" id="ro"><img style="width:55px;border:none;" src="../hu.png" / alt="Magyarországra közelít" title="Magyarországra közelít"></div>
-		<div style="position:fixed;float:left;top:60px;left:20px;opacity:1;cursor:pointer;" id="eu"><img style="width:55px;border:none;" src="../eu.png" / alt="Európára közelít" title="Európára közelít"></div>
-		<div style="position:fixed;float:left;top:125px;left:20px;opacity:1;cursor:pointer;" id="wd"><img style="width:60px;border:none;" src="../wd.png" alt="Kinagyít" title="Kinagyít" /></div>
-		<div style="position:fixed;float:left;top:160px;left:15px;opacity:1;cursor:pointer;" id="lines"><img style="width:60px;border:none;" src="../lines.png" alt="Vonalak be/ki" title="Vonalak be/ki" /></div>
-		<div style="position:fixed;float:left;top:205px;left:25px;opacity:1;cursor:pointer;" id="planes"><img style="width:50px;border:none;" src="../plane.png" alt="Vonalak be/ki" title="Vonalak be/ki" /></div>
-		<div style="position:fixed;float:left;top:265px;left:30px;opacity:1;cursor:pointer;" id="pins"><img style="width:40px;border:none;" src="../pie.png" alt="Vonalak be/ki" title="Vonalak be/ki" /></div>
+		<div style="position:fixed;float:left;top:15px;left:30px;opacity:1;cursor:pointer;" id="ro"><img style="width:45px;border:none;" src="../jo.png" / alt="Magyarországra közelít" title="Magyarországra közelít"></div>
+		<div style="position:fixed;float:left;top:80px;left:20px;opacity:1;cursor:pointer;" id="eu"><img style="width:55px;border:none;" src="../me.png" / alt="Európára közelít" title="Európára közelít"></div>
+		<div style="position:fixed;float:left;top:140px;left:20px;opacity:1;cursor:pointer;" id="wd"><img style="width:60px;border:none;" src="../wd.png" alt="Kinagyít" title="Kinagyít" /></div>
+		<div style="position:fixed;float:left;top:180px;left:15px;opacity:1;cursor:pointer;" id="lines"><img style="width:60px;border:none;" src="../lines.png" alt="Vonalak be/ki" title="Vonalak be/ki" /></div>
+		<div style="position:fixed;float:left;top:230px;left:25px;opacity:1;cursor:pointer;" id="planes"><img style="width:50px;border:none;" src="../plane.png" alt="Vonalak be/ki" title="Vonalak be/ki" /></div>
+		<div style="position:fixed;float:left;top:295px;left:30px;opacity:1;cursor:pointer;" id="pins"><img style="width:40px;border:none;" src="../pie.png" alt="Vonalak be/ki" title="Vonalak be/ki" /></div>
 	</div>
 
 	<div id="social">
@@ -208,7 +208,6 @@
 					tooltipdiv.style("visibility", "hidden");
 				}
 
-				d3.json("../hnames.json", function(error, hnames) {
 					d3.json("../cnames.json", function(error, cnames) {
 						d3.json("../newdata1a_jo.json", function(error, rawdata) {
 							d3.json("../newdata2a_jo.json", function(error, data2b) {
@@ -407,7 +406,7 @@
 											gorder.push(helperdata[j].corder);
 										}	
 
-										if (hnames[cnames[d.id]]) var c=hnames[cnames[d.id]];
+										if (cnames[d.id]) var c=cnames[d.id];
 										else var c="";
 
 										tiptext = [{"city":c,"data":cc},[],gorder];
@@ -690,6 +689,11 @@
 								d3.selectAll(".Qatar."+j).style("visibility","visible");
 								d3.selectAll(".Azerbaijan."+j).style("visibility","visible");
 								d3.selectAll(".Egypt."+j).style("visibility","visible");
+								d3.selectAll(".Saudi.Arabia."+j).style("visibility","visible");
+								d3.selectAll(".Sudan."+j).style("visibility","visible");
+								d3.selectAll(".Oman."+j).style("visibility","visible");
+								d3.selectAll(".Kuwait."+j).style("visibility","visible");
+								d3.selectAll(".Bahrain."+j).style("visibility","visible");
 							}
 						}
 					}
@@ -733,8 +737,8 @@
 			function europe() {
 				active.classed("active", false);
 				active = d3.select(null);
-				scale = 3.5;
-				translate = [-1400, -150];
+				scale = 3;
+				translate = [-1200, -200];
 				svg.transition()
 				.duration(750)
 				.call(zoom.translate([translate[0], translate[1]]).scale(scale).event);
@@ -746,7 +750,7 @@
 				active.classed("active", false);
 				active = d3.select(null);
 				scale = 25;
-				translate = [-12840, -2530];
+				translate = [-13940, -3830];
 				svg.transition()
 				.duration(750)
 				.call(zoom.translate([translate[0], translate[1]]).scale(scale).event);
@@ -787,7 +791,6 @@
 			europe();
 
 		});
-});
 });
 });
 });
