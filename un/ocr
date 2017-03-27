@@ -1,0 +1,1 @@
+pypdfocr -w E:/Dropbox/Public/datarepo/un/pdf -f -c config.yaml

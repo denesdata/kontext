@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <style>
+         html,
+         body {
+         font-family: "Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
+         margin: 0;
+         padding: 0;
+         }
+         .country {
+         fill: #ccc;
+         stroke: #fff;
+         stroke-width: .5px;
+         stroke-linejoin: round;
+         }
+         .graticule {
+         fill: none;
+         stroke: #000;
+         stroke-opacity: .3;
+         stroke-width: .5px;
+         }
+         .graticule.outline {
+         stroke: #333;
+         stroke-opacity: 1;
+         stroke-width: 1.5px;
+         }
+		 .d3-tip {
+		  line-height: 1;
+		  font-weight: bold;
+		  font-size: 12px;
+		  padding: 6px;
+		  background: rgba(0, 0, 0, 0.8);
+		  color: #fff;
+		  border-radius: 4px;
+		}
+      </style>
+   </head>
+   <body>
+      <div style="position:fixed;float:left;top:10px;left:330px;opacity:1;">Colorful Development: Human Development Index</div>
+      <div style="position:fixed;float:left;top:450px;left:300px;opacity:1;font-size:8px;">Source: <a href="http://hdr.undp.org" target="_blank">hdr.undp.org</a></div>
+	  <div style="position:fixed;float:left;top:450px;left:660px;opacity:1;font-size:8px;"><a href="http://www.csaladen.es" target="_blank">csaladen.es</a> | <a href="https://twitter.com/csaladenes" target="_blank">@csaladenes</a></div>
+      <div id="chart" style="margin-left:40px;"></div>
+      <script src="http://d3js.org/d3.v3.min.js"></script>
+      <script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
+      <script src="http://d3js.org/topojson.v1.min.js"></script>
+      <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+      <script>
+         var width = 960,
+             height = 500;
+         
+         var projection = d3.geo.naturalEarth (),
+             color = d3.scale.category20(),
+             graticule = d3.geo.graticule();
+         
+         var path = d3.geo.path()
+             .projection(projection);
+         
+         var svg = d3.select("#chart").append("svg")
+             .attr("width", width)
+             .attr("height", height);
+         
+         svg.append("path")
+             .datum(graticule)
+             .attr("class", "graticule")
+             .attr("d", path);
+         
+         svg.append("path")
+             .datum(graticule.outline)
+             .attr("class", "graticule outline")
+             .attr("d", path);
+			
+		var f=function() {
+			for (i = 3; i < 10; i++) {
+				svg.append("rect")
+					.attr("x",120)
+					.attr("y",372-i*16)
+					.attr("width",20)
+					.attr("height",15)
+					.style("fill", d3.rgb((1.2-i/10)*255,i/10*170,0))
+				svg.append("text")
+					.attr("x",146)
+					.attr("y",369-i*16)
+					.attr("dy", 15)
+					.style("font-size",12)
+					.text(i/10);
+			}
+			svg.append("text")
+					.attr("x",119)
+					.attr("y",210)
+					.attr("dy", 15)
+					.style("font-size",16)
+					.text("HDI");
+		};
+		f();
+		
+		var tiptext="no data";
+		var tip = d3.tip()
+			  .attr('class', 'd3-tip')
+			  .offset([-10,-10])
+			  .direction('w')
+			  .html(function(d) {
+				return '<table><tr><td style="color:lime;">'+tiptext[0]+'</td></tr><tr><td>HDI</td><td>'+tiptext[1]+'</td></tr></table>'			   
+			  })
+  
+		svg.call(tip);
+         	
+         d3.json("hdi.json", function(k){
+         	d3.json("world.json", function(world) {
+         	  var countries = topojson.feature(world, world.objects.countries).features,
+         		  neighbors = topojson.neighbors(world.objects.countries.geometries);
+         
+         	  svg.selectAll(".country")
+         		  .data(countries)
+         		.enter().insert("path", ".graticule")
+         		  .attr("class", "country")
+         		  .attr("d", path)
+				  .on("mouseover", function(d){
+						tiptext=k[d.id];
+						tip.show(d);
+						return;	})
+				  .on("mouseout", tip.hide)
+				  .style("fill", function(d, i) {
+         				if (d.id in k) {
+         					return d3.rgb((1.2-k[d.id][1])*255,(k[d.id][1])*170,0);	
+         					}
+         			  return;	
+         		  })
+         	});
+         });
+      </script>
+   </body>
+</html>
