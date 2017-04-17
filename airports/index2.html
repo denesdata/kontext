@@ -1,0 +1,85 @@
+
+<!doctype html>
+<meta charset="utf-8">
+
+<!-- load D3js -->
+<script src="//d3plus.org/js/d3.js"></script>
+
+<!-- load D3plus after D3js -->
+<script src="//d3plus.org/js/d3plus.js"></script>
+
+<!-- create container element for visualization -->
+<div id="viz"></div>
+
+<!--
+<style>
+  @font-face {
+    font-family: "MyFont";
+    src: url("Lato-Regular.ttf") format("truetype");
+  }
+</style>
+-->
+
+<script>
+  // sample data array
+  //var font={"family":"MyFont","size":15,"align":"center","secondary":{"family":"MyFont"}};
+  var font={"size":15,"align":"center"};
+  var country="f_ro.json";  
+  var ykey="weekly flights";
+  var ids="country";
+
+  var visualization = d3plus.viz()
+    .container("#viz")     // container DIV to hold the visualization
+    .type("scatter")       // visualization type
+    .font(font)
+    .legend(false)
+    .ui({"font":{"size":12},"value":[
+      {"method" : function(v){
+        country=v;
+        load(v);
+      },
+      "value"  :[{"Romania":"f_ro.json"},{"Hungary":"f_hu.json"},{"Jordan":"f_jo.json"},{"United Arab Emirates":"f_ae.json"}],
+      "label" : " ",
+      "type" : "drop"
+    }, {"method" : function(v){
+        ids=v;
+        load(country);
+      },
+      "value"  :[{"Country":"country"},
+  {"City":"to"},
+  {"Origin":"from"},
+  {"Airline":"al"}],
+      "label" : " "
+    }]})
+
+    function load(file){
+      d3.json(file, function(error, data) {
+      	data=data.filter(function(d){return d[ykey]>0});
+      	data=data.filter(function(d){return d[ykey]>0});
+      	
+      	order=[]
+      	data.forEach(function(d){
+      		if (Object.keys(order).indexOf(d[ids])<0) order[d[ids]]=0;
+      		order[d[ids]]=order[d[ids]]+d[ykey];
+      	})
+      	order = Object.keys(order).sort(function(a,b){return order[b]-order[a]})
+		order2={}
+		for (i=0;i<order.length;i++) order2[order[i]]=i+1; 
+      	
+      	 visualization
+        .data(data)     // data to use with the visualization
+        .id(ids) // nesting keys
+        .y({"value":ykey,"scale":"log"})         // key name to size bubbles
+        .x(function(d){
+        	return order2[d[ids]]
+        })
+        .tooltip({"Total nr. of routes:":function(d){return d.d3plus.total}})//nr. of routes
+        .size(function(d){return Math.pow(d.d3plus.total,0.1)})//nr. of routes
+        .draw()
+
+    })
+    }
+
+    load(country);
+
+  </script>
