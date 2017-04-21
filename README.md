@@ -1,6 +1,6 @@
 [<img src="tsne.png" alt="favicon" height=24 width=24 />  Try something new. Everyday.](http://blog.csaladen.es/)
 ======
-[![Try something new. Everyday.](https://pbs.twimg.com/media/CbKxANeWEAENVwy.jpg "Try something new. Everyday.")](http://blog.csaladen.es/)  
+[![Try something new. Everyday.](snapshot.png "Try something new. Everyday.")](http://blog.csaladen.es/)  
   
 __Try something new. Everyday.__ is my foray into data blogging and it is edited on a voluntary basis in my freetime. I try to work on data visualizations  data analyses and data mining and processing tools and methods for contemporary topics revolving around the following pillars:
 
