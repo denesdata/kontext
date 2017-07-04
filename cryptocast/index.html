@@ -51,6 +51,12 @@ html {
 	    .y("Dollar price")         // key to use for y-axis
 	    .x("Date")          // key to use for x-axis
 	    .time("Date")
+		//.x({"solo":function(d){
+		//	console.log(moment(d)>moment('2017-05-27'))
+		//	if (moment(d)>moment('2017-05-27'))
+		//	return moment(d).format("MMM DD, YYYY");
+		//}})
+		//.time({"solo":["4 May 2017","8 May 2017"]})
 	    .font({"size":16,"family":"Arial","secondary":{"family":"Arial"}})
 	    .background("none")
 	    .margin("0 0 0 15")
