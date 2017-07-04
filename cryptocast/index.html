@@ -16,7 +16,12 @@
 <div style="width:700px;margin-left:5px;" class="coinmarketcap-currency-widget" data-currency="bitcoin" data-base="USD"  data-secondary="BTC"></div>
 <div id="drop"></div>
 <div id="output" style="visibility:hidden;"></div>
-
+<style>
+@font-face {
+	font-family: "MyFont";
+	src: url("Lato-Regular.ttf") format("truetype");
+}
+</style>
 
 <script>
 	  var btc={}
@@ -33,7 +38,7 @@
 	    .y("Dollar price")         // key to use for y-axis
 	    .x("Date")          // key to use for x-axis
 	    .time("Date")
-	    .font({"size":16})
+	    .font({"size":16,"family":"Arial","secondary":{"family":"Arial"}})
 	    .background("none")
 	    .margin("0 0 0 15")
 	    .width(720)
@@ -179,7 +184,7 @@ $.getJSON('http://anyorigin.com/go?url=http%3A//coinmarketcap.com/currencies/'+c
     .container("#drop")
     .data(coins)
     .id("id")
-	.font({"size":24,"align":"center","secondary":{"size":18}})
+	.font({"size":24,"align":"center","family":"Arial","secondary":{"size":18, "family":"Arial"}})
 	.width(700)
 	.text("name")
 	//.text("dname")
