@@ -16,7 +16,6 @@
 <div id="viz" style="position:fixed;float:left;left:0px;top:200px;"></div>
 <div style="margin-left:5px;"><div class="coinmarketcap-currency-widget" data-currency="bitcoin" data-base="USD"  data-secondary="BTC"></div></div>
 <div id="drop" style="position:fixed;float:left;right:40px;top:28px;"></div>
-<div id="future" style="position:fixed;float:left;right:50px;bottom:70px;font-family: Arial;color:#555;"></div>
 <div id="output" style="visibility:hidden;"></div>
 
 <style>
@@ -41,10 +40,6 @@ html {
 	  var btc={}
 	  var first=true;
 	  var start='20170327'
-	  var hybridm=0;
-	  var hybrid1=0;
-	  var hybrid2=0;
-	  var last=0;
 
 	  // instantiate d3plus
 	  var vg = d3plus.viz()
@@ -92,13 +87,10 @@ $.getJSON('http://anyorigin.com/go?url=http%3A//coinmarketcap.com/currencies/'+c
     	var dates={};
 		var data2=data.contents.slice(data.contents.indexOf('<table class="table">'),data.contents.indexOf('</table>')+8);
 		$('#output').html(data2);
-		var today=d3.select(".coinmarketcap-currency-widget")[0][0].innerHTML
-		var slicer=today.slice(today.search('USD')-20,today.search('USD'))
-		var latest=parseFloat(slicer.slice(slicer.search('>')+1))
 
 		var $th = $('table th');
 		$('table tbody tr').each(function(i, tr){
-			var obj = {}, $tds = $(tr).find('td');
+		    var obj = {}, $tds = $(tr).find('td');
 		    $th.each(function(index, th){
 		        obj[$(th).text()] = $tds.eq(index).text();
 		    });
@@ -117,12 +109,8 @@ $.getJSON('http://anyorigin.com/go?url=http%3A//coinmarketcap.com/currencies/'+c
 
 	    	regdata.push([$('table tbody tr').length-i,obj["Dollar price"]])
 	    	dates[$('table tbody tr').length-i]=obj["Date"];
-	    	if (i==0) {
-	    		myRows.push({"coin":coin,"color":coin,"Date":moment(obj["Date"],"MMM DD, YYYY").add(1, 'days').format("MMM DD, YYYY"),"Dollar price":latest})
-	    	}
 		    myRows.push(obj);
 		});
-		
 		var future=31;
 		var n=regdata[0][0]+1;
 		var m=$('table tbody tr').length;
@@ -174,7 +162,6 @@ $.getJSON('http://anyorigin.com/go?url=http%3A//coinmarketcap.com/currencies/'+c
 				(j*a1+b1)*4.0/10.0
 			,"color":"Hybrid","coin":"Hybrid 1"})
 		}
-		hybrid1=myRows[myRows.length-1]["Dollar price"];
 		for (j=1;j<n+future-1;j++) {
 			myRows.push({"Date":dates[j],"Dollar price":
 				(j*j*j*j*j*a5+j*j*j*j*b51+j*j*j*b52+j*j*b53+j*b54+b55)*0.0/10.0+
@@ -184,32 +171,6 @@ $.getJSON('http://anyorigin.com/go?url=http%3A//coinmarketcap.com/currencies/'+c
 				(j*a1+b1)*2.5/10.0
 			,"color":"Hybrid","coin":"Hybrid 2"})
 		}
-		hybrid2=myRows[myRows.length-1]["Dollar price"];
-		for (j=1;j<n+future-1;j++) {
-			myRows.push({"Date":dates[j],"Dollar price":
-				((j*j*j*j*j*a5+j*j*j*j*b51+j*j*j*b52+j*j*b53+j*b54+b55)*0.0/10.0+
-				(j*j*j*a4+j*j*b41+j*b42+b43)*2.5/10.0+
-				(a3*Math.pow(j,b3))*2.5/10.0+
-				(a2*Math.exp(b2*j))*2.5/10.0+
-				(j*a1+b1)*2.5/10.0)*0.5+
-
-				((j*j*j*j*j*a5+j*j*j*j*b51+j*j*j*b52+j*j*b53+j*b54+b55)*0.5/10.0+
-				(j*j*j*a4+j*j*b41+j*b42+b43)*1.0/10.0+
-				(a3*Math.pow(j,b3))*2.5/10.0+
-				(a2*Math.exp(b2*j))*2.0/10.0+
-				(j*a1+b1)*4.0/10.0)*0.5
-			,"color":"Hybrid","coin":"Hybrid Meta"})
-		}
-		hybridm=myRows[myRows.length-1]["Dollar price"];
-		last=myRows[0]["Dollar price"];
-		
-		//d3.select("#future").html("<table><tr><td>Hybrid Meta</td><td>"+d3.round(hybridm,2)+"</td><td>"+d3.round(hybridm/last,2)*100+"%</td></tr>"+
-		//	"<tr><td>Hybrid Delta</td><td>"+d3.round(Math.abs(hybrid1-hybrid2),2)+"</td><td>"+d3.round(Math.abs(hybrid1-hybrid2)/hybridm,2)*100+"%</td></tr>"+
-		//	"<tr><td>Potential</td><td></td><td><b>"+d3.round(hybridm/last/(1+Math.abs(hybrid1-hybrid2)/hybridm),3)+"</b></td></tr></table>")
-		//console.log(last,hybrid1,hybrid2,hybridm)
-		
-		console.log(coin,d3.round(hybridm/last/(1+Math.abs(hybrid1-hybrid2)/hybridm),3))
-		//.id("coin") 
 		if (first) {
 			btc=myRows;
 			first=false;
@@ -220,6 +181,7 @@ $.getJSON('http://anyorigin.com/go?url=http%3A//coinmarketcap.com/currencies/'+c
 		.data(myRows)
 		.y2("Bitcoin price")         // key to use for y-axis
 	    }
+		//.id("coin") 
 		vg//.size("Closei")
 		.draw();
 		});
@@ -231,9 +193,7 @@ $.getJSON('http://anyorigin.com/go?url=http%3A//coinmarketcap.com/currencies/'+c
 	   }
   load_js(d3.select(".coinmarketcap-currency-widget").attr("data-currency"));
   
-  $.getJSON('http://anyorigin.com/go?url=https%3A//api.coinmarketcap.com/v1/ticker/&callback=?', function(coinsr){
-  var coins=coinsr.contents;
-
+  d3.json("http://api.coinmarketcap.com/v1/ticker/",function(coins){
   coins.forEach(function(d){
  	d["icon"]="//files.coinmarketcap.com/static/img/coins/32x32/"+d["id"]+".png";
  	d["dname"]=d["rank"]+": "+d["name"]+" "+d["symbol"];
