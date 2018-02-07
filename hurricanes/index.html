@@ -1,0 +1,29 @@
+<!doctype html>
+<meta charset="utf-8">
+
+<script src="d3.js"></script>
+<script src="d3plus.js"></script>
+
+<div id="viz"></div>
+
+<script>
+  d3.json("data.json",function(data){
+  data.forEach(function(d){d["intensity"]=Math.pow((1000-d["pressure"])/100.0,4)})
+  //console.log(data)
+  var visualization = d3plus.viz()
+    .container("#viz")
+    .data(data)
+    .type("scatter")
+    .id("name")
+    .x("year")
+    .time("year")
+    .time({"solo":d3.range(1967,2018)})
+    .color("region")
+    .y("speed")
+    .y({"solo":d3.range(160,351)})
+    .size("intensity")
+    .legend(true)
+    .tooltip(["region","year","speed","pressure"])
+    .draw()
+  })
+</script>
