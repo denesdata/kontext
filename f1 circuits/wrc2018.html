@@ -4,15 +4,15 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="content-Type" content="text/html; charset=utf-8" />
-    <meta name="description" content="The Geocenter of Formula 1 venues between 1950-2017 #f1 #d3js @csaladenes" />
-    <meta name="keywords" content="f1, formula 1, center of gravity, geocenter, csaladenes, d3.js, d3" />
+    <meta name="description" content="The Geocenter of WRC venues between 1973-2017 #f1 #d3js @csaladenes" />
+    <meta name="keywords" content="f1, formula 1, moto gp, motorcycle, motorbike, superbike, center of gravity, geocenter, csaladenes, d3.js, d3" />
 	<meta property="og:image" content="f1venues.jpg" />
-    <meta property="og:description" content="The Geocenter of Formula 1 venues between 1950-2017 #f1 #d3js @csaladenes" />
-    <meta property="og:title" content="The Geocenter of Formula 1 venues between 1950-2017" />
+    <meta property="og:description" content="The Geocenter of WRC venues between 1973-2013 #f1 #d3js @csaladenes" />
+    <meta property="og:title" content="The Geocenter of WRC venues between 1973-2017" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="blog.csaladen.es" />
     <meta property="fb:admins" content="100943737036023614165" />
-    <title>The Geocenter of Formula 1 venues between 1950-2017</title>
+    <title>The Geocenter of WRC venues between 1973-2017</title>
     <style>
         html,
         body {
@@ -24,18 +24,18 @@
             height: 100%;
             width: 100%;
             color:#777;
-            background: #100;
+            background: #010;
         }
         .country {
             fill: #444;
-            stroke: #100;
+            stroke:#010;
             stroke-width: .5px;
             stroke-linejoin: round;
         }
         .graticule {
             visibility:hidden;
             fill: none;
-            stroke: #100;
+            stroke: #010;
             stroke-opacity: .3;
             stroke-width: .5px;
         }
@@ -72,7 +72,7 @@
             width: 75px;
             height: 18px;
             background: #555;
-            color: #100;
+            color:#010;
             font-size: 14px;
             line-height: 17px;
             text-align: center;
@@ -80,7 +80,7 @@
 			z-index: 52;
         }
         .dragdealer .orange-bar:hover {
-            background: #100
+            background:#010
         }
 		a {
 		   text-decoration: none;
@@ -108,17 +108,17 @@
         <div id="chart" style="margin-left:40px;"></div>
         <div id="pslider" title="Drag slider to cycle over years" class="dragdealer" style="position:fixed;float:left;top:470px;left:290px;opacity:1;width:480px;">
             <div class="description" style="position:fixed;margin-left:50px;margin-top:0px;font-size:12px;color:#777;">&laquo; drag to change year or scroll or use arrow keys &raquo;</div>
-			<div id="syear" class="handle orange-bar">2014</div>
+			<div id="syear" class="handle orange-bar">2017</div>
 			
 		</div>		
 		<div id="legend" style="position:fixed;float:left;top:225px;left:225px;opacity:1;font-size:8px;line-height:6px;"></div>
-		<div style="position:fixed;float:left;top:363px;left:620px;opacity:1;font-size:10px;">Geocenter of F1 venues in <b class='maxyear'>maxyear</b></div>
-		<div style="position:fixed;float:left;top:383px;left:620px;opacity:1;font-size:10px;">Geocenter of F1 venues in <b class='minyear'>minyear</b></div>
-		<div style="position:fixed;float:left;top:10px;left:330px;opacity:1;"><a style="color:#aaa;" href="https://csaladenes.wordpress.com/2015/02/01/the-geocenter-of-formula-1-venues-between-minyear-2014/" target="_blank">The Geocenter of Formula 1 venues between <span class='minyear'></span>-<span class='maxyear'></span></a></div>
-		<div style="position:fixed;float:left;top:450px;left:300px;opacity:1;font-size:8px;color:#777;">Source: <a href="http://en.wikipedia.org/wiki/List_of_Formula_One_circuits" target="_blank">Wikipedia - List of Formula One circuits</a></div>
-		<div style="position:fixed;float:left;top:450px;left:480px;opacity:1;font-size:8px;color:#777;">Logo: <a href="http://en.wikipedia.org/wiki/File:F1_logo.svg" target="_blank">Wikipedia - F1 logo (conside#aaa fair use)</a></div>
+		<div style="position:fixed;float:left;top:363px;left:620px;opacity:1;font-size:10px;">Geocenter of WRC venues in <b class='maxyear'>maxyear</b></div>
+		<div style="position:fixed;float:left;top:383px;left:620px;opacity:1;font-size:10px;">Geocenter of WRC venues in <b class='minyear'>minyear</b></div>
+		<div style="position:fixed;float:left;top:10px;left:330px;opacity:1;"><a style="color:#aaa;" href="https://csaladenes.wordpress.com/2015/02/01/the-geocenter-of-formula-1-venues-between-minyear-2014/" target="_blank">The Geocenter of WRC venues between <span class='minyear'>minyear</span>-<span class='maxyear'>maxyear</span></a></div>
+		<div style="position:fixed;float:left;top:450px;left:300px;opacity:1;font-size:8px;color:#777;">Source: <a href="https://en.wikipedia.org/wiki/List_of_World_Rally_Championship_rallies" target="_blank">Wikipedia - List of WRC circuits</a></div>
+		<div style="position:fixed;float:left;top:450px;left:480px;opacity:1;font-size:8px;color:#777;">Logo: <a href="https://en.wikipedia.org/wiki/World_Rally_Championship#/media/File:WRC.svg" target="_blank">Wikipedia - WRC logo (conside#aaa fair use)</a></div>
 		<div style="position:fixed;float:left;top:450px;left:660px;opacity:1;font-size:8px;color:#777;"><a href="http://www.csaladen.es" target="_blank">csaladen.es</a> | <a href="https://twitter.com/csaladenes" target="_blank">@csaladenes</a></div>
-		<img style="position:fixed;float:left;top:363px;left:435px;opacity:1;height:30px;" src="http://upload.wikimedia.org/wikipedia/en/4/45/F1_logo.svg"/>
+		<img style="position:fixed;float:left;top:355px;left:455px;opacity:1;height:50px;" src="https://plus.wrc.com/assets/img/info_logo_wrcplus_white.png"/>
         <div>
             <a href="2018.html"><img style="position:fixed;float:left;top:150px;right:10px;opacity:1;width:30px;" src="http://upload.wikimedia.org/wikipedia/en/4/45/F1_logo.svg"/></a>
             <a href="wrc2018.html"><img style="position:fixed;float:left;top:167px;right:10px;opacity:1;width:30px;" src="https://plus.wrc.com/assets/img/info_logo_wrcplus_white.png"/></a>
@@ -207,7 +207,7 @@
                 .attr("class", "country")
                 .attr("d", path)
         });
-        d3.json("circs2018.json", function(c) {
+        d3.json("circs_wrc2018.json", function(c) {
             //enter circuit ids
             for (var i in c) {
                 c[i].id = "c" + i;
@@ -270,13 +270,13 @@
 			.attr("stroke", "black")
 
         var maxyear = 2017;
-        var minyear=1950;
+        var minyear=1973;
         var year = maxyear;
 
         d3.selectAll('.minyear').text(minyear);
         d3.selectAll('.maxyear').text(maxyear)
-		
-        d3.json("calendar2018.json", function(a) {
+        
+        d3.json("calendar_wrc2018.json", function(a) {
 
             var gxs=0;
             var gys=0;
@@ -301,13 +301,12 @@
                         .attr("fill", d3.rgb(255 * (iyear - minyear) / (maxyear - minyear), 255 - 255 * (iyear - minyear) / (maxyear - minyear), 0))
                         .attr("stroke", "black")
                         .on("mouseover", function() {
-                            tiptext = {"lat":lat,"place":"Geocenter of Formula 1 venues "+iyear,"lon":lon};
+                            tiptext = {"lat":lat,"place":"Geocenter of WRC venues "+iyear,"lon":lon};
                             tipshow(true);
                             return;
                         })
                         .on("mouseout", tiphide)
                     
-                    console.log(iyear,gxs,gys)
                     if (iyear>minyear) {
                         svg.append("path")
                         .attr("d","M "+gxs+" "+gys+" L "+(xs)+" "+(ys))
@@ -326,12 +325,12 @@
                 init(i);
                 
             };      
-        
+
             var draw = function() {
             
                 var lat = 0;
                 var lon = 0;
-				var races='<table style="margin-left:-50px;margin-top:-15px;"><tr><td style="color:#aaa;font-size:12px;line-height:20px;"">'+year+' F1 Venues</td></tr>';
+				var races='<table style="margin-left:-50px;margin-top:-15px;"><tr><td style="color:#aaa;font-size:12px;line-height:20px;">'+year+' WRC Venues</td></tr>';
                 d3.selectAll("image").style("visibility", "hidden")
                 d3.select("#pslider").select("#syear").text('< ' + year + ' >')
                     .style("background", d3.rgb(255 * (year - minyear) / (maxyear - minyear), 255 - 255 * (year - minyear) / (maxyear - minyear), 0))
