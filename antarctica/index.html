@@ -238,6 +238,12 @@ deadon = d3.select(".cesium-viewer-toolbar").insert("div",":first-child")
 .style("padding-left","3px")
 .style("padding-top","3px")
 d3.select(".cesium-viewer-toolbar").insert("span",":first-child").style("width","10px").text(" ")
+treeon = d3.select(".cesium-viewer-toolbar").insert("div",":first-child")
+.attr("class","cesium-button cesium-toolbar-button material-icons")
+.text("dashboard")
+.attr("title","Toggle treemap")
+.style("padding-left","3px")
+.style("padding-top","3px")
 soundon = d3.select(".cesium-viewer-toolbar").insert("div",":first-child")
 .attr("class","cesium-button cesium-toolbar-button material-icons")
 .text("volume_up")
@@ -253,6 +259,7 @@ var dt=6.0;
     var deads=true;
     var summers=true;
     var sounds=true;
+    var trees=true;
     orderSorted = Object.keys(order).sort(function(a,b){return order[a]["lon"]-order[b]["lon"]})
     
     function fly(to,dt){
@@ -311,6 +318,14 @@ var dt=6.0;
         } else {
           soundon.text("volume_off")
           d3.select("audio").attr("src","")
+        }
+      })
+      treeon.on("click",function(d){
+        trees=!(trees);
+        if (trees){
+          d3.select("#viz").style("visibility","visible")
+        } else {
+          d3.select("#viz").style("visibility","hidden")
         }
       })
       home.on("click",function(d){
