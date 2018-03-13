@@ -351,13 +351,14 @@ var dt=6.0;
           else shuffle.text("loop").attr("title","Sequential scroll order")
         })
       function playit(){
+        if (tour) {
         fly(ordered(next),dt);
         setInterval(function() {
           if (tour) {
             fly(ordered(next),dt);
           }
         }, ((shuffled)?dt*k:dt*2*k)*1000);
-      };
+      }};
       play.on("click",function(d){
         tour=!(tour);
         if (tour) playit();
