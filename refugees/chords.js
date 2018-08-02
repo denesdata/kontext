@@ -178,7 +178,7 @@ var middleTextTop = textCenter.append("text")
 	.attr("y", -24*10/2 + "px")
 	.attr("dy", "1em")
 	.attr("opacity", 1)
-	.text("This visualization maps the refugee flows between source and target countries during the period 1951-2014, using a chord diagram layout.")
+	.text("This visualization maps the refugee flows between source and target countries during the period 1951-2017 using a chord diagram layout.")
 	.call(wrap, 350);
 
 /*Starting text middle bottom*/
