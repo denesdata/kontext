@@ -6,6 +6,7 @@
     <title>International Refugee Flows</title>
     <link rel="stylesheet" href="css/foundation.css" />
     <link rel="stylesheet" type="text/css" href="css/app.css">
+    <link rel="stylesheet" type="text/css" href="css/theme1.css">
     <script src="js/modernizr.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/angular.min.js"></script>
@@ -21,24 +22,24 @@
         </article>
       </div>
 	  
-		<div style="position:fixed;left:260px;z-index:-1;font-size:34px;color:#111">source country</div>
-		<div id="total" style="position:fixed;left:225px;top:290px;z-index:-1;font-size:78px;color:#111;text-align:center;width:200px;opacity:0;"></div>
+		<div class='dark' style="position:fixed;left:260px;z-index:-1;font-size:34px;">source country</div>
+		<div class='darker' id="total" style="position:fixed;left:225px;top:290px;z-index:-1;font-size:78px;text-align:center;width:200px;opacity:0;"></div>
 		
       <aside class="large-3 small-4" style="position:fixed;left:5px;">
         &nbsp;
-		<button class="orange-bar" ng-click="idp = !(idp);" id="idp" style="margin:0px;padding:0px;top:28px;left:180px;width:60px; height:18px; position:absolute;line-height:20px;font-size:12px;" title="Internally displaced persons">
+		<button class="orange-bar" ng-click="idp = !(idp);" id="idp" style="margin:0px;padding:0px;top:28px;left:180px;width:60px; height:18px; background:#0072BC; position:absolute;line-height:20px;font-size:12px;" title="Internally displaced persons">
           IDPs on
         </button>
-	  <div  id="sizefilter" title="Drag slider to filter countries by minimum number of refugees" class="dragdealer" style="top:5px;left:0px;width:115px; height:18px; position:absolute;background-color:#111;">
+	  <div  id="sizefilter" title="Drag slider to filter countries by minimum number of refugees" class="dragdealer" style="top:5px;left:0px;width:115px; height:18px; position:absolute;">
 	  
 		<div class="handle orange-bar" id="sizefilterhandle" style="height:18px;line-height:20px;font-size:12px;width:40px;">10000</div>
-		<div style="position:fixed;left:15px;z-index:-1;font-size:11px;color:#333;margin-top:-17px;">min threshold</div>
+		<div style="position:fixed;left:15px;z-index:-1;font-size:11px;margin-top:-17px;">min threshold</div>
 	  </div>
-	  <div  id="sizefilter2" title="Drag slider to filter countries by maximum number of refugees" class="dragdealer" style="top:5px;left:120px;width:120px; height:18px; position:absolute;background-color:#111;">
+	  <div  id="sizefilter2" title="Drag slider to filter countries by maximum number of refugees" class="dragdealer" style="top:5px;left:120px;width:120px; height:18px; position:absolute;">
 		<div class="handle orange-bar" id="sizefilterhandle2" style="height:18px;line-height:20px;font-size:12px;width:40px;">10000</div>
-		<div style="position:fixed;left:140px;z-index:-1;font-size:11px;color:#333;margin-top:-17px;">max threshold</div>
+		<div style="position:fixed;left:140px;z-index:-1;font-size:11px;margin-top:-17px;">max threshold</div>
 	  </div>
-        <button class="orange-bar right" ng-click="filters = {}; hasFilters = false;" style="margin:0px;padding:0px;top:28px;left:120px;width:55px; height:18px; position:absolute;line-height:20px;font-size:12px;">
+        <button class="orange-bar right" ng-click="filters = {}; hasFilters = false;" style="margin:0px;padding:0px;top:28px;left:120px;width:55px;background:#0072BC; height:18px; position:absolute;line-height:20px;font-size:12px;">
           clear
         </button>
         <div class="panel">

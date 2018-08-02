@@ -7,11 +7,31 @@ function ($window, matrixFactory) {
     var size = [850, 850]; // SVG SIZE WIDTH, HEIGHT
     var marg = [60, 50, 50, -30]; // TOP, RIGHT, BOTTOM, LEFT
     var dims = []; // USABLE DIMENSIONS
+    var dark = '#0072BC';
     dims[0] = size[0] - marg[1] - marg[3]; // WIDTH
     dims[1] = size[1] - marg[0] - marg[2]; // HEIGHT
 
     var colors = d3.scale.ordinal()
-      .range(['#9C6744','#C9BEB9','#CFA07E','#C4BAA1','#C2B6BF','#8FB5AA','#85889E','#9C7989','#91919C','#99677B','#918A59','#6E676C','#6E4752','#6B4A2F','#998476','#8A968D','#968D8A','#968D96','#CC855C', '#967860','#929488','#949278','#A0A3BD','#BD93A1','#65666B','#6B5745','#6B6664','#695C52','#56695E','#69545C','#565A69','#696043','#63635C','#636150','#CFB6A3']);
+      .range([
+        '#e5243b',
+        '#DDA63A',
+        '#4C9F38',
+        '#C5192D',
+        '#888888',
+        '#FF3A21',
+        '#26BDE2',
+        '#FCC30B',
+        '#A21942',
+        '#FD6925',
+        '#DD1367',
+        '#FD9D24',
+        '#BF8B2E',
+        '#3F7E44',
+        '#0A97D9',
+        '#56C02B',
+        '#00689D',
+        //'#19486A'
+        '#bbbbbb']);
 
     var chord = d3.layout.chord()
       .padding(0.04)
@@ -62,7 +82,7 @@ function ($window, matrixFactory) {
     var messages = svg.append("text")
       .attr("class", "messages")
       .attr("transform", "translate(80,"+size[1]/1.1+")")
-	  .style("fill","#665")
+	  .style("fill",dark)
 	  .style("font-size","30px")
       .text("Updating...");
 

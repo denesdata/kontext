@@ -2,6 +2,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <title>Refugee dynamics - what does the data say?</title>
+<link rel="stylesheet" type="text/css" href="css/theme1.css">
 <style>
 @font-face {
     font-family: "Righteous";
@@ -33,7 +34,6 @@
   }
 .dragdealer {
 	height: 5%;
-	background: #111;
 	z-index: 8;
 }
 .dragdealer .handle {
@@ -44,22 +44,11 @@
 .orange-bar {
 	width: 8%;
 	height: 100%;
-	background: #665;
-	color: #222;
 	font-size: 140%;
 	line-height: 160%;
 	padding-left:0.3%;
 	text-align: center;
 	font-weight: bold;
-}
-.orange-bar:hover {
-	background: #997
-}
-.dragdealer .disabled {
-	background: #898989
-}
-#reload:hover #arrows {
-	fill:#444;
 }
 #reload, #title, #bigyear, #bigyear2, #timeslider, #author, #author2, #author3 {
 	-webkit-transition: opacity 0.5s;
@@ -72,7 +61,6 @@ a {
 	cursor:pointer;
 	text-decoration:none;
 	font-size:10px;
-	color:#000;
 }
 a:hover, #author3:hover {
 	text-decoration:underline;
@@ -83,22 +71,23 @@ a:hover, #author3:hover {
 
 <body>
 <div id="container" style="width:1272px;height:700px;margin:0px;">
-<div id="title" style="position:fixed;left:525px;z-index:-1;font-size:48px;text-align:center;margin-top:70px;color:#111;opacity:0;">refugee<br/>flows 1.1</div>
-<div id="bigyear" style="position:fixed;left:200px;z-index:100;font-size:400px;text-align:center;margin-top:110px;color:#000;opacity:0;visibility:hidden;">2014</div>
-<div id="author" style="position:fixed;left:585px;z-index:100;font-size:48px;text-align:center;margin-top:573px;color:#111;opacity:0;">
-	
-	<a href="http://blog.csaladen.es" target="_blank"><img src="tsne.png" alt="Try something new. Everyday." title="Try something new. Everyday." style="width:70px;height:70px;border:solid 1px #111;margin-top:5px;"/></a>
+<div id="title" style="position:fixed;left:525px;z-index:-1;font-size:48px;text-align:center;margin-top:70px;opacity:0;">refugee<br/>flows 1.2</div>
+<div id="bigyear" style="position:fixed;left:200px;z-index:100;font-size:400px;text-align:center;margin-top:110px;opacity:0;visibility:hidden;">2017</div>
+<div id="author" style="position:fixed;left:553px;z-index:100;font-size:48px;text-align:center;margin-top:510px;opacity:0;">
+	<a href="https://blog.csaladen.es" target="_blank"><img src="tsne2.png" alt="Try something new. Everyday." title="Try something new. Everyday." style="height:50px;border:1px solid #0072BC;margin-top:5px;"/></a><br>
+	<a href="https://popstats.unhcr.org/en/persons_of_concern" target="_blank"><img src="unhcr.png" alt="Data from UNHCR" title="Data from UNHCR" style="height:90px;border:none;margin-top:5px;"/></a>
 </div>
-<div id="author2" style="position:fixed;left:5px;z-index:100;font-size:48px;text-align:center;margin-top:562px;color:#111;opacity:0;">
+<div id="author2" style="position:fixed;left:5px;z-index:100;font-size:48px;text-align:center;margin-top:552px;opacity:1;">
 	
-	<a href="http://www.delimited.io/blog/2014/11/18/interactive-chord-diagrams-in-d3" target="_blank" title="inspired by"><div style="color:#665;">inspired by</div>delimited.io</a><br>
-	<a href="http://www.visualcinnamon.com/2014/12/using-data-storytelling-with-chord.html" target="_blank" title="inspired by">v.cinnamon</a><br>
-	<a href="http://www.csaladen.es" target="_blank" title="created by"><div style="color:#665;">created by</div>csaladen.es</a><br>
-	<a href="http://wp.me/pBH3w-a5" target="_blank" title="blog post"><div style="color:#665;">description</div></a>
-	<a href="http://popstats.unhcr.org/en/persons_of_concern" target="_blank" title="data source"><div style="color:#665;">data source</div></a>
+	<a class='dark' href="//www.delimited.io/blog/2017/11/18/interactive-chord-diagrams-in-d3" target="_blank" title="inspired by"><div>inspired by</div>delimited.io</a><br>
+	<a class='light' href="//www.visualcinnamon.com/2017/12/using-data-storytelling-with-chord.html" target="_blank" title="inspired by">v.cinnamon</a><br>
+	<a class='dark' href="//www.csaladen.es" target="_blank" title="created by"><div>created by</div>csaladen.es</a><br>
+	<a class='light' href="https://wp.me/pBH3w-a5" target="_blank" title="blog post"><div>description</div></a>
+	<a class='dark' href="https://popstats.unhcr.org/en/persons_of_concern" target="_blank" title="data source"><div>data source</div></a>
+	<span><a class='light' href="//blog.csaladen.es/refugees/v1.0" target="_blank" title="old version 1.0">old v. 1.0 </a></span><span><a class='light' href="//blog.csaladen.es/refugees/v1.1" target="_blank" title="old version 1.1">| 1.1</a></span>
 	
 </div>
-<div id="author3" style="position:fixed;right:10px;z-index:100;font-size:28px;text-align:center;margin-top:620px;color:#665;opacity:0;cursor:pointer;" onclick="window.parent.document.getElementById('content').src='demo.html'" title="back to intro">
+<div id="author3" style="position:fixed;right:10px;z-index:100;font-size:28px;text-align:center;margin-top:620px;opacity:0;cursor:pointer;" onclick="window.parent.document.getElementById('content').src='demo.html'" title="back to intro">
 	intro
 	
 </div>
@@ -109,7 +98,7 @@ a:hover, #author3:hover {
 <svg version="1.1" x="0px" y="0px" width="50px" id="reload" onclick="trans();" height="50px" viewBox="0 0 400 400" style="position:fixed;float:left;top:200px;left:590px;z-index:100;opacity:0;" xml:space="preserve">
 	<circle  cx="240", cy="240", r="210" fill="rgba(50,50,50,0)" style="cursor:pointer;" >
 	<title>switch between source and target</title></circle>
-  <path id="arrows" style="cursor:pointer;" fill="#111" d="M160.469,242.194c0-44.414,36.023-80.438,80.438-80.438c19.188,0,36.711,6.844,50.5,18.078L259.78,209.93l99.945,11.367
+  <path id="arrows" style="cursor:pointer;" d="M160.469,242.194c0-44.414,36.023-80.438,80.438-80.438c19.188,0,36.711,6.844,50.5,18.078L259.78,209.93l99.945,11.367
   	l0.805-107.242l-30.766,29.289c-23.546-21.203-54.624-34.164-88.804-34.164c-73.469,0-133.023,59.562-133.023,133.016
   	c0,2.742,0.242-2.266,0.414,0.445l53.68,7.555C161.03,245.108,160.469,247.562,160.469,242.194z M371.647,237.375l-53.681-7.555
   	c1.017,5.086,1.556,2.617,1.556,7.992c0,44.414-36.008,80.431-80.43,80.431c-19.133,0-36.602-6.798-50.383-17.97l31.595-30.078
@@ -118,10 +107,10 @@ a:hover, #author3:hover {
 </svg>
 
 </div>
-<div  id="bigyear2"  class="dragdealer" style="bottom:0px;left:0px;width:100%;position:fixed;opacity:0; background-color:#ddd;z-index:5000;"></div>
+<div  id="bigyear2"  class="dragdealer" style="bottom:0px;left:0px;width:100%;position:fixed;opacity:0;z-index:5000;"></div>
 <div  id="timeslider" title="<-  drag slider, scroll or use arrow keys to change year  ->" class="dragdealer" style="bottom:0px;left:0px;width:100%;position:fixed;opacity:0;">
-<div style="position:fixed;left:5%;z-index:-1;font-size:110%;color:#222;margin-top:0.4%;"><-  drag slider, scroll or use arrow keys to change year  -></div>
-<div class="handle orange-bar" id="timehandle">2014</div>
+<div style="position:fixed;left:5%;z-index:-1;font-size:110%;margin-top:0.4%;"><-  drag slider, scroll or use arrow keys to change year  -></div>
+<div class="handle orange-bar" id="timehandle">2017</div>
 </div>
 
 <script>
@@ -141,16 +130,16 @@ setTimeout(function(){document.getElementById('author').style.opacity=1;},500);
 
  var timedragdealer=new Dragdealer("timeslider", {
 		x: 1,
-		steps: 2014-1951+1,
+		steps: 2017-1951+1,
 		animationCallback: function(a, b) {
-			document.getElementById('timehandle').innerHTML=Math.round(1951+ (2014-1951) * a);
+			document.getElementById('timehandle').innerHTML=Math.round(1951+ (2017-1951) * a);
 		},
 		callback: function(a, b) {
-			document.getElementById('iframe1').contentWindow.angular.element("body").scope().selected_year=Math.round(1951+ (2014-1951) * a);
+			document.getElementById('iframe1').contentWindow.angular.element("body").scope().selected_year=Math.round(1951+ (2017-1951) * a);
 			document.getElementById('iframe1').contentWindow.angular.element("body").scope().update();
-			document.getElementById('iframe2').contentWindow.angular.element("body").scope().selected_year=Math.round(1951+ (2014-1951) * a);
+			document.getElementById('iframe2').contentWindow.angular.element("body").scope().selected_year=Math.round(1951+ (2017-1951) * a);
 			document.getElementById('iframe2').contentWindow.angular.element("body").scope().update();
-			document.getElementById('bigyear').innerHTML=Math.round(1951+ (2014-1951) * a);
+			document.getElementById('bigyear').innerHTML=Math.round(1951+ (2017-1951) * a);
 			
 			setTimeout(function(){
 				setTimeout(function(){
@@ -162,7 +151,7 @@ setTimeout(function(){document.getElementById('author').style.opacity=1;},500);
 				700);
 				document.getElementById('bigyear').style.visibility='visible';
 				document.getElementById('bigyear').style.opacity=0.3;},
-			2100);
+			3100);
 		}
 	});
 	
@@ -172,12 +161,12 @@ setTimeout(function(){document.getElementById('author').style.opacity=1;},500);
 			case 34: // pg up
 			case 37: // left
 			case 38: // up
-					timedragdealer.setValue((Math.max(document.getElementById('timehandle').innerHTML-1,1951)-1951) / (2014-1951), 0, false)
+					timedragdealer.setValue((Math.max(document.getElementById('timehandle').innerHTML-1,1951)-1951) / (2017-1951), 0, false)
 					 break;
 			case 33: // pg down
 			case 39: // right
 			case 40: // down 
-					 timedragdealer.setValue((document.getElementById('timehandle').innerHTML-1951+1) / (2014-1951), 0, false)
+					 timedragdealer.setValue((document.getElementById('timehandle').innerHTML-1951+1) / (2017-1951), 0, false)
 					 break;
 		}
 		
@@ -186,8 +175,8 @@ setTimeout(function(){document.getElementById('author').style.opacity=1;},500);
    }, false);
    
    document.addEventListener("mousewheel", function ( event ) {
-	if (event.wheelDelta<0) timedragdealer.setValue((Math.max(document.getElementById('timehandle').innerHTML-1,1951)-1951) / (2014-1951), 0, false)
-	else timedragdealer.setValue((Math.min(document.getElementById('timehandle').innerHTML-1+2,2014)-1951) / (2014-1951), 0, false)
+	if (event.wheelDelta<0) timedragdealer.setValue((Math.max(document.getElementById('timehandle').innerHTML-1,1951)-1951) / (2017-1951), 0, false)
+	else timedragdealer.setValue((Math.min(document.getElementById('timehandle').innerHTML-1+2,2017)-1951) / (2017-1951), 0, false)
 	//event.preventDefault();
    }, false);
    

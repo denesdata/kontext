@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <style>
+         html,
+         body {
+         font-family: "Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
+         margin: 0;
+         padding: 0;
+		 overflow:hidden;
+         }
+		 .d3-tip {
+		  line-height: 1;
+		  font-weight: bold;
+		  font-size: 12px;
+		  padding: 6px;
+		  background: rgba(0, 0, 0, 0.8);
+		  color: #fff;
+		  border-radius: 4px;
+		}
+		svg circle{
+			opacity:0.8;
+		}
+		.dragdealer {
+            height: 18px;
+            background: #EEE;
+            z-index: 50;
+        }
+        .dragdealer .handle {
+            top: 0;
+            left: 0;
+            cursor: pointer;
+        }
+        .dragdealer .orange-bar {
+            width: 45px;
+            height: 18px;
+            background: #F80;
+            color: #FFF;
+            font-size: 14px;
+            line-height: 16px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .dragdealer .orange-bar:hover {
+            background: #F60
+        }
+      </style>
+   </head>
+   <body>
+		
+	<object id="rgbwheel" style="position:fixed;float:left;top:0px;left:0px;opacity:1;z-index:-100;width:100%;height:100%;opacity:0.8;" data="http://upload.wikimedia.org/wikipedia/commons/c/c5/RGB_color_wheel_10.svg" type="image/svg+xml" ></object>
+	 <svg id="rgbshadow" height="0" width="0" style="position:fixed;float:left;top:0px;left:0px;opacity:1;z-index:-99;">
+		<defs>
+		   <radialGradient id="grad1" cx="50%" cy="50%" r="90%" fx="50%" fy="50%">
+			  <stop offset="26%" style="stop-color:rgb(255,255,255);stop-opacity:1" />
+			  <stop offset="56%" style="stop-color:rgb(255,255,255);stop-opacity:0" />
+		   </radialGradient>
+		</defs>
+		<ellipse cx="50%" cy="50%" rx="51%" ry="51%" fill="url(#grad1)" />
+	 </svg>
+	  <canvas id="myCanvas" style="position:fixed;float:left;top:0px;left:0px;width:100%;height:100%;opacity:1;z-index:-90;"></canvas>		 
+      <div id="chart" style="margin:0px;"></div>
+      <script src="http://d3js.org/d3.v3.min.js"></script>
+	  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+      <script>
+        var width = window.innerWidth,
+            height = window.innerHeight;
+			radius =Math.min(height,width)/3;
+		
+        var svg = d3.select("#chart").append("svg")
+            .attr("width", width)
+            .attr("height", height);
+		var rgbs = d3.select("#rgbshadow")
+			.attr("width", radius*2+"px")
+            .attr("height", radius*2+"px")
+			.style("top", height/2-radius+"px")			
+			.style("left",width/2-radius+"px")
+		var tiptext="no data";
+		var tip = d3.tip()
+			  .attr('class', 'd3-tip')
+			  .offset([-10,-10])
+			  .direction('w')
+			  .html(function(d) {
+				return '<table><tr><td colspan="2"  style="color:lime;">'+d+'</td></tr><tr><td>HDI</td><td>'+tiptext[5]+'</td></tr><tr><td>Health</td><td>'+tiptext[2]+'</td></tr><tr><td>Education</td><td>'+tiptext[3]+'</td></tr><tr><td>Income</td><td>'+tiptext[4]+'</td></tr></table>'			   })
+		svg.call(tip);
+		
+		var hdirgb=function(value,cx,cy,cr) {
+			var x=cx;
+			var y=cy;
+			
+			var r=value[0];
+			var g=value[1];
+			var b=value[2];
+			
+			var minx=Math.min(r,g,b);
+			//var minx=0;
+			r=r-minx;
+			g=g-minx;
+			b=b-minx;
+			
+			var rr=cr*2;
+			x=cx+rr*(Math.sin(2*Math.PI/3)*r+Math.sin(4*Math.PI/3)*g+Math.sin(0*Math.PI/3)*b);
+			y=cy+rr*(Math.cos(2*Math.PI/3)*r+Math.cos(4*Math.PI/3)*g+Math.cos(0*Math.PI/3)*b);
+			return [x,y];
+		}
+		
+		var ga=0.2;
+		var gb=0.7;
+		
+		var addpoint=function(value){
+			//s=Math.pow((pop[0])/10000,1/(3.2-gb))*(radius/600)+(ga*20+2)
+			//s=6+Math.pow((pop[0])/10000,1/2.4)*(radius/600);
+			s=20;
+			svg.append("image")
+				.attr("x",hdirgb(value,width/2,height/2,radius)[0])
+				.attr("y",hdirgb(value,width/2,height/2,radius)[1])
+				//.attr("r",3+25*value[5])
+				.attr("height","20px")
+				//.attr("width","30px")
+				.attr("xlink:href",'../../../antarctica/flags/flat/'+value[3]+'.png')
+				.data(value)
+
+			
+		}
+		
+		var draw=function(){}
+		
+		d3.json("data.json", function(d){	
+				//console.log(p.order());
+				
+				 
+				for(var key in d) {
+					addpoint(d[key]);
+				}
+			var selection=d3.select("#chart").selectAll("svg circle");
+			selection.on("mouseover", function(d){
+						tiptext=d;
+						tip.show(d);
+						return;	})
+				  .on("mouseout", tip.hide)
+			
+			
+			draw=function(){
+				//s=6+Math.pow((pop[0])/10000,1/2.4)*(radius/600);
+				var ee=[];
+				d3.select("#chart").selectAll("svg circle")
+				//.transition()
+				.attr("r",function(e,i){
+					ee=ee.concat([e]);
+					return Math.pow((e[6])/10000,1/(3.2-gb))*(radius/600)+(ga*20+2);
+				});
+				
+				d3.select("#chart").selectAll("svg text")
+				//.transition()
+				.attr("font-size",function(e,i){
+					return (Math.pow((ee[i*2][6])/10000,1/(3.2-gb))*(radius/600)+(ga*20+2))/1.2;
+				})
+			}
+			})
+		
+		
+		
+		
+        
+      </script>
+   </body>
+</html>

@@ -5,8 +5,8 @@ function ($scope) {
 
   $scope.master = {}; // MASTER DATA STORED BY YEAR
 
-  $scope.selected_year = 2014;
-  $scope.years = d3.range(2014, 1950, -1);
+  $scope.selected_year = 2017;
+  $scope.years = d3.range(2017, 1950, -1);
 
   $scope.filters = {};
   $scope.hasFilters = false;
@@ -104,10 +104,22 @@ function ($scope) {
   // IMPORT THE CSV DATA
   d3.csv('datab.csv', function (err, data) {
 
+    function pretty(s){
+      if (s=='United States of America') s='USA'
+      else if (s=='Serbia and Kosovo (S/RES/1244 (1999))') s='Serbia & Kosovo'
+      else if (s=='Iran (Islamic Rep. of)') s='Iran'
+      else if (s=='Palestinian') s='Palestine'
+      else if (s=='Various/Unknown') s='Other'
+      else if (s=='United Kingdom') s='UK'
+      return s
+    }
     data.forEach(function (d) {
+      d.importer1=pretty(d.importer1);
+      d.importer2=pretty(d.importer2);
       d.year  = +d.year;
       d.flow1 = +d.flow1;
       d.flow2 = +d.flow2;
+
 
       if (!$scope.master[d.year]) {
         $scope.master[d.year] = []; // STORED BY YEAR

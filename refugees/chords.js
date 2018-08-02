@@ -16,7 +16,12 @@ var matrix = [
 ];
 /*Sums up to exactly 100*/
 
-var colors = ['#998476','#8A968D','#CC855C','#929488','#949278','#A0A3BD','#BD93A1','#65666B'];
+var colors = ['#DD1367','#ccc','#4C9F38','#C5192D','#FF3A21','#26BDE2','#3F7E44','#FD9D24'];
+
+color1="#418FDE";
+color2="#00497A";
+bgcolor="#00233A"
+op1=0.9;
 
 /*Initiate the color scale*/
 var fill = d3.scale.ordinal()
@@ -92,7 +97,7 @@ ticks.append("svg:line")
 	.attr("x2", 5)
 	.attr("y2", 0)
 	.attr("class", "ticks")
-	.style("stroke", "#ddd");
+	.style("stroke", color1);
 	
 /*Add the labels for the %'s*/
 ticks.append("svg:text")
@@ -138,7 +143,7 @@ var chords = svg.selectAll("path.chord")
 ///////////// Initiate Progress Bar ////////////////////////
 //////////////////////////////////////////////////////////*/
 /*Initiate variables for bar*/
-var progressColor = ["#111","#000"],
+var progressColor = ["#00497A","#0072BC"],
 	progressClass = ["prgsBehind","prgsFront"],
 	prgsWidth = 0.4*650,
 	prgsHeight = 3;
@@ -278,6 +283,7 @@ function Draw2(){
 	  .style("fill", function(d) { return fill(d.index); })
 	  .transition().duration(700)
 	  .attr("d", arc)
+	  .style("opacity", op1)
 	  .attrTween("d", function(d) {
 		if(d.index == 0) {
 		   var i = d3.interpolate(d.startAngle, d.endAngle);
@@ -291,7 +297,7 @@ function Draw2(){
 	/*Show the tick around the Apple arc*/
 	d3.selectAll("g.group").selectAll("line")
 		.transition().delay(700).duration(1000)
-		.style("stroke", function(d, i, j) {return j ? 0 : "#665"; });
+		.style("stroke", function(d, i, j) {return j ? 0 : color1; });
 
 	/*Add the labels for the %'s at Apple*/
 	d3.selectAll("g.group").selectAll(".tickLabels")
@@ -327,6 +333,7 @@ function Draw3(){
    /*Fill in the other arcs*/
    svg.selectAll("g.group").select("path")
 	.transition().delay(function(d, i) { return 700*arcDelay[i];}).duration(1000)
+	.style("opacity", op1)
 	.attrTween("d", function(d) {
 		if(d.index != 0) {
 		   var i = d3.interpolate(d.startAngle, d.endAngle);
@@ -340,7 +347,7 @@ function Draw3(){
   /*Make the other strokes black as well*/
   svg.selectAll("g.group")
 	.transition().delay(function(d,i) { return 700*arcDelay[i]; }).duration(700)
-	.selectAll("g").selectAll("line").style("stroke", "#665");
+	.selectAll("g").selectAll("line").style("stroke", color1);
   /*Same for the %'s*/
   svg.selectAll("g.group")
 	.transition().delay(function(d,i) { return 700*arcDelay[i]; }).duration(700)
@@ -414,7 +421,7 @@ function Draw4(){
 	/*Make the other strokes less visible*/
 	d3.selectAll("g.group").selectAll("line")
 		.transition().duration(700)
-		.style("stroke",function(d,i,j) {if (j == 5 || j == 4) {return "#665";} else {return "#222";}});
+		.style("stroke",function(d,i,j) {if (j == 5 || j == 4) {return color1;} else {return color2;}});
 	/*Same for the %'s*/
 	svg.selectAll("g.group")
 		.transition().duration(700)
@@ -536,8 +543,8 @@ function Draw7(){
 	function repeat() {
 		d3.selectAll(".NokiaToSamsungArc")
 			.transition().duration(700)
-			.attr("fill", "#ddd")
-			.style('stroke', "#111")
+			.attr("fill", color1)
+			.style('stroke', color2)
 			.transition().duration(700)
 			.attr("fill", colors[5])
 			.style("stroke", colors[5])
@@ -617,7 +624,7 @@ function Draw9(){
 	/*Ticks*/
 	d3.selectAll("g.group").selectAll("line")
 		.transition().duration(700)
-		.style("stroke", "#665");
+		.style("stroke", color1);
 	/*Same for the %'s*/
 	svg.selectAll("g.group")
 		.transition().duration(700)
@@ -662,8 +669,8 @@ function Draw10(){
 	function repeat() {
 		d3.selectAll(".NokiaLoyalArc")
 			.transition().duration(700)
-			.attr("fill", "#ddd")
-			.style('stroke', "#111")
+			.attr("fill", color1)
+			.style('stroke', color2)
 			.transition().duration(700)
 			.attr("fill", colors[4])
 			.style("stroke", colors[4])
@@ -680,7 +687,7 @@ function Draw10(){
 	/*Make the other strokes less visible*/
 	d3.selectAll("g.group").selectAll("line")
 		.transition().duration(700)
-		.style("stroke",function(d,i,j) {if (j == 4) {return "#665";} else {return "#222";}});
+		.style("stroke",function(d,i,j) {if (j == 4) {return color1;} else {return color2;}});
 	/*Same for the %'s*/
 	svg.selectAll("g.group")
 		.transition().duration(700)
@@ -729,7 +736,7 @@ function Draw11(){
 	/*Make the other strokes less visible*/
 	d3.selectAll("g.group").selectAll("line")
 		.transition().duration(700)
-		.style("stroke",function(d,i,j) {if (j == 0) {return "#665";} else {return "#222";}});
+		.style("stroke",function(d,i,j) {if (j == 0) {return color1;} else {return color2;}});
 	/*Same for the %'s*/
 	svg.selectAll("g.group")
 		.transition().duration(700)
@@ -749,7 +756,7 @@ function Draw12(){
 	runProgressBar(time=700*11);	
 
 	changeTopText(newText = "One thing that stands out for Lebanon is that all chords connected to " +
-							"it have it's color: brown.",
+							"it have it's color: pink.",
 		loc = 3/2, delayDisappear = 0, delayAppear = 1, finalText = false, xloc=-80, w=210);
 	changeTopText(newText = "This means that Lebanon has always had the net gain. " + 
 							"They received more refugees from other countries than they sent to them.",
@@ -813,7 +820,7 @@ function Draw14(){
 	/*Hide all the text*/
 	d3.selectAll("g.group").selectAll("line")
 		.transition().duration(700)
-		.style("stroke","#222");
+		.style("stroke",bgcolor);
 	/*Same for the %'s*/
 	svg.selectAll("g.group")
 		.transition().duration(700)
@@ -845,7 +852,7 @@ function Draw15(){
 	/*Hide all the text*/
 	d3.selectAll("g.group").selectAll("line")
 		.transition().duration(700)
-		.style("stroke","#222");
+		.style("stroke",bgcolor);
 	/*Same for the %'s*/
 	svg.selectAll("g.group")
 		.transition().duration(700)
@@ -877,7 +884,7 @@ function Draw16(){
 	/*Hide all the text*/
 	d3.selectAll("g.group").selectAll("line")
 		.transition().duration(700)
-		.style("stroke","#222");
+		.style("stroke",bgcolor);
 	/*Same for the %'s*/
 	svg.selectAll("g.group")
 		.transition().duration(700)
@@ -909,7 +916,7 @@ function Draw17(){
 	/*Hide all the text*/
 	d3.selectAll("g.group").selectAll("line")
 		.transition().duration(700)
-		.style("stroke","#222");
+		.style("stroke",bgcolor);
 	/*Same for the %'s*/
 	svg.selectAll("g.group")
 		.transition().duration(700)
@@ -1021,8 +1028,8 @@ function changeTopText (newText, loc, delayDisappear, delayAppear, finalText, xl
 					.text(buttonTexts[counter-2])
 					.style("pointer-events", "auto")
 					.transition().duration(400)
-					.style("border-color", "#665")
-					.style("color", "#665");
+					.style("border-color", color1)
+					.style("color", color1);
 				};
 		});
 };/*changeTopText */
@@ -1048,8 +1055,8 @@ function stopClicker() {
 	d3.select("#clicker")
 		.style("pointer-events", "none")
 		.transition().duration(400)
-		.style("border-color", "#111")
-		.style("color", "#111");
+		.style("border-color", color2)
+		.style("color", color2);
 };/*stopClicker*/
 
 /*Run the progress bar during an animation*/

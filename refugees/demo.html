@@ -4,19 +4,20 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 	<title>Storytelling with a Chord Diagram - Switching between Phone Brands</title>
-    	<script src="http://d3js.org/d3.v3.min.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    	<script src="//d3js.org/d3.v3.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	
 	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="css/theme1.css">
   </head>
   <body>
-    <div id="body" style="width:1500px;height:850px;margin-left:27%;">
+    <div id="body" class='bd' style="width:1500px;height:850px;margin-left:27%;">
 		<div id="chart"></div>
 		<div id="clickerWrapper">
 			<div id="progress"></div>
-			<div id="clicker">Let's Start</div>
+			<div id="clicker" class='bd'>Let's Start</div>
 		</div>
-		<div id="buttonWrapper">
+		<div id="buttonWrapper" class='bd'>
 			<div id="buttonWrapperInner">
 				<div id="skip" class="sideButton">Skip Intro</div>
 				<div id="reset" class="sideButton">Reset</div>
@@ -24,7 +25,7 @@
 			</div>
 		</div>
 		
-		<div id="author3" style="position:fixed;left:800px;z-index:100;font-size:34px;text-align:center;top:660px;color:#665;opacity:0;cursor:pointer;" onclick="window.parent.document.getElementById('content').src='parent.html'" title="skip intro and enter app">
+		<div id="author3" class='bd' style="position:fixed;left:800px;z-index:100;font-size:34px;text-align:center;top:660px;opacity:0;cursor:pointer;" onclick="window.parent.document.getElementById('content').src='parent.html'" title="skip intro and enter app">
 	Enter app
 	
 </div>

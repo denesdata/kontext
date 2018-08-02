@@ -1,0 +1,56 @@
+.lightest  {
+ 	color:#B7E2FF;
+}
+.lighter, .orange-bar:hover {
+	color:#6DC4FF;
+}
+.light, #tooltip .ng-binding {
+	color:#418FDE;
+}
+.dark, #reload:hover #arrows, .ng-scope, .ng-binding, #author3 {
+	color:#0072BC;
+}
+.dragdealer {
+	background:#00233A;
+	color:#00497A;
+}
+.darker, .dragdealer .disabled {
+	color:#00497A;
+}
+}
+.darkest {
+	color:#00233A;
+}
+#tooltip {
+	background-color:rgba(0,25,50,0.8);
+  	color: #0072BC;
+  	border-color: #0072BC;
+}
+#bigyear2, #bigyear {
+	color:#001122;
+}
+.bg {
+	background-color:#00233A;
+}
+.orange-bar, button {
+	color:#00233A;
+	background-color: #0072BC;
+}
+iframe {
+	background: none;
+}
+.bd {
+	color:#418FDE;
+	fill:#418FDE; 
+	border-color:#418FDE; 
+}
+a, #author2, #author, #title, #arrows {
+	color:#418FDE;
+}
+#author2, #author, #title, #arrows {
+	color:#00497A;
+	fill:#00497A;
+}
+.bd line{
+	stroke: #ddd;
+}
