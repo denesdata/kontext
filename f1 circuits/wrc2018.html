@@ -120,9 +120,10 @@
 		<div style="position:fixed;float:left;top:450px;left:660px;opacity:1;font-size:8px;color:#777;"><a href="http://www.csaladen.es" target="_blank">csaladen.es</a> | <a href="https://twitter.com/csaladenes" target="_blank">@csaladenes</a></div>
 		<img style="position:fixed;float:left;top:355px;left:455px;opacity:1;height:50px;" src="https://plus.wrc.com/assets/img/info_logo_wrcplus_white.png"/>
         <div>
-            <a href="2018.html"><img style="position:fixed;float:left;top:150px;right:10px;opacity:1;width:30px;" src="http://upload.wikimedia.org/wikipedia/en/4/45/F1_logo.svg"/></a>
+            <a href="2018.html"><img style="position:fixed;float:left;top:150px;right:10px;opacity:1;width:30px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/F1.svg/799px-F1.svg.png"/></a>
             <a href="wrc2018.html"><img style="position:fixed;float:left;top:167px;right:10px;opacity:1;width:30px;" src="https://plus.wrc.com/assets/img/info_logo_wrcplus_white.png"/></a>
             <a href="mgp2018.html"><img style="position:fixed;float:left;top:190px;right:10px;opacity:1;width:30px;" src="http://css.motogp.com/w2015/img/logos/motogp_white.svg"/></a>
+             <a href="fe2018.html"><img style="position:fixed;float:left;top:215px;right:10px;opacity:1;width:35px;" src="https://upload.wikimedia.org/wikipedia/en/thumb/4/43/Formula_E_logo.svg/352px-Formula_E_logo.svg.png"/></a>
         </div>
 		
     </div>
@@ -356,7 +357,7 @@
 
             var densityslider = new Dragdealer("pslider", {
                 x: 1,
-                steps: maxyear - minyear,
+                steps: maxyear - minyear+1,
                 snap: true,
                 animationCallback: function(a) {
                     year = Math.round(minyear + (maxyear - minyear) * a);
