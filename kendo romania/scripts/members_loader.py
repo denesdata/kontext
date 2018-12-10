@@ -108,4 +108,4 @@ def cleaner(members):
             df=df.drop('transfer',axis=1)
             all_data.append(df)
     
-    return pd.concat(all_data)
+    return pd.concat(all_data).reset_index(drop=True)
