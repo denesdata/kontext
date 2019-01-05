@@ -1,5 +1,12 @@
 import pandas as pd, numpy as np, json
 
+def point_redflags(points):
+    redflags_points=['Puncte']
+    for redflag in redflags_points:
+        if redflag in points:
+            return False
+    return True
+        
 def point_clean1(point):
     return point.replace('○','O').replace('I','H').replace('J','H').replace('×','')\
             .replace('–','').replace('1','O').replace('—','').replace('?','H')
@@ -144,3 +151,14 @@ def match_cleaner(year,match):
     if year in [2018]: 
         category=category.replace('Senior','Men')
     return category,teams,phase
+
+def outcome_cleaner(outcome):
+    if outcome=='E': return True
+    else: return False
+    
+def outcome_from_points(aka,shiro):
+    if aka==shiro: return 'X',0
+    elif aka>shiro: return 'A',str(aka-shiro)
+    else: return 'S',str(shiro-aka)
+    
+    

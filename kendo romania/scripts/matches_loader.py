@@ -42,7 +42,6 @@ def get_matches_from_tournament(filenames,sheetnames,skiprows=0,shift=0,drops=[]
                 indices=np.array([i for i in range(2**n)][::2**stg])+2**(stg-1)-1
                 if stg>0:
                     indices+=[i%2 for i in range(len(indices))]
-                print(indices)
                 winners=[]
                 for j in range(len(names)//2):
                     aka=df.loc[indices[j*2]][stg]
