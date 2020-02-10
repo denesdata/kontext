@@ -1,0 +1,417 @@
+,a,Rank by filter,City,Country,Congestion Level,morning,eve,waste,Congestion Level2,waste2
+0,https://www.tomtom.com/en_gb/traffic-index/bengaluru-traffic#statistics,1,Bengaluru,India,71%,98,115,243 hours,71,243
+1,https://www.tomtom.com/en_gb/traffic-index/manila-traffic#statistics,2,Manila,Philippines,71%,95,128,257 hours,71,257
+2,https://www.tomtom.com/en_gb/traffic-index/bogota-traffic#statistics,3,Bogota,Colombia,68%5%,93,110,230 hours,68,230
+3,https://www.tomtom.com/en_gb/traffic-index/mumbai-traffic#statistics,4,Mumbai,India,65%0%,80,103,209 hours,65,209
+4,https://www.tomtom.com/en_gb/traffic-index/pune-traffic#statistics,5,Pune,India,59%,70,99,193 hours,59,193
+5,https://www.tomtom.com/en_gb/traffic-index/moscow-traffic#statistics,6,Moscow region (oblast),Russia,59%3%,87,108,225 hours,59,225
+6,https://www.tomtom.com/en_gb/traffic-index/lima-traffic#statistics,7,Lima,Peru,57%1%,81,101,209 hours,57,209
+7,https://www.tomtom.com/en_gb/traffic-index/new-delhi-traffic#statistics,8,New Delhi,India,56%2%,72,94,190 hours,56,190
+8,https://www.tomtom.com/en_gb/traffic-index/istanbul-traffic#statistics,9,Istanbul,Turkey,55%2%,80,114,225 hours,55,225
+9,https://www.tomtom.com/en_gb/traffic-index/jakarta-traffic#statistics,10,Jakarta,Indonesia,53%0%,62,87,174 hours,53,174
+10,https://www.tomtom.com/en_gb/traffic-index/bangkok-traffic#statistics,11,Bangkok,Thailand,53%0%,79,99,207 hours,53,207
+11,https://www.tomtom.com/en_gb/traffic-index/kiev-traffic#statistics,12,Kyiv,Ukraine,53%7%,94,104,227 hours,53,227
+12,https://www.tomtom.com/en_gb/traffic-index/mexico-city-traffic#statistics,13,Mexico City,Mexico,52%0%,82,87,195 hours,52,195
+13,https://www.tomtom.com/en_gb/traffic-index/bucharest-traffic#statistics,14,Bucharest,Romania,52%4%,94,103,227 hours,52,227
+14,https://www.tomtom.com/en_gb/traffic-index/recife-traffic#statistics,15,Recife,Brazil,50%1%,79,89,193 hours,50,193
+15,https://www.tomtom.com/en_gb/traffic-index/saint-petersburg-traffic#statistics,16,Saint Petersburg,Russia,49%2%,79,99,207 hours,49,207
+16,https://www.tomtom.com/en_gb/traffic-index/dublin-traffic#statistics,17,Dublin,Ireland,48%3%,91,95,213 hours,48,213
+17,https://www.tomtom.com/en_gb/traffic-index/odessa-traffic#statistics,18,Odessa,Ukraine,47%,74,84,184 hours,47,184
+18,https://www.tomtom.com/en_gb/traffic-index/lodz-traffic#statistics,19,Lodz,Poland,47%3%,68,90,186 hours,47,186
+19,https://www.tomtom.com/en_gb/traffic-index/rio-de-janeiro-traffic#statistics,20,Rio de Janeiro,Brazil,46%4%,65,85,172 hours,46,172
+20,https://www.tomtom.com/en_gb/traffic-index/tel-aviv-traffic#statistics,21,Tel Aviv,Israel,46%4%,93,90,211 hours,46,211
+21,https://www.tomtom.com/en_gb/traffic-index/krakow-traffic#statistics,22,Krakow,Poland,45%5%,74,95,195 hours,45,195
+22,https://www.tomtom.com/en_gb/traffic-index/novosibirsk-traffic#statistics,23,Novosibirsk,Russia,45%1%,77,92,195 hours,45,195
+23,https://www.tomtom.com/en_gb/traffic-index/sao-paulo-traffic#statistics,24,Sao Paulo,Brazil,45%3%,68,87,177 hours,45,177
+24,https://www.tomtom.com/en_gb/traffic-index/samara-traffic#statistics,25,Samara,Russia,44%,78,86,188 hours,44,188
+25,https://www.tomtom.com/en_gb/traffic-index/santiago-traffic#statistics,26,Santiago,Chile,44%4%,76,84,184 hours,44,184
+26,https://www.tomtom.com/en_gb/traffic-index/poznan-traffic#statistics,27,Poznan,Poland,44%5%,64,85,174 hours,44,174
+27,https://www.tomtom.com/en_gb/traffic-index/salvador-traffic#statistics,28,Salvador,Brazil,43%5%,69,87,179 hours,43,179
+28,https://www.tomtom.com/en_gb/traffic-index/kharkiv-traffic#statistics,29,Kharkiv,Ukraine,43%,73,69,163 hours,43,163
+29,https://www.tomtom.com/en_gb/traffic-index/athens-traffic#statistics,30,Athens,Greece,43%3%,76,70,167 hours,43,167
+30,https://www.tomtom.com/en_gb/traffic-index/los-angeles-traffic#statistics,31,Los Angeles,United States of America,42%1%,64,82,167 hours,42,167
+31,https://www.tomtom.com/en_gb/traffic-index/tokyo-traffic#statistics,32,Tokyo,Japan,42%1%,66,64,149 hours,42,149
+32,https://www.tomtom.com/en_gb/traffic-index/edinburgh-traffic#statistics,33,Edinburgh,United Kingdom,41%1%,72,79,172 hours,41,172
+33,https://www.tomtom.com/en_gb/traffic-index/chongqing-traffic#statistics,34,Chongqing,China,41%3%,80,86,190 hours,41,190
+34,https://www.tomtom.com/en_gb/traffic-index/yekaterinburg-traffic#statistics,35,Yekaterinburg,Russia,41%4%,78,86,188 hours,41,188
+35,https://www.tomtom.com/en_gb/traffic-index/cairo-traffic#statistics,36,Cairo,Egypt,40%4%,42,73,138 hours,40,138
+36,https://www.tomtom.com/en_gb/traffic-index/warsaw-traffic#statistics,37,Warsaw,Poland,40%1%,75,84,184 hours,40,184
+37,https://www.tomtom.com/en_gb/traffic-index/guangzhou-traffic#statistics,38,Guangzhou,China,40%2%,51,76,147 hours,40,147
+38,https://www.tomtom.com/en_gb/traffic-index/zhuhai-traffic#statistics,39,Zhuhai,China,39%3%,61,88,172 hours,39,172
+39,https://www.tomtom.com/en_gb/traffic-index/vancouver-traffic#statistics,40,Vancouver,Canada,39%1%,58,71,149 hours,39,149
+40,https://www.tomtom.com/en_gb/traffic-index/wroclaw-traffic#statistics,41,Wroclaw,Poland,39%4%,64,82,170 hours,39,170
+41,https://www.tomtom.com/en_gb/traffic-index/paris-traffic#statistics,42,Paris,France,39%3%,72,71,163 hours,39,163
+42,https://www.tomtom.com/en_gb/traffic-index/rome-traffic#statistics,43,Rome,Italy,38%1%,79,70,172 hours,38,172
+43,https://www.tomtom.com/en_gb/traffic-index/brussels-traffic#statistics,44,Brussels,Belgium,38%1%,75,77,174 hours,38,174
+44,https://www.tomtom.com/en_gb/traffic-index/london-traffic#statistics,45,London,United Kingdom,38%1%,63,67,149 hours,38,149
+45,https://www.tomtom.com/en_gb/traffic-index/kuala-lumpur-traffic#statistics,46,Kuala Lumpur,Malaysia,37%1%,63,84,170 hours,37,170
+46,https://www.tomtom.com/en_gb/traffic-index/dnipro-traffic#statistics,47,Dnipro,Ukraine,37%,65,65,149 hours,37,149
+47,https://www.tomtom.com/en_gb/traffic-index/budapest-traffic#statistics,48,Budapest,Hungary,37%2%,65,67,151 hours,37,151
+48,https://www.tomtom.com/en_gb/traffic-index/shenzhen-traffic#statistics,49,Shenzhen,China,37%1%,51,63,131 hours,37,131
+49,https://www.tomtom.com/en_gb/traffic-index/fortaleza-traffic#statistics,50,Fortaleza,Brazil,37%2%,61,70,151 hours,37,151
+50,https://www.tomtom.com/en_gb/traffic-index/beijing-traffic#statistics,51,Beijing,China,37%3%,64,67,149 hours,37,149
+51,https://www.tomtom.com/en_gb/traffic-index/new-york-traffic#statistics,52,New York,United States of America,37%1%,54,70,142 hours,37,142
+52,https://www.tomtom.com/en_gb/traffic-index/luxembourg-traffic#statistics,53,Luxembourg,Luxembourg,36%3%,70,72,163 hours,36,163
+53,https://www.tomtom.com/en_gb/traffic-index/sofia-traffic#statistics,54,Sofia,Bulgaria,36%1%,68,73,163 hours,36,163
+54,https://www.tomtom.com/en_gb/traffic-index/bratislava-traffic#statistics,55,Bratislava,Slovakia,36%3%,76,70,167 hours,36,167
+55,https://www.tomtom.com/en_gb/traffic-index/palermo-traffic#statistics,56,Palermo,Italy,36%1%,59,61,138 hours,36,138
+56,https://www.tomtom.com/en_gb/traffic-index/osaka-traffic#statistics,57,Osaka,Japan,36%0%,55,56,128 hours,36,128
+57,https://www.tomtom.com/en_gb/traffic-index/rostov-on-don-traffic#statistics,58,Rostov-on-Don,Russia,36%,65,69,154 hours,36,154
+58,https://www.tomtom.com/en_gb/traffic-index/san-francisco-traffic#statistics,59,San Francisco,United States of America,36%2%,58,69,147 hours,36,147
+59,https://www.tomtom.com/en_gb/traffic-index/belo-horizonte-traffic#statistics,60,Belo Horizonte,Brazil,35%2%,53,80,154 hours,35,154
+60,https://www.tomtom.com/en_gb/traffic-index/changsha-traffic#statistics,61,Changsha,China,35%1%,64,70,154 hours,35,154
+61,https://www.tomtom.com/en_gb/traffic-index/porto-alegre-traffic#statistics,62,Porto Alegre,Brazil,35%2%,51,80,154 hours,35,154
+62,https://www.tomtom.com/en_gb/traffic-index/brighton-and-hove-traffic#statistics,63,Brighton and Hove,United Kingdom,35%1%,63,62,142 hours,35,142
+63,https://www.tomtom.com/en_gb/traffic-index/taipei-traffic#statistics,64,Taipei,Taiwan,35%1%,55,63,138 hours,35,138
+64,https://www.tomtom.com/en_gb/traffic-index/chengdu-traffic#statistics,65,Chengdu,China,35%4%,62,63,142 hours,35,142
+65,https://www.tomtom.com/en_gb/traffic-index/buenos-aires-traffic#statistics,66,Buenos Aires,Argentina,35%1%,57,59,133 hours,35,133
+66,https://www.tomtom.com/en_gb/traffic-index/mons-traffic#statistics,67,Mons,Belgium,34%18%,53,63,133 hours,34,133
+67,https://www.tomtom.com/en_gb/traffic-index/marseille-traffic#statistics,68,Marseille,France,34%1%,62,70,151 hours,34,151
+68,https://www.tomtom.com/en_gb/traffic-index/bournemouth-traffic#statistics,69,Bournemouth,United Kingdom,34%0%,60,65,144 hours,34,144
+69,https://www.tomtom.com/en_gb/traffic-index/hamburg-traffic#statistics,70,Hamburg,Germany,34%1%,54,61,131 hours,34,131
+70,https://www.tomtom.com/en_gb/traffic-index/bydgoszcz-traffic#statistics,71,Bydgoszcz,Poland,34%3%,49,70,140 hours,34,140
+71,https://www.tomtom.com/en_gb/traffic-index/chelyabinsk-traffic#statistics,72,Chelyabinsk,Russia,34%,65,66,149 hours,34,149
+72,https://www.tomtom.com/en_gb/traffic-index/hull-traffic#statistics,73,Hull,United Kingdom,34%0%,63,68,151 hours,34,151
+73,https://www.tomtom.com/en_gb/traffic-index/taichung-traffic#statistics,74,Taichung,Taiwan,34%1%,37,60,119 hours,34,119
+74,https://www.tomtom.com/en_gb/traffic-index/cork-traffic#statistics,75,Cork,Ireland,33%1%,74,74,170 hours,33,170
+75,https://www.tomtom.com/en_gb/traffic-index/belfast-traffic#statistics,76,Belfast,United Kingdom,33%1%,74,64,158 hours,33,158
+76,https://www.tomtom.com/en_gb/traffic-index/geneva-traffic#statistics,77,Geneva,Switzerland,33%0%,54,68,140 hours,33,140
+77,https://www.tomtom.com/en_gb/traffic-index/changchun-traffic#statistics,78,Changchun,China,33%5%,63,64,144 hours,33,144
+78,https://www.tomtom.com/en_gb/traffic-index/southampton-traffic#statistics,79,Southampton,United Kingdom,33%6%,60,65,144 hours,33,144
+79,https://www.tomtom.com/en_gb/traffic-index/toronto-traffic#statistics,80,Toronto,Canada,33%1%,56,68,142 hours,33,142
+80,https://www.tomtom.com/en_gb/traffic-index/lisbon-traffic#statistics,81,Lisbon,Portugal,33%1%,66,76,163 hours,33,163
+81,https://www.tomtom.com/en_gb/traffic-index/gdansk-gdynia-sopot-traffic#statistics,82,"Gdansk, Gdynia and Sopot",Poland,33%3%,53,75,151 hours,33,151
+82,https://www.tomtom.com/en_gb/traffic-index/bristol-traffic#statistics,83,Bristol,United Kingdom,33%1%,62,68,149 hours,33,149
+83,https://www.tomtom.com/en_gb/traffic-index/san-jose-traffic#statistics,84,San Jose,United States of America,33%1%,60,77,158 hours,33,158
+84,https://www.tomtom.com/en_gb/traffic-index/nagoya-traffic#statistics,85,Nagoya,Japan,33%1%,56,53,126 hours,33,126
+85,https://www.tomtom.com/en_gb/traffic-index/sydney-traffic#statistics,86,Sydney,Australia,33%1%,63,58,138 hours,33,138
+86,https://www.tomtom.com/en_gb/traffic-index/kaohsiung-traffic#statistics,87,Kaohsiung,Taiwan,33%1%,35,55,110 hours,33,110
+87,https://www.tomtom.com/en_gb/traffic-index/manchester-traffic#statistics,88,Manchester,United Kingdom,33%1%,61,76,158 hours,33,158
+88,https://www.tomtom.com/en_gb/traffic-index/reading-traffic#statistics,89,Reading,United Kingdom,32%8%,58,57,133 hours,32,133
+89,https://www.tomtom.com/en_gb/traffic-index/omsk-traffic#statistics,90,Omsk,Russia,32%,62,66,147 hours,32,147
+90,https://www.tomtom.com/en_gb/traffic-index/vilnius-traffic#statistics,91,Vilnius,Lithuania,32%2%,67,76,167 hours,32,167
+91,https://www.tomtom.com/en_gb/traffic-index/naples-traffic#statistics,92,Naples,Italy,32%2%,54,62,135 hours,32,135
+92,https://www.tomtom.com/en_gb/traffic-index/bordeaux-traffic#statistics,93,Bordeaux,France,32%0%,68,69,156 hours,32,156
+93,https://www.tomtom.com/en_gb/traffic-index/berlin-traffic#statistics,94,Berlin,Germany,32%1%,49,59,124 hours,32,124
+94,https://www.tomtom.com/en_gb/traffic-index/nizhny-novgorod-traffic#statistics,95,Nizhny Novgorod,Russia,32%0%,63,72,156 hours,32,156
+95,https://www.tomtom.com/en_gb/traffic-index/singapore-traffic#statistics,96,Singapore,Singapore,32%1%,57,61,135 hours,32,135
+96,https://www.tomtom.com/en_gb/traffic-index/antwerp-traffic#statistics,97,Antwerp,Belgium,32%1%,56,62,135 hours,32,135
+97,https://www.tomtom.com/en_gb/traffic-index/leicester-traffic#statistics,98,Leicester,United Kingdom,32%2%,62,68,149 hours,32,149
+98,https://www.tomtom.com/en_gb/traffic-index/grenoble-traffic#statistics,99,Grenoble,France,32%3%,63,70,151 hours,32,151
+99,https://www.tomtom.com/en_gb/traffic-index/ankara-traffic#statistics,100,Ankara,Turkey,32%1%,55,66,140 hours,32,140
+100,https://www.tomtom.com/en_gb/traffic-index/cape-town-traffic#statistics,101,Cape Town,South Africa,32%1%,69,65,154 hours,32,154
+101,https://www.tomtom.com/en_gb/traffic-index/wiesbaden-traffic#statistics,102,Wiesbaden,Germany,32%8%,50,61,128 hours,32,128
+102,https://www.tomtom.com/en_gb/traffic-index/zurich-traffic#statistics,103,Zurich,Switzerland,32%1%,52,67,138 hours,32,138
+103,https://www.tomtom.com/en_gb/traffic-index/messina-traffic#statistics,104,Messina,Italy,31%1%,51,48,115 hours,31,115
+104,https://www.tomtom.com/en_gb/traffic-index/auckland-traffic#statistics,105,Auckland,New Zealand,31%2%,65,75,163 hours,31,163
+105,https://www.tomtom.com/en_gb/traffic-index/tomsk-traffic#statistics,106,Tomsk,Russia,31%,57,67,144 hours,31,144
+106,https://www.tomtom.com/en_gb/traffic-index/milan-traffic#statistics,107,Milan,Italy,31%1%,69,60,149 hours,31,149
+107,https://www.tomtom.com/en_gb/traffic-index/hong-kong-traffic#statistics,108,Hong Kong,Hong Kong,31%1%,56,58,131 hours,31,131
+108,https://www.tomtom.com/en_gb/traffic-index/porto-traffic#statistics,109,Porto,Portugal,31%3%,61,71,154 hours,31,154
+109,https://www.tomtom.com/en_gb/traffic-index/seattle-traffic#statistics,110,Seattle,United States of America,31%0%,54,66,138 hours,31,138
+110,https://www.tomtom.com/en_gb/traffic-index/tallinn-traffic#statistics,111,Tallinn,Estonia,31%1%,53,60,131 hours,31,131
+111,https://www.tomtom.com/en_gb/traffic-index/xiamen-traffic#statistics,112,Xiamen,China,31%0%,50,72,142 hours,31,142
+112,https://www.tomtom.com/en_gb/traffic-index/miami-traffic#statistics,113,Miami,United States of America,31%1%,52,64,133 hours,31,133
+113,https://www.tomtom.com/en_gb/traffic-index/tainan-traffic#statistics,114,Tainan,Taiwan,31%1%,37,50,105 hours,31,105
+114,https://www.tomtom.com/en_gb/traffic-index/shanghai-traffic#statistics,115,Shanghai,China,31%2%,60,57,133 hours,31,133
+115,https://www.tomtom.com/en_gb/traffic-index/nice-traffic#statistics,116,Nice,France,31%0%,53,67,138 hours,31,138
+116,https://www.tomtom.com/en_gb/traffic-index/lugano-traffic#statistics,117,Lugano,Switzerland,31%3%,54,66,138 hours,31,138
+117,https://www.tomtom.com/en_gb/traffic-index/limerick-traffic#statistics,118,Limerick,Ireland,31%2%,54,53,124 hours,31,124
+118,https://www.tomtom.com/en_gb/traffic-index/brno-traffic#statistics,119,Brno,Czechia,30%3%,52,56,124 hours,30,124
+119,https://www.tomtom.com/en_gb/traffic-index/lyon-traffic#statistics,120,Lyon,France,30%1%,62,63,142 hours,30,142
+120,https://www.tomtom.com/en_gb/traffic-index/johannesburg-traffic#statistics,121,Johannesburg,South Africa,30%0%,67,67,154 hours,30,154
+121,https://www.tomtom.com/en_gb/traffic-index/szczecin-traffic#statistics,122,Szczecin,Poland,30%3%,43,62,124 hours,30,124
+122,https://www.tomtom.com/en_gb/traffic-index/melbourne-traffic#statistics,123,Melbourne,Australia,30%1%,55,57,128 hours,30,128
+123,https://www.tomtom.com/en_gb/traffic-index/munich-traffic#statistics,124,Munich,Germany,30%0%,54,60,131 hours,30,131
+124,https://www.tomtom.com/en_gb/traffic-index/cardiff-traffic#statistics,125,Cardiff,United Kingdom,30%2%,59,62,138 hours,30,138
+125,https://www.tomtom.com/en_gb/traffic-index/nanjing-traffic#statistics,126,Nanjing,China,30%0%,58,53,128 hours,30,128
+126,https://www.tomtom.com/en_gb/traffic-index/taoyuan-traffic#statistics,127,Taoyuan,Taiwan,30%2%,49,57,124 hours,30,124
+127,https://www.tomtom.com/en_gb/traffic-index/genoa-traffic#statistics,128,Genoa,Italy,30%1%,53,54,121 hours,30,121
+128,https://www.tomtom.com/en_gb/traffic-index/nuremberg-traffic#statistics,129,Nuremberg,Germany,30%0%,47,56,119 hours,30,119
+129,https://www.tomtom.com/en_gb/traffic-index/thessaloniki-traffic#statistics,130,Thessaloniki,Greece,30%2%,43,42,98 hours,30,98
+130,https://www.tomtom.com/en_gb/traffic-index/leiden-traffic#statistics,131,Leiden,Netherlands,30%3%,62,56,135 hours,30,135
+131,https://www.tomtom.com/en_gb/traffic-index/stuttgart-traffic#statistics,132,Stuttgart,Germany,30%0%,48,58,124 hours,30,124
+132,https://www.tomtom.com/en_gb/traffic-index/sapporo-traffic#statistics,133,Sapporo,Japan,30%0%,44,44,101 hours,30,101
+133,https://www.tomtom.com/en_gb/traffic-index/izmir-traffic#statistics,134,Izmir,Turkey,29%1%,49,70,140 hours,29,140
+134,https://www.tomtom.com/en_gb/traffic-index/bonn-traffic#statistics,135,Bonn,Germany,29%2%,52,61,131 hours,29,131
+135,https://www.tomtom.com/en_gb/traffic-index/prague-traffic#statistics,136,Prague,Czechia,29%2%,58,54,128 hours,29,128
+136,https://www.tomtom.com/en_gb/traffic-index/catania-traffic#statistics,137,Catania,Italy,29%1%,49,53,117 hours,29,117
+137,https://www.tomtom.com/en_gb/traffic-index/montreal-traffic#statistics,138,Montreal,Canada,29%2%,51,61,131 hours,29,131
+138,https://www.tomtom.com/en_gb/traffic-index/ottawa-traffic#statistics,139,Ottawa,Canada,29%2%,54,67,140 hours,29,140
+139,https://www.tomtom.com/en_gb/traffic-index/barcelona-traffic#statistics,140,Barcelona,Spain,29%0%,56,56,128 hours,29,128
+140,https://www.tomtom.com/en_gb/traffic-index/washington-traffic#statistics,141,Washington,United States of America,29%1%,47,61,126 hours,29,126
+141,https://www.tomtom.com/en_gb/traffic-index/toulon-traffic#statistics,142,Toulon,France,29%1%,53,65,135 hours,29,135
+142,https://www.tomtom.com/en_gb/traffic-index/kazan-traffic#statistics,143,Kazan,Russia,29%,53,62,133 hours,29,133
+143,https://www.tomtom.com/en_gb/traffic-index/antalya-traffic#statistics,144,Antalya,Turkey,29%2%,40,54,112 hours,29,112
+144,https://www.tomtom.com/en_gb/traffic-index/liverpool-traffic#statistics,145,Liverpool,United Kingdom,28%1%,49,52,115 hours,28,115
+145,https://www.tomtom.com/en_gb/traffic-index/toulouse-traffic#statistics,146,Toulouse,France,28%0%,71,65,158 hours,28,158
+146,https://www.tomtom.com/en_gb/traffic-index/wellington-traffic#statistics,147,Wellington,New Zealand,28%1%,64,60,142 hours,28,142
+147,https://www.tomtom.com/en_gb/traffic-index/chicago-traffic#statistics,148,Chicago,United States of America,28%0%,41,58,115 hours,28,115
+148,https://www.tomtom.com/en_gb/traffic-index/curitiba-traffic#statistics,149,Curitiba,Brazil,28%1%,42,71,138 hours,28,138
+149,https://www.tomtom.com/en_gb/traffic-index/kassel-traffic#statistics,150,Kassel,Germany,28%,41,57,115 hours,28,115
+150,https://www.tomtom.com/en_gb/traffic-index/the-hague-traffic#statistics,151,The Hague,Netherlands,28%0%,47,61,124 hours,28,124
+151,https://www.tomtom.com/en_gb/traffic-index/bari-traffic#statistics,152,Bari,Italy,28%1%,45,48,105 hours,28,105
+152,https://www.tomtom.com/en_gb/traffic-index/birmingham-traffic#statistics,153,Birmingham-Wolverhampton,United Kingdom,28%0%,51,61,128 hours,28,128
+153,https://www.tomtom.com/en_gb/traffic-index/hangzhou-traffic#statistics,154,Hangzhou,China,28%1%,43,43,98 hours,28,98
+154,https://www.tomtom.com/en_gb/traffic-index/vienna-traffic#statistics,155,Vienna,Austria,28%1%,44,54,112 hours,28,112
+155,https://www.tomtom.com/en_gb/traffic-index/honolulu-traffic#statistics,156,Honolulu,United States of America,28%0%,55,63,135 hours,28,135
+156,https://www.tomtom.com/en_gb/traffic-index/fuzhou-traffic#statistics,157,Fuzhou,China,28%4%,42,54,110 hours,28,110
+157,https://www.tomtom.com/en_gb/traffic-index/stoke-on-trent-traffic#statistics,158,Stoke-on-Trent,United Kingdom,28%4%,52,56,124 hours,28,124
+158,https://www.tomtom.com/en_gb/traffic-index/shenyang-traffic#statistics,159,Shenyang,China,28%7%,46,51,112 hours,28,112
+159,https://www.tomtom.com/en_gb/traffic-index/strasbourg-traffic#statistics,160,Strasbourg,France,28%2%,47,68,133 hours,28,133
+160,https://www.tomtom.com/en_gb/traffic-index/sheffield-traffic#statistics,161,Sheffield,United Kingdom,28%1%,54,55,126 hours,28,126
+161,https://www.tomtom.com/en_gb/traffic-index/austin-traffic#statistics,162,Austin,United States of America,27%2%,45,68,133 hours,27,133
+162,https://www.tomtom.com/en_gb/traffic-index/haarlem-traffic#statistics,163,Haarlem,Netherlands,27%1%,49,42,103 hours,27,103
+163,https://www.tomtom.com/en_gb/traffic-index/wuhan-traffic#statistics,164,Wuhan,China,27%5%,46,49,110 hours,27,110
+164,https://www.tomtom.com/en_gb/traffic-index/nantes-traffic#statistics,165,Nantes,France,27%1%,61,61,140 hours,27,140
+165,https://www.tomtom.com/en_gb/traffic-index/nottingham-traffic#statistics,166,Nottingham,United Kingdom,27%1%,54,61,131 hours,27,131
+166,https://www.tomtom.com/en_gb/traffic-index/reggio-calabria-traffic#statistics,167,Reggio Calabria,Italy,27%0%,35,45,94 hours,27,94
+167,https://www.tomtom.com/en_gb/traffic-index/bremen-traffic#statistics,168,Bremen,Germany,27%3%,36,55,108 hours,27,108
+168,https://www.tomtom.com/en_gb/traffic-index/stockholm-traffic#statistics,169,Stockholm,Sweden,27%1%,53,62,133 hours,27,133
+169,https://www.tomtom.com/en_gb/traffic-index/riga-traffic#statistics,170,Riga,Latvia,27%3%,51,59,126 hours,27,126
+170,https://www.tomtom.com/en_gb/traffic-index/lausanne-traffic#statistics,171,Lausanne,Switzerland,27%1%,44,64,124 hours,27,124
+171,https://www.tomtom.com/en_gb/traffic-index/lublin-traffic#statistics,172,Lublin,Poland,27%2%,40,48,101 hours,27,101
+172,https://www.tomtom.com/en_gb/traffic-index/salzburg-traffic#statistics,173,Salzburg,Austria,27%1%,38,48,101 hours,27,101
+173,https://www.tomtom.com/en_gb/traffic-index/frankfurt-am-main-traffic#statistics,174,Frankfurt am Main,Germany,27%1%,54,51,121 hours,27,121
+174,https://www.tomtom.com/en_gb/traffic-index/nijmegen-traffic#statistics,175,Nijmegen,Netherlands,27%5%,41,56,112 hours,27,112
+175,https://www.tomtom.com/en_gb/traffic-index/turin-traffic#statistics,176,Turin,Italy,27%3%,55,53,124 hours,27,124
+176,https://www.tomtom.com/en_gb/traffic-index/leeds-bradford-traffic#statistics,177,Leeds-Bradford,United Kingdom,27%0%,51,61,128 hours,27,128
+177,https://www.tomtom.com/en_gb/traffic-index/kobe-traffic#statistics,178,Kobe,Japan,26%1%,34,41,87 hours,26,87
+178,https://www.tomtom.com/en_gb/traffic-index/swansea-traffic#statistics,179,Swansea,United Kingdom,26%0%,45,53,112 hours,26,112
+179,https://www.tomtom.com/en_gb/traffic-index/baton-rouge-traffic#statistics,180,Baton Rouge,United States of America,26%0%,35,67,119 hours,26,119
+180,https://www.tomtom.com/en_gb/traffic-index/adana-traffic#statistics,181,Adana,Turkey,26%0%,36,43,92 hours,26,92
+181,https://www.tomtom.com/en_gb/traffic-index/san-diego-traffic#statistics,182,San Diego,United States of America,26%1%,46,60,124 hours,26,124
+182,https://www.tomtom.com/en_gb/traffic-index/basel-traffic#statistics,183,Basel,Switzerland,26%0%,40,68,128 hours,26,128
+183,https://www.tomtom.com/en_gb/traffic-index/boston-traffic#statistics,184,Boston,United States of America,26%1%,45,54,115 hours,26,115
+184,https://www.tomtom.com/en_gb/traffic-index/montpellier-traffic#statistics,185,Montpellier,France,26%1%,54,55,124 hours,26,124
+185,https://www.tomtom.com/en_gb/traffic-index/shijiazhuang-traffic#statistics,186,Shijiazhuang,China,26%6%,38,46,96 hours,26,96
+186,https://www.tomtom.com/en_gb/traffic-index/kosice-traffic#statistics,187,Kosice,Slovakia,26%2%,55,42,110 hours,26,110
+187,https://www.tomtom.com/en_gb/traffic-index/portsmouth-traffic#statistics,188,Portsmouth,United Kingdom,26%2%,43,51,108 hours,26,108
+188,https://www.tomtom.com/en_gb/traffic-index/portland-traffic#statistics,189,Portland,United States of America,26%2%,37,58,112 hours,26,112
+189,https://www.tomtom.com/en_gb/traffic-index/amsterdam-traffic#statistics,190,Amsterdam,Netherlands,26%2%,42,56,112 hours,26,112
+190,https://www.tomtom.com/en_gb/traffic-index/bialystok-traffic#statistics,191,Bialystok,Poland,26%1%,42,48,105 hours,26,105
+191,https://www.tomtom.com/en_gb/traffic-index/nashville-traffic#statistics,192,Nashville,United States of America,26%4%,47,64,128 hours,26,128
+192,https://www.tomtom.com/en_gb/traffic-index/riverside-traffic#statistics,193,Riverside,United States of America,26%3%,41,54,110 hours,26,110
+193,https://www.tomtom.com/en_gb/traffic-index/clermont-ferrand-traffic#statistics,194,Clermont-Ferrand,France,26%3%,44,55,115 hours,26,115
+194,https://www.tomtom.com/en_gb/traffic-index/cologne-traffic#statistics,195,Cologne,Germany,26%1%,44,52,110 hours,26,110
+195,https://www.tomtom.com/en_gb/traffic-index/atlanta-traffic#statistics,196,Atlanta,United States of America,26%0%,45,61,124 hours,26,124
+196,https://www.tomtom.com/en_gb/traffic-index/kiel-traffic#statistics,197,Kiel,Germany,26%5%,41,44,98 hours,26,98
+197,https://www.tomtom.com/en_gb/traffic-index/graz-traffic#statistics,198,Graz,Austria,26%0%,44,44,101 hours,26,101
+198,https://www.tomtom.com/en_gb/traffic-index/arnhem-traffic#statistics,199,Arnhem,Netherlands,26%2%,41,63,119 hours,26,119
+199,https://www.tomtom.com/en_gb/traffic-index/ljubljana-traffic#statistics,200,Ljubljana,Slovenia,26%3%,49,59,124 hours,26,124
+200,https://www.tomtom.com/en_gb/traffic-index/newcastle-sunderland-traffic#statistics,201,Newcastle-Sunderland,United Kingdom,25%0%,50,50,115 hours,25,115
+201,https://www.tomtom.com/en_gb/traffic-index/granada-traffic#statistics,202,Granada,Spain,25%1%,47,36,94 hours,25,94
+202,https://www.tomtom.com/en_gb/traffic-index/lille-traffic#statistics,203,Lille,France,25%1%,58,54,128 hours,25,128
+203,https://www.tomtom.com/en_gb/traffic-index/glasgow-traffic#statistics,204,Glasgow,United Kingdom,25%1%,50,54,119 hours,25,119
+204,https://www.tomtom.com/en_gb/traffic-index/bologna-traffic#statistics,205,Bologna,Italy,25%0%,53,52,121 hours,25,121
+205,https://www.tomtom.com/en_gb/traffic-index/sacramento-traffic#statistics,206,Sacramento,United States of America,25%2%,42,56,115 hours,25,115
+206,https://www.tomtom.com/en_gb/traffic-index/pretoria-traffic#statistics,207,Pretoria,South Africa,25%0%,60,55,131 hours,25,131
+207,https://www.tomtom.com/en_gb/traffic-index/bursa-traffic#statistics,208,Bursa,Turkey,25%1%,32,55,105 hours,25,105
+208,https://www.tomtom.com/en_gb/traffic-index/hamilton-nz-traffic#statistics,209,Hamilton,New Zealand,25%3%,49,56,121 hours,25,121
+209,https://www.tomtom.com/en_gb/traffic-index/florence-traffic#statistics,210,Florence,Italy,25%0%,49,49,112 hours,25,112
+210,https://www.tomtom.com/en_gb/traffic-index/dresden-traffic#statistics,211,Dresden,Germany,25%1%,41,46,101 hours,25,101
+211,https://www.tomtom.com/en_gb/traffic-index/brisbane-traffic#statistics,212,Brisbane,Australia,25%0%,46,48,108 hours,25,108
+212,https://www.tomtom.com/en_gb/traffic-index/halifax-traffic#statistics,213,Halifax,Canada,25%3%,44,57,117 hours,25,117
+213,https://www.tomtom.com/en_gb/traffic-index/coventry-traffic#statistics,214,Coventry,United Kingdom,25%4%,50,52,117 hours,25,117
+214,https://www.tomtom.com/en_gb/traffic-index/rotterdam-traffic#statistics,215,Rotterdam,Netherlands,25%2%,37,62,115 hours,25,115
+215,https://www.tomtom.com/en_gb/traffic-index/kuwait-city-traffic#statistics,216,Kuwait City,Kuwait,25%1%,37,34,82 hours,25,82
+216,https://www.tomtom.com/en_gb/traffic-index/ningbo-traffic#statistics,217,Ningbo,China,24%2%,43,51,108 hours,24,108
+217,https://www.tomtom.com/en_gb/traffic-index/liege-traffic#statistics,218,Liege,Belgium,24%4%,46,53,115 hours,24,115
+218,https://www.tomtom.com/en_gb/traffic-index/dusseldorf-traffic#statistics,219,Dusseldorf,Germany,24%3%,49,45,108 hours,24,108
+219,https://www.tomtom.com/en_gb/traffic-index/palma-de-mallorca-traffic#statistics,220,Palma de Mallorca,Spain,24%1%,47,44,105 hours,24,105
+220,https://www.tomtom.com/en_gb/traffic-index/philadelphia-traffic#statistics,221,Philadelphia,United States of America,24%0%,38,53,105 hours,24,105
+221,https://www.tomtom.com/en_gb/traffic-index/rennes-traffic#statistics,222,Rennes,France,24%2%,53,63,133 hours,24,133
+222,https://www.tomtom.com/en_gb/traffic-index/riyadh-traffic#statistics,223,Riyadh,Saudi Arabia,24%1%,38,43,94 hours,24,94
+223,https://www.tomtom.com/en_gb/traffic-index/houston-traffic#statistics,224,Houston,United States of America,24%1%,43,60,119 hours,24,119
+224,https://www.tomtom.com/en_gb/traffic-index/adelaide-traffic#statistics,225,Adelaide,Australia,24%1%,46,43,103 hours,24,103
+225,https://www.tomtom.com/en_gb/traffic-index/tampa-traffic#statistics,226,Tampa,United States of America,24%1%,39,55,110 hours,24,110
+226,https://www.tomtom.com/en_gb/traffic-index/prato-traffic#statistics,227,Prato,Italy,24%1%,54,45,112 hours,24,112
+227,https://www.tomtom.com/en_gb/traffic-index/leipzig-traffic#statistics,228,Leipzig,Germany,24%2%,37,44,94 hours,24,94
+228,https://www.tomtom.com/en_gb/traffic-index/groningen-traffic#statistics,229,Groningen,Netherlands,24%2%,41,41,94 hours,24,94
+229,https://www.tomtom.com/en_gb/traffic-index/gold-coast-traffic#statistics,230,Gold Coast,Australia,24%1%,38,40,89 hours,24,89
+230,https://www.tomtom.com/en_gb/traffic-index/brest-traffic#statistics,231,Brest,France,23%1%,40,51,105 hours,23,105
+231,https://www.tomtom.com/en_gb/traffic-index/freiburg-traffic#statistics,232,Freiburg,Germany,23%2%,35,45,94 hours,23,94
+232,https://www.tomtom.com/en_gb/traffic-index/tianjin-traffic#statistics,233,Tianjin,China,23%4%,42,43,98 hours,23,98
+233,https://www.tomtom.com/en_gb/traffic-index/cagliari-traffic#statistics,234,Cagliari,Italy,23%1%,44,39,94 hours,23,94
+234,https://www.tomtom.com/en_gb/traffic-index/ruhr-region-west-traffic#statistics,235,Ruhr region west,Germany,23%0%,41,48,103 hours,23,103
+235,https://www.tomtom.com/en_gb/traffic-index/gaziantep-traffic#statistics,236,Gaziantep,Turkey,23%0%,28,36,75 hours,23,75
+236,https://www.tomtom.com/en_gb/traffic-index/quanzhou-traffic#statistics,237,Quanzhou,China,23%2%,27,44,85 hours,23,85
+237,https://www.tomtom.com/en_gb/traffic-index/denver-traffic#statistics,238,Denver,United States of America,23%1%,38,51,103 hours,23,103
+238,https://www.tomtom.com/en_gb/traffic-index/innsbruck-traffic#statistics,239,Innsbruck,Austria,23%3%,33,40,85 hours,23,85
+239,https://www.tomtom.com/en_gb/traffic-index/london-ontario-traffic#statistics,240,London,Canada,23%1%,31,45,89 hours,23,89
+240,https://www.tomtom.com/en_gb/traffic-index/pescara-traffic#statistics,241,Pescara,Italy,23%2%,37,43,92 hours,23,92
+241,https://www.tomtom.com/en_gb/traffic-index/hobart-traffic#statistics,242,Hobart,Australia,23%2%,49,42,105 hours,23,105
+242,https://www.tomtom.com/en_gb/traffic-index/madrid-traffic#statistics,243,Madrid,Spain,23%1%,55,46,117 hours,23,117
+243,https://www.tomtom.com/en_gb/traffic-index/santa-cruz-de-tenerife-traffic#statistics,244,Santa Cruz de Tenerife,Spain,23%1%,35,39,85 hours,23,85
+244,https://www.tomtom.com/en_gb/traffic-index/preston-traffic#statistics,245,Preston,United Kingdom,23%1%,44,47,105 hours,23,105
+245,https://www.tomtom.com/en_gb/traffic-index/mersin-traffic#statistics,246,Mersin,Turkey,23%1%,23,37,73 hours,23,73
+246,https://www.tomtom.com/en_gb/traffic-index/winnipeg-traffic#statistics,247,Winnipeg,Canada,22%0%,33,47,94 hours,22,94
+247,https://www.tomtom.com/en_gb/traffic-index/dongguan-traffic#statistics,248,Dongguan,China,22%2%,30,46,89 hours,22,89
+248,https://www.tomtom.com/en_gb/traffic-index/east-london-traffic#statistics,249,East London,South Africa,22%2%,47,44,105 hours,22,105
+249,https://www.tomtom.com/en_gb/traffic-index/oslo-traffic#statistics,250,Oslo,Norway,22%1%,51,58,126 hours,22,126
+250,https://www.tomtom.com/en_gb/traffic-index/karlsruhe-traffic#statistics,251,Karlsruhe,Germany,22%1%,31,46,89 hours,22,89
+251,https://www.tomtom.com/en_gb/traffic-index/augsburg-traffic#statistics,252,Augsburg,Germany,22%2%,37,44,94 hours,22,94
+252,https://www.tomtom.com/en_gb/traffic-index/rouen-traffic#statistics,253,Rouen,France,22%0%,43,48,105 hours,22,105
+253,https://www.tomtom.com/en_gb/traffic-index/orlando-traffic#statistics,254,Orlando,United States of America,22%0%,32,53,98 hours,22,98
+254,https://www.tomtom.com/en_gb/traffic-index/utrecht-traffic#statistics,255,Utrecht,Netherlands,22%1%,37,57,108 hours,22,108
+255,https://www.tomtom.com/en_gb/traffic-index/eindhoven-traffic#statistics,256,Eindhoven,Netherlands,22%1%,40,47,101 hours,22,101
+256,https://www.tomtom.com/en_gb/traffic-index/monchengladbach-traffic#statistics,257,Monchengladbach,Germany,22%2%,38,36,85 hours,22,85
+257,https://www.tomtom.com/en_gb/traffic-index/linz-traffic#statistics,258,Linz,Austria,22%3%,44,43,98 hours,22,98
+258,https://www.tomtom.com/en_gb/traffic-index/copenhagen-traffic#statistics,259,Copenhagen,Denmark,22%1%,48,45,105 hours,22,105
+259,https://www.tomtom.com/en_gb/traffic-index/charleston-traffic#statistics,260,Charleston,United States of America,22%0%,36,53,103 hours,22,103
+260,https://www.tomtom.com/en_gb/traffic-index/aarhus-traffic#statistics,261,Aarhus,Denmark,22%1%,46,43,101 hours,22,101
+261,https://www.tomtom.com/en_gb/traffic-index/new-orleans-traffic#statistics,262,New Orleans,United States of America,22%1%,32,48,92 hours,22,92
+262,https://www.tomtom.com/en_gb/traffic-index/quebec-traffic#statistics,263,Quebec,Canada,22%1%,45,57,119 hours,22,119
+263,https://www.tomtom.com/en_gb/traffic-index/boise-traffic#statistics,264,Boise,United States of America,21%0%,28,45,87 hours,21,87
+264,https://www.tomtom.com/en_gb/traffic-index/dubai-traffic#statistics,265,Dubai,United Arab Emirates,21%2%,31,43,87 hours,21,87
+265,https://www.tomtom.com/en_gb/traffic-index/uppsala-traffic#statistics,266,Uppsala,Sweden,21%1%,35,43,92 hours,21,92
+266,https://www.tomtom.com/en_gb/traffic-index/bielsko-biala-traffic#statistics,267,Bielsko-Biala,Poland,21%1%,33,37,80 hours,21,80
+267,https://www.tomtom.com/en_gb/traffic-index/fresno-traffic#statistics,268,Fresno,United States of America,21%1%,29,38,80 hours,21,80
+268,https://www.tomtom.com/en_gb/traffic-index/christchurch-traffic#statistics,269,Christchurch,New Zealand,21%0%,39,42,94 hours,21,94
+269,https://www.tomtom.com/en_gb/traffic-index/brasilia-traffic#statistics,270,Brasilia,Brazil,21%0%,35,54,105 hours,21,105
+270,https://www.tomtom.com/en_gb/traffic-index/mannheim-traffic#statistics,271,Mannheim,Germany,21%2%,33,40,85 hours,21,85
+271,https://www.tomtom.com/en_gb/traffic-index/cape-coral-fort-myers-traffic#statistics,272,Cape Coral-Fort Myers,United States of America,21%0%,31,39,80 hours,21,80
+272,https://www.tomtom.com/en_gb/traffic-index/munster-traffic#statistics,273,Munster,Germany,21%1%,37,40,89 hours,21,89
+273,https://www.tomtom.com/en_gb/traffic-index/hannover-traffic#statistics,274,Hannover,Germany,21%1%,35,41,89 hours,21,89
+274,https://www.tomtom.com/en_gb/traffic-index/breda-traffic#statistics,275,Breda,Netherlands,21%1%,35,46,92 hours,21,92
+275,https://www.tomtom.com/en_gb/traffic-index/le-havre-traffic#statistics,276,Le Havre,France,21%0%,33,43,87 hours,21,87
+276,https://www.tomtom.com/en_gb/traffic-index/ruhr-region-east-traffic#statistics,277,Ruhr region east,Germany,21%1%,38,41,89 hours,21,89
+277,https://www.tomtom.com/en_gb/traffic-index/seville-traffic#statistics,278,Seville,Spain,21%1%,40,34,85 hours,21,85
+278,https://www.tomtom.com/en_gb/traffic-index/pittsburgh-traffic#statistics,279,Pittsburgh,United States of America,21%0%,32,43,87 hours,21,87
+279,https://www.tomtom.com/en_gb/traffic-index/las-vegas-traffic#statistics,280,Las Vegas,United States of America,21%0%,25,40,78 hours,21,78
+280,https://www.tomtom.com/en_gb/traffic-index/murcia-traffic#statistics,281,Murcia,Spain,21%3%,40,31,80 hours,21,80
+281,https://www.tomtom.com/en_gb/traffic-index/trieste-traffic#statistics,282,Trieste,Italy,21%1%,29,30,69 hours,21,69
+282,https://www.tomtom.com/en_gb/traffic-index/bakersfield-traffic#statistics,283,Bakersfield,United States of America,21%3%,27,39,78 hours,21,78
+283,https://www.tomtom.com/en_gb/traffic-index/nancy-traffic#statistics,284,Nancy,France,21%1%,36,48,98 hours,21,98
+284,https://www.tomtom.com/en_gb/traffic-index/verona-traffic#statistics,285,Verona,Italy,20%0%,38,40,89 hours,20,89
+285,https://www.tomtom.com/en_gb/traffic-index/saint-etienne-traffic#statistics,286,Saint-Etienne,France,20%1%,39,50,103 hours,20,103
+286,https://www.tomtom.com/en_gb/traffic-index/bern-traffic#statistics,287,Bern,Switzerland,20%0%,34,55,105 hours,20,105
+287,https://www.tomtom.com/en_gb/traffic-index/perth-traffic#statistics,288,Perth,Australia,20%0%,39,36,85 hours,20,85
+288,https://www.tomtom.com/en_gb/traffic-index/leuven-traffic#statistics,289,Leuven,Belgium,20%3%,41,48,101 hours,20,101
+289,https://www.tomtom.com/en_gb/traffic-index/tauranga-traffic#statistics,290,Tauranga,New Zealand,20%2%,42,39,92 hours,20,92
+290,https://www.tomtom.com/en_gb/traffic-index/tilburg-traffic#statistics,291,Tilburg,Netherlands,20%0%,32,40,82 hours,20,82
+291,https://www.tomtom.com/en_gb/traffic-index/valencia-traffic#statistics,292,Valencia,Spain,20%1%,35,36,82 hours,20,82
+292,https://www.tomtom.com/en_gb/traffic-index/baltimore-traffic#statistics,293,Baltimore,United States of America,20%0%,34,49,96 hours,20,96
+293,https://www.tomtom.com/en_gb/traffic-index/apeldoorn-traffic#statistics,294,Apeldoorn,Netherlands,20%2%,29,45,85 hours,20,85
+294,https://www.tomtom.com/en_gb/traffic-index/orleans-traffic#statistics,295,Orleans,France,20%1%,34,40,85 hours,20,85
+295,https://www.tomtom.com/en_gb/traffic-index/malaga-traffic#statistics,296,Malaga,Spain,20%1%,33,30,71 hours,20,71
+296,https://www.tomtom.com/en_gb/traffic-index/taranto-traffic#statistics,297,Taranto,Italy,20%1%,27,32,69 hours,20,69
+297,https://www.tomtom.com/en_gb/traffic-index/dunedin-traffic#statistics,298,Dunedin,New Zealand,20%1%,33,32,73 hours,20,73
+298,https://www.tomtom.com/en_gb/traffic-index/suzhou-traffic#statistics,299,Suzhou,China,20%0%,36,41,89 hours,20,89
+299,https://www.tomtom.com/en_gb/traffic-index/livorno-traffic#statistics,300,Livorno,Italy,20%0%,26,35,71 hours,20,71
+300,https://www.tomtom.com/en_gb/traffic-index/newcastle-au-traffic#statistics,301,Newcastle,Australia,20%0%,39,35,85 hours,20,85
+301,https://www.tomtom.com/en_gb/traffic-index/providence-traffic#statistics,302,Providence,United States of America,20%1%,31,44,87 hours,20,87
+302,https://www.tomtom.com/en_gb/traffic-index/amersfoort-traffic#statistics,303,Amersfoort,Netherlands,20%0%,29,49,89 hours,20,89
+303,https://www.tomtom.com/en_gb/traffic-index/ghent-traffic#statistics,304,Ghent,Belgium,20%0%,35,42,89 hours,20,89
+304,https://www.tomtom.com/en_gb/traffic-index/middlesbrough-traffic#statistics,305,Middlesbrough,United Kingdom,20%1%,38,39,87 hours,20,87
+305,https://www.tomtom.com/en_gb/traffic-index/ostrava-traffic#statistics,306,Ostrava,Czechia,20%3%,31,37,78 hours,20,78
+306,https://www.tomtom.com/en_gb/traffic-index/charlotte-traffic#statistics,307,Charlotte,United States of America,19%1%,33,54,101 hours,19,101
+307,https://www.tomtom.com/en_gb/traffic-index/dallas-fort-worth-traffic#statistics,308,Dallas-Fort Worth,United States of America,19%1%,34,48,96 hours,19,96
+308,https://www.tomtom.com/en_gb/traffic-index/jeddah-traffic#statistics,309,Jeddah,Saudi Arabia,19%1%,24,37,73 hours,19,73
+309,https://www.tomtom.com/en_gb/traffic-index/mcallen-traffic#statistics,310,McAllen,United States of America,19%2%,29,40,80 hours,19,80
+310,https://www.tomtom.com/en_gb/traffic-index/wuxi-traffic#statistics,311,Wuxi,China,19%0%,25,39,75 hours,19,75
+311,https://www.tomtom.com/en_gb/traffic-index/hamilton-traffic#statistics,312,Hamilton,Canada,19%1%,30,43,85 hours,19,85
+312,https://www.tomtom.com/en_gb/traffic-index/namur-traffic#statistics,313,Namur,Belgium,19%10%,38,38,87 hours,19,87
+313,https://www.tomtom.com/en_gb/traffic-index/durban-traffic#statistics,314,Durban,South Africa,19%1%,44,41,98 hours,19,98
+314,https://www.tomtom.com/en_gb/traffic-index/a-coruna-traffic#statistics,315,A Coruna,Spain,19%0%,31,28,66 hours,19,66
+315,https://www.tomtom.com/en_gb/traffic-index/tucson-traffic#statistics,316,Tucson,United States of America,19%0%,27,35,71 hours,19,71
+316,https://www.tomtom.com/en_gb/traffic-index/turku-traffic#statistics,317,Turku,Finland,19%1%,28,36,75 hours,19,75
+317,https://www.tomtom.com/en_gb/traffic-index/san-antonio-traffic#statistics,318,San Antonio,United States of America,19%2%,37,53,105 hours,19,105
+318,https://www.tomtom.com/en_gb/traffic-index/helsinki-traffic#statistics,319,Helsinki,Finland,19%1%,34,38,82 hours,19,82
+319,https://www.tomtom.com/en_gb/traffic-index/katowice-urban-area-traffic#statistics,320,Katowice urban area,Poland,19%3%,32,38,80 hours,19,80
+320,https://www.tomtom.com/en_gb/traffic-index/salt-lake-city-traffic#statistics,321,Salt Lake City,United States of America,19%2%,26,45,85 hours,19,85
+321,https://www.tomtom.com/en_gb/traffic-index/gothenburg-traffic#statistics,322,Gothenburg,Sweden,18%0%,32,45,89 hours,18,89
+322,https://www.tomtom.com/en_gb/traffic-index/oxnard-thousand-oaks-ventura-traffic#statistics,323,Oxnard-Thousand Oaks-Ventura,United States of America,18%0%,23,38,71 hours,18,71
+323,https://www.tomtom.com/en_gb/traffic-index/avignon-traffic#statistics,324,Avignon,France,18%2%,34,41,87 hours,18,87
+324,https://www.tomtom.com/en_gb/traffic-index/reykjavik-traffic#statistics,325,Reykjavik,Iceland,18%0%,39,46,98 hours,18,98
+325,https://www.tomtom.com/en_gb/traffic-index/greenville-traffic#statistics,326,Greenville,United States of America,18%0%,32,42,87 hours,18,87
+326,https://www.tomtom.com/en_gb/traffic-index/raleigh-traffic#statistics,327,Raleigh,United States of America,18%1%,31,50,96 hours,18,96
+327,https://www.tomtom.com/en_gb/traffic-index/phoenix-traffic#statistics,328,Phoenix,United States of America,18%1%,35,39,85 hours,18,85
+328,https://www.tomtom.com/en_gb/traffic-index/konya-traffic#statistics,329,Konya,Turkey,18%1%,22,33,66 hours,18,66
+329,https://www.tomtom.com/en_gb/traffic-index/odense-traffic#statistics,330,Odense,Denmark,18%2%,34,35,80 hours,18,80
+330,https://www.tomtom.com/en_gb/traffic-index/las-palmas-traffic#statistics,331,Las Palmas,Spain,18%0%,32,29,69 hours,18,69
+331,https://www.tomtom.com/en_gb/traffic-index/alicante-traffic#statistics,332,Alicante,Spain,18%1%,37,26,71 hours,18,71
+332,https://www.tomtom.com/en_gb/traffic-index/bielefeld-traffic#statistics,333,Bielefeld,Germany,18%1%,31,34,73 hours,18,73
+333,https://www.tomtom.com/en_gb/traffic-index/braga-traffic#statistics,334,Braga,Portugal,18%2%,32,45,89 hours,18,89
+334,https://www.tomtom.com/en_gb/traffic-index/birmingham-alabama-traffic#statistics,335,Birmingham,United States of America,18%2%,30,45,87 hours,18,87
+335,https://www.tomtom.com/en_gb/traffic-index/zwolle-traffic#statistics,336,Zwolle,Netherlands,18%1%,30,35,75 hours,18,75
+336,https://www.tomtom.com/en_gb/traffic-index/le-mans-traffic#statistics,337,Le Mans,France,18%1%,29,38,78 hours,18,78
+337,https://www.tomtom.com/en_gb/traffic-index/calgary-traffic#statistics,338,Calgary,Canada,18%0%,29,37,78 hours,18,78
+338,https://www.tomtom.com/en_gb/traffic-index/reggio-emilia-traffic#statistics,339,Reggio Emilia,Italy,18%1%,33,40,85 hours,18,85
+339,https://www.tomtom.com/en_gb/traffic-index/dijon-traffic#statistics,340,Dijon,France,17%0%,29,39,78 hours,17,78
+340,https://www.tomtom.com/en_gb/traffic-index/colorado-springs-traffic#statistics,341,Colorado Springs,United States of America,17%1%,24,34,69 hours,17,69
+341,https://www.tomtom.com/en_gb/traffic-index/wuppertal-traffic#statistics,342,Wuppertal,Germany,17%1%,30,34,73 hours,17,73
+342,https://www.tomtom.com/en_gb/traffic-index/jacksonville-traffic#statistics,343,Jacksonville,United States of America,17%0%,32,43,87 hours,17,87
+343,https://www.tomtom.com/en_gb/traffic-index/albuquerque-traffic#statistics,344,Albuquerque,United States of America,17%0%,28,38,78 hours,17,78
+344,https://www.tomtom.com/en_gb/traffic-index/padua-traffic#statistics,345,Padua,Italy,17%1%,43,37,92 hours,17,92
+345,https://www.tomtom.com/en_gb/traffic-index/parma-traffic#statistics,346,Parma,Italy,17%1%,32,34,75 hours,17,75
+346,https://www.tomtom.com/en_gb/traffic-index/santander-traffic#statistics,347,Santander,Spain,17%0%,21,26,55 hours,17,55
+347,https://www.tomtom.com/en_gb/traffic-index/den-bosch-traffic#statistics,348,Den Bosch,Netherlands,17%1%,28,48,87 hours,17,87
+348,https://www.tomtom.com/en_gb/traffic-index/hartford-traffic#statistics,349,Hartford,United States of America,17%1%,28,43,82 hours,17,82
+349,https://www.tomtom.com/en_gb/traffic-index/canberra-traffic#statistics,350,Canberra,Australia,17%1%,38,30,78 hours,17,78
+350,https://www.tomtom.com/en_gb/traffic-index/funchal-traffic#statistics,351,Funchal,Portugal,17%1%,34,41,87 hours,17,87
+351,https://www.tomtom.com/en_gb/traffic-index/minneapolis-traffic#statistics,352,Minneapolis,United States of America,17%1%,29,42,85 hours,17,85
+352,https://www.tomtom.com/en_gb/traffic-index/kayseri-traffic#statistics,353,Kayseri,Turkey,17%1%,21,27,57 hours,17,57
+353,https://www.tomtom.com/en_gb/traffic-index/ravenna-traffic#statistics,354,Ravenna,Italy,17%0%,27,32,66 hours,17,66
+354,https://www.tomtom.com/en_gb/traffic-index/bruges-traffic#statistics,355,Bruges,Belgium,16%1%,30,31,71 hours,16,71
+355,https://www.tomtom.com/en_gb/traffic-index/columbus-traffic#statistics,356,Columbus,United States of America,16%1%,25,43,80 hours,16,80
+356,https://www.tomtom.com/en_gb/traffic-index/cincinnati-traffic#statistics,357,Cincinnati,United States of America,16%1%,28,42,82 hours,16,82
+357,https://www.tomtom.com/en_gb/traffic-index/reims-traffic#statistics,358,Reims,France,16%0%,27,36,73 hours,16,73
+358,https://www.tomtom.com/en_gb/traffic-index/edmonton-traffic#statistics,359,Edmonton,Canada,16%0%,25,35,71 hours,16,71
+359,https://www.tomtom.com/en_gb/traffic-index/new-haven-traffic#statistics,360,New Haven,United States of America,16%0%,20,38,69 hours,16,69
+360,https://www.tomtom.com/en_gb/traffic-index/detroit-traffic#statistics,361,Detroit,United States of America,16%1%,25,38,73 hours,16,73
+361,https://www.tomtom.com/en_gb/traffic-index/virginia-beach-traffic#statistics,362,Virginia Beach,United States of America,16%0%,22,36,69 hours,16,69
+362,https://www.tomtom.com/en_gb/traffic-index/el-paso-traffic#statistics,363,El Paso,United States of America,16%1%,21,34,64 hours,16,64
+363,https://www.tomtom.com/en_gb/traffic-index/kitchener-waterloo-traffic#statistics,364,Kitchener-Waterloo,Canada,16%2%,25,33,69 hours,16,69
+364,https://www.tomtom.com/en_gb/traffic-index/tours-traffic#statistics,365,Tours,France,16%1%,30,34,73 hours,16,73
+365,https://www.tomtom.com/en_gb/traffic-index/grand-rapids-traffic#statistics,366,Grand Rapids,United States of America,16%2%,26,37,73 hours,16,73
+366,https://www.tomtom.com/en_gb/traffic-index/albany-traffic#statistics,367,Albany,United States of America,16%2%,21,38,71 hours,16,71
+367,https://www.tomtom.com/en_gb/traffic-index/gijon-traffic#statistics,368,Gijon,Spain,16%1%,18,26,52 hours,16,52
+368,https://www.tomtom.com/en_gb/traffic-index/pamplona-traffic#statistics,369,Pamplona,Spain,16%1%,26,24,57 hours,16,57
+369,https://www.tomtom.com/en_gb/traffic-index/louisville-traffic#statistics,370,Louisville,United States of America,15%1%,21,39,71 hours,15,71
+370,https://www.tomtom.com/en_gb/traffic-index/kortrijk-traffic#statistics,371,Kortrijk,Belgium,15%3%,29,30,69 hours,15,69
+371,https://www.tomtom.com/en_gb/traffic-index/bergen-traffic#statistics,372,Bergen,Norway,15%0%,28,40,80 hours,15,80
+372,https://www.tomtom.com/en_gb/traffic-index/allentown-traffic#statistics,373,Allentown,United States of America,15%0%,21,34,64 hours,15,64
+373,https://www.tomtom.com/en_gb/traffic-index/vigo-traffic#statistics,374,Vigo,Spain,15%2%,21,23,50 hours,15,50
+374,https://www.tomtom.com/en_gb/traffic-index/coimbra-traffic#statistics,375,Coimbra,Portugal,15%1%,29,31,69 hours,15,69
+375,https://www.tomtom.com/en_gb/traffic-index/tampere-traffic#statistics,376,Tampere,Finland,15%0%,22,27,57 hours,15,57
+376,https://www.tomtom.com/en_gb/traffic-index/worcester-traffic#statistics,377,Worcester,United States of America,15%1%,20,31,59 hours,15,59
+377,https://www.tomtom.com/en_gb/traffic-index/trondheim-traffic#statistics,378,Trondheim,Norway,15%2%,28,35,75 hours,15,75
+378,https://www.tomtom.com/en_gb/traffic-index/malmo-traffic#statistics,379,Malmo,Sweden,15%0%,23,31,62 hours,15,62
+379,https://www.tomtom.com/en_gb/traffic-index/buffalo-traffic#statistics,380,Buffalo,United States of America,15%0%,22,36,69 hours,15,69
+380,https://www.tomtom.com/en_gb/traffic-index/memphis-traffic#statistics,381,Memphis,United States of America,15%1%,21,32,62 hours,15,62
+381,https://www.tomtom.com/en_gb/traffic-index/modena-traffic#statistics,382,Modena,Italy,14%1%,29,31,69 hours,14,69
+382,https://www.tomtom.com/en_gb/traffic-index/st-louis-traffic#statistics,383,St. Louis,United States of America,14%0%,25,36,71 hours,14,71
+383,https://www.tomtom.com/en_gb/traffic-index/indianapolis-traffic#statistics,384,Indianapolis,United States of America,14%1%,22,37,69 hours,14,69
+384,https://www.tomtom.com/en_gb/traffic-index/cordoba-traffic#statistics,385,Cordoba,Spain,14%1%,23,18,48 hours,14,48
+385,https://www.tomtom.com/en_gb/traffic-index/brescia-traffic#statistics,386,Brescia,Italy,14%0%,28,29,64 hours,14,64
+386,https://www.tomtom.com/en_gb/traffic-index/vitoria-gasteiz-traffic#statistics,387,Vitoria-Gasteiz,Spain,14%0%,17,23,48 hours,14,48
+387,https://www.tomtom.com/en_gb/traffic-index/omaha-council-bluffs-traffic#statistics,388,Omaha-Council Bluffs,United States of America,14%0%,24,35,69 hours,14,69
+388,https://www.tomtom.com/en_gb/traffic-index/oklahoma-city-traffic#statistics,389,Oklahoma City,United States of America,14%1%,22,36,69 hours,14,69
+389,https://www.tomtom.com/en_gb/traffic-index/cartagena-traffic#statistics,390,Cartagena,Spain,14%1%,17,20,43 hours,14,43
+390,https://www.tomtom.com/en_gb/traffic-index/zaragoza-traffic#statistics,391,Zaragoza,Spain,14%0%,21,22,48 hours,14,48
+391,https://www.tomtom.com/en_gb/traffic-index/rochester-traffic#statistics,392,Rochester,United States of America,14%1%,22,32,64 hours,14,64
+392,https://www.tomtom.com/en_gb/traffic-index/san-sebastian-traffic#statistics,393,San Sebastian,Spain,14%2%,22,20,48 hours,14,48
+393,https://www.tomtom.com/en_gb/traffic-index/wollongong-traffic#statistics,394,Wollongong,Australia,13%0%,26,21,55 hours,13,55
+394,https://www.tomtom.com/en_gb/traffic-index/charleroi-traffic#statistics,395,Charleroi,Belgium,13%1%,21,27,55 hours,13,55
+395,https://www.tomtom.com/en_gb/traffic-index/valladolid-traffic#statistics,396,Valladolid,Spain,13%0%,21,19,46 hours,13,46
+396,https://www.tomtom.com/en_gb/traffic-index/stavanger-traffic#statistics,397,Stavanger,Norway,13%2%,24,39,75 hours,13,75
+397,https://www.tomtom.com/en_gb/traffic-index/oviedo-traffic#statistics,398,Oviedo,Spain,13%0%,20,23,50 hours,13,50
+398,https://www.tomtom.com/en_gb/traffic-index/columbia-traffic#statistics,399,Columbia,United States of America,13%0%,21,35,66 hours,13,66
+399,https://www.tomtom.com/en_gb/traffic-index/milwaukee-traffic#statistics,400,Milwaukee,United States of America,13%1%,22,30,59 hours,13,59
+400,https://www.tomtom.com/en_gb/traffic-index/bilbao-traffic#statistics,401,Bilbao,Spain,13%0%,24,25,57 hours,13,57
+401,https://www.tomtom.com/en_gb/traffic-index/bloemfontein-traffic#statistics,402,Bloemfontein,South Africa,13%1%,30,23,62 hours,13,62
+402,https://www.tomtom.com/en_gb/traffic-index/tulsa-traffic#statistics,403,Tulsa,United States of America,13%1%,16,29,55 hours,13,55
+403,https://www.tomtom.com/en_gb/traffic-index/cleveland-traffic#statistics,404,Cleveland,United States of America,12%1%,20,26,55 hours,12,55
+404,https://www.tomtom.com/en_gb/traffic-index/knoxville-traffic#statistics,405,Knoxville,United States of America,12%0%,18,32,59 hours,12,59
+405,https://www.tomtom.com/en_gb/traffic-index/kansas-city-traffic#statistics,406,Kansas City,United States of America,12%0%,19,29,55 hours,12,55
+406,https://www.tomtom.com/en_gb/traffic-index/richmond-traffic#statistics,407,Richmond,United States of America,12%1%,19,29,55 hours,12,55
+407,https://www.tomtom.com/en_gb/traffic-index/winston-salem-traffic#statistics,408,Winston-Salem,United States of America,12%2%,17,29,55 hours,12,55
+408,https://www.tomtom.com/en_gb/traffic-index/little-rock-traffic#statistics,409,Little Rock,United States of America,11%1%,21,27,55 hours,11,55
+409,https://www.tomtom.com/en_gb/traffic-index/abu-dhabi-traffic#statistics,410,Abu Dhabi,United Arab Emirates,10%1%,17,18,41 hours,10,41
+410,https://www.tomtom.com/en_gb/traffic-index/almere-traffic#statistics,411,Almere,Netherlands,10%2%,17,18,41 hours,10,41
+411,https://www.tomtom.com/en_gb/traffic-index/dayton-traffic#statistics,412,Dayton,United States of America,10%0%,13,24,43 hours,10,43
+412,https://www.tomtom.com/en_gb/traffic-index/syracuse-traffic#statistics,413,Syracuse,United States of America,10%0%,13,18,36 hours,10,36
+413,https://www.tomtom.com/en_gb/traffic-index/akron-traffic#statistics,414,Akron,United States of America,10%0%,14,18,36 hours,10,36
+414,https://www.tomtom.com/en_gb/traffic-index/cadiz-traffic#statistics,415,Cadiz,Spain,10%1%,10,9,23 hours,10,23
+415,https://www.tomtom.com/en_gb/traffic-index/greensboro-high-point-traffic#statistics,416,Greensboro-High Point,United States of America,9%0%,11,18,34 hours,9,34
