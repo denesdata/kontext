@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="//d3js.org/d3.v3.min.js" language="JavaScript"></script>
+    <script src="liquidFillGaugeCustom.js" language="JavaScript"></script>
+    <script src="//d3js.org/d3.geo.projection.v0.min.js"></script>
+    <script src="//d3js.org/topojson.v1.min.js"></script>
+    <style>
+        .liquidFillGaugeText {
+            font-family: Helvetica;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <svg id="map" width="100%" height="400"></svg>
+    <script language="JavaScript">
+
+        //gauge
+        var config = liquidFillGaugeDefaultSettings();
+        config.textColor = "#FF4444";
+        config.waveTextColor = "#0000AA";
+        config.waveColor = "#00DDDD";
+
+        //map
+        var width = document.getElementById("map").offsetWidth - 2,
+            height = document.getElementById("map").offsetHeight - 2
+        var projection = d3.geo.naturalEarth();
+        var path = d3.geo.path()
+            .projection(projection);
+        var map = d3.select("#map")
+        d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json", function (error, world) {
+            var g = map.append("g");
+            g.selectAll("path")
+                .data(topojson.feature(world, world.objects.countries).features)
+                .enter().append("path")
+                .attr("d", path)
+                .style("fill", '#ddd')
+                .style("class", 'country')
+                .attr('id', function (d) {
+                    return d.properties.name
+                })
+                .style("stroke", 'none')
+                .style("stroke-width", '0px')
+            g.selectAll(".country")
+                .data(topojson.feature(world, world.objects.countries).features)
+                .enter().append("path")
+                .attr("d", path)
+                .style("fill", 'none')
+                .attr('id', function (d) {
+                    return d.properties.name + '2'
+                })
+                .style("stroke", 'black')
+                .style("stroke-width", '1px')
+
+
+            var gauge = loadLiquidFillGauge("map", 'Canada', 48, config);
+            var gauge = loadLiquidFillGauge("map", 'China', 54, config);
+            var gauge = loadLiquidFillGauge("map", 'Kazakhstan', 49, config);
+            var gauge = loadLiquidFillGauge("map", 'Algeria', 62, config);
+            var gauge = loadLiquidFillGauge("map", 'Greenland', 96, config);
+            var gauge = loadLiquidFillGauge("map", 'Spain', 81, config);
+            var gauge = loadLiquidFillGauge("map", 'Sweden', 21, config);
+
+        })
+
+    </script>
+</body>
+
+</html>
