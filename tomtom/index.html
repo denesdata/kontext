@@ -64,6 +64,9 @@
       padding: 0;
       overflow: hidden;
     }
+    .cesium-infoBox {
+      min-width: 300px !important;
+    }
   </style>
 </head>
 
@@ -71,6 +74,7 @@
   <div id="cesiumContainer"></div>
   <script>
     Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiZWYxMTQwMC1iZjRiLTQ2ZmQtYTk0MS0zNGI3MjI1MzRlZTYiLCJpZCI6MTY5MjcsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1NzEzMjU3ODd9.InYGD_zyuB-tFLaIahXGyU5SoYyd5tjI3EaInQ5zrOs';
+    var mobile = (!(window.matchMedia("(any-pointer:coarse)").matches));
     d3.csv("dcp.csv", function (rawdata) {
       var data = Object.values(rawdata).slice(0, -1)
 
@@ -117,7 +121,7 @@
           
           czml.push({
             "id": String(shape) +'#'+ String(i),
-            "name": name + i,
+            "name": name,
             "description": '<a style="text-decoration:none;" target="_blank" href="' + d['a'] + '"><table><tr><td style="font-size:40px;"><b>' + parseInt(d['Rank by filter']) + '&nbsp;</b></td><td>' +
               '<b>' + name + '</b> has a population of <b>' + Math.round(d['pop'] / 10000, 2) / 100.0 + '</b> million people.<br>The ' +
               'average congestion level of the city is <b>' + d['Congestion Level2'] + '%</b>.' +
@@ -143,6 +147,7 @@
             }
           })
         }
+        if (mobile)
         czml.push({
           "id": shape + 'l',
           "name": name,
@@ -259,7 +264,9 @@
         .attr("id", "subs")
       d3.select("#subs").append("div")
         .attr("class", "cesium-viewer-cesiumWidgetContainer")
-        .html('<div style="font-size:20px;">Most congested cities of the world</div>' +
+        .html('<div style="font-size:20px;">Most congested '+
+          ((!(mobile))?'<br>':'')+
+          'cities of the world</div>' +
           '<div style="font-size:15px;margin-top:5px;">🚗 based on <b>TomTom' + "'s " +
           '<a style="color:#eee;text-decoration:none" href="https://www.tomtom.com/en_gb/traffic-index/ranking/">2019 Traffic Index</a></b></div>' +
           '<div>' +
