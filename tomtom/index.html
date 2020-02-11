@@ -81,33 +81,43 @@
         "name": "Klímacsíkok",
         "version": "1.0"
       }];
-
-      // var colors = d3.scaleSequential(d3.interpolateViridis).domain([-2,8])
-      // var colors = d3.scaleSequential(d3.interpolateWarm).domain([0, 6])
-      var colors = d3.scaleSequential(d3.interpolateRainbow).domain([-5, 6])
+      
+      // var colors = d3.scaleSequential(d3.interpolateOranges).domain([-1, 8])
+      var colors = d3.scaleSequential(d3.interpolateTurbo).domain([-2, 8])
+      // var colors = d3.scaleSequential(d3.interpolateSpectral).domain([9,-1])
+      // var colors = d3.scaleSequential(d3.interpolateRdYlGn).domain([9, -2])
+      // var colors = d3.scaleSequential(d3.interpolateRainbow).domain([7, -6])
+      
+      function namer(name) {
+        return (name == 'Katowice urban area' ? 'Katowice' :
+          name == 'Dallas-Fort Worth' ? 'Dallas' :
+            name == 'Moscow region (oblast)' ? 'Moscow' :
+              name)
+      }
 
       data.forEach(function (d, i) {
         // console.log(i, d)
         var lon = parseFloat(d['lat']);
         var lat = parseFloat(d['lon']);
         var shape = d['Rank by filter']
-        var name = d['City'];
+        var name = namer(d['City']);
         var radius = parseInt(Math.pow(parseFloat(d['pop']), 0.72) + 5000);
         // var radius = 10000;
         var height = (Math.pow(Math.max(parseInt(d['Congestion Level2']) - 12, 3), 1.5)) * 2000;
         // var height = 5000
         var segment_height = 60000;
         var n = parseInt(height / segment_height);
-        for (i = 0; i < n + 1; i++) {
+        for (var i = 0; i < n + 1; i++) {
           if (i == n) {
             this_height = height - i * segment_height
           }
           else {
             this_height = Math.min(height, segment_height)
           }
+          
           czml.push({
-            "id": shape + i,
-            "name": name,
+            "id": String(shape) +'#'+ String(i),
+            "name": name + i,
             "description": '<a style="text-decoration:none;" target="_blank" href="' + d['a'] + '"><table><tr><td style="font-size:40px;"><b>' + parseInt(d['Rank by filter']) + '&nbsp;</b></td><td>' +
               '<b>' + name + '</b> has a population of <b>' + Math.round(d['pop'] / 10000, 2) / 100.0 + '</b> million people.<br>The ' +
               'average congestion level of the city is <b>' + d['Congestion Level2'] + '%</b>.' +
@@ -133,6 +143,37 @@
             }
           })
         }
+        czml.push({
+          "id": shape + 'l',
+          "name": name,
+          "description": '<a style="text-decoration:none;" target="_blank" href="' + d['a'] + '"><table><tr><td style="font-size:40px;"><b>' + parseInt(d['Rank by filter']) + '&nbsp;</b></td><td>' +
+            '<b>' + name + '</b> has a population of <b>' + Math.round(d['pop'] / 10000, 2) / 100.0 + '</b> million people.<br>The ' +
+            'average congestion level of the city is <b>' + d['Congestion Level2'] + '%</b>.' +
+            '</td></tr><tr><td colspan="2">' +
+            '<br>In the morning rush hour is ' + d['morning'] + '%, while in the evening is ' + d['eve'] + '%.<br>' +
+            'Your typical 1 hour trip takes ' + parseInt((parseInt(d['eve']) + 100) * 0.6) + ' minutes instead.<br><br>' +
+            name + ' is <b>#' + parseInt(d['Rank by filter']) + '</b> most congested in the world' + (parseInt(d['eu']) ? ' and <b>#' + parseInt(d['eu']) + '</b> in EU.' : '.') +
+            '</td></tr></table></a>',
+          "position": {
+            "cartographicDegrees": [lat, lon, height + radius / 2]
+          },
+          "label": {
+            "fillColor": { "rgba": [241, 241, 241, 255] },
+            "font": Math.min(Math.max(12, radius / 3000), 30) + "pt Arial",
+            "horizontalOrigin": "CENTER",
+            "eyeOffset": {
+              "cartesian": [0, 0, 0]
+            },
+            "translucencyByDistance": {
+              "nearFarScalar": [Math.max(radius * 90, 3000000), 1.0, Math.max(radius * 110, 4000000), 0.0]
+            },
+            "outlineColor": { "rgba": [0, 0, 0, 255] },
+            "outlineWidth": 1,
+            "style": "FILL_AND_OUTLINE",
+            // "style": "FILL",
+            "text": name
+          }
+        })
       })
 
       var viewer = new Cesium.Viewer('cesiumContainer', {
@@ -218,28 +259,29 @@
         .attr("id", "subs")
       d3.select("#subs").append("div")
         .attr("class", "cesium-viewer-cesiumWidgetContainer")
-        .html('<div style="font-size:20px;">Most congested cities of the world</div>'+
-        '<div style="font-size:15px;margin-top:5px;">🚗 based on <b>TomTom'+"'s "+
-        '<a style="color:#eee;text-decoration:none" href="https://www.tomtom.com/en_gb/traffic-index/ranking/">2019 Traffic Index</a></b></div>'+
-        '<div>'+
-        '<svg height="20" width="300"><line x1="0" y1="15" x2="300" y2="15" style="stroke:#eee;stroke-width:1" />'+
-        '</div>'+
-        '<div>'+
-        '<svg height="45" width="25"><circle cx="15" cy="20" r="5" stroke="#ccc" stroke-width="0" fill="#eee" /></svg>'+
-        '<svg height="45" width="40"><circle cx="20" cy="20" r="10" stroke="#ccc" stroke-width="0" fill="#eee" /></svg>'+
-        '<svg height="45" width="40"><circle cx="20" cy="20" r="15" stroke="#ccc" stroke-width="0" fill="#eee" /></svg>'+
-        '<div style="font-size:15px;margin-top:-35px;margin-left:120px">larger population</div>'+
-        '</div>'+
-        '<div>'+
-        '<svg height="50" width="26"><circle cx="13" cy="30" r="10" stroke="#19d3b5" stroke-width="0" fill="#38f17a" /></svg>'+
-        '<svg height="50" width="26"><circle cx="13" cy="30" r="10" stroke="#29a0dd" stroke-width="0" fill="#19d3b5" /></svg>'+
-        '<svg height="50" width="26"><circle cx="13" cy="30" r="10" stroke="#5069d9" stroke-width="0" fill="#29a0dd" /></svg>'+
-        '<svg height="50" width="26"><circle cx="13" cy="30" r="10" stroke="#6e40aa" stroke-width="0" fill="#5069d9" /></svg>'+
-        '<div style="font-size:15px;margin-top:-31px;margin-left:120px">more congestion</div>'+
-        '</div>')
+        .html('<div style="font-size:20px;">Most congested cities of the world</div>' +
+          '<div style="font-size:15px;margin-top:5px;">🚗 based on <b>TomTom' + "'s " +
+          '<a style="color:#eee;text-decoration:none" href="https://www.tomtom.com/en_gb/traffic-index/ranking/">2019 Traffic Index</a></b></div>' +
+          '<div>' +
+          '<svg height="20" width="300"><line x1="0" y1="15" x2="300" y2="15" style="stroke:#eee;stroke-width:1" />' +
+          '</div>' +
+          '<div>' +
+          '<svg height="45" width="25"><circle cx="15" cy="20" r="5" stroke="#ccc" stroke-width="0" fill="#eee" /></svg>' +
+          '<svg height="45" width="40"><circle cx="20" cy="20" r="10" stroke="#ccc" stroke-width="0" fill="#eee" /></svg>' +
+          '<svg height="45" width="40"><circle cx="20" cy="20" r="15" stroke="#ccc" stroke-width="0" fill="#eee" /></svg>' +
+          '<div style="font-size:15px;margin-top:-35px;margin-left:120px">larger population</div>' +
+          '</div>' +
+          '<div>' +
+          '<svg height="50" width="26"><circle cx="13" cy="30" r="10" stroke="#2aabee" stroke-width="0" fill="#2aabee" /></svg>' +
+          '<svg height="50" width="26"><circle cx="13" cy="30" r="10" stroke="#6afd6a" stroke-width="0" fill="#6afd6a" /></svg>' +
+          '<svg height="50" width="26"><circle cx="13" cy="30" r="10" stroke="#feb927" stroke-width="0" fill="#feb927" /></svg>' +
+          '<svg height="50" width="26"><circle cx="13" cy="30" r="10" stroke="#c2270a" stroke-width="0" fill="#c2270a" /></svg>' +
+          '<div style="font-size:15px;margin-top:-31px;margin-left:120px">more congestion</div>' +
+          '</div>')
     })
 
     // ["#6e40aa","#b83cb0","#f6478d","#ff6956","#f59f30","#c4d93e","#83f557","#38f17a","#19d3b5","#29a0dd","#5069d9","#6e40aa"]
+    // ["#23171b","#4860e6","#2aabee","#2ee5ae","#6afd6a","#c0ee3d","#feb927","#fe6e1a","#c2270a","#900c00"]
 
   </script>
 </body>
