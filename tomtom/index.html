@@ -105,6 +105,10 @@
         var lat = parseFloat(d['lon']);
         var shape = d['Rank by filter']
         var name = namer(d['City']);
+        if (name=='Washington') {
+          lon= 38.930378
+          lat=-77.057839
+        }
         var radius = parseInt(Math.pow(parseFloat(d['pop']), 0.72) + 5000);
         // var radius = 10000;
         var height = (Math.pow(Math.max(parseInt(d['Congestion Level2']) - 12, 3), 1.5)) * 2000;
