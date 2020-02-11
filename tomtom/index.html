@@ -64,6 +64,7 @@
       padding: 0;
       overflow: hidden;
     }
+
     .cesium-infoBox {
       min-width: 300px !important;
     }
@@ -75,7 +76,7 @@
   <script>
     Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiZWYxMTQwMC1iZjRiLTQ2ZmQtYTk0MS0zNGI3MjI1MzRlZTYiLCJpZCI6MTY5MjcsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1NzEzMjU3ODd9.InYGD_zyuB-tFLaIahXGyU5SoYyd5tjI3EaInQ5zrOs';
     var mobile = (!(window.matchMedia("(any-pointer:coarse)").matches));
-    d3.csv("dcp.csv", function (rawdata) {
+    d3.csv("dcx.csv", function (rawdata) {
       var data = Object.values(rawdata).slice(0, -1)
 
       // console.log(data)
@@ -85,18 +86,21 @@
         "name": "Klímacsíkok",
         "version": "1.0"
       }];
-      
+
       // var colors = d3.scaleSequential(d3.interpolateOranges).domain([-1, 8])
       var colors = d3.scaleSequential(d3.interpolateTurbo).domain([-2, 8])
       // var colors = d3.scaleSequential(d3.interpolateSpectral).domain([9,-1])
       // var colors = d3.scaleSequential(d3.interpolateRdYlGn).domain([9, -2])
       // var colors = d3.scaleSequential(d3.interpolateRainbow).domain([7, -6])
-      
+
       function namer(name) {
         return (name == 'Katowice urban area' ? 'Katowice' :
           name == 'Dallas-Fort Worth' ? 'Dallas' :
             name == 'Moscow region (oblast)' ? 'Moscow' :
-              name)
+              name == 'Ruhr region west' ? 'Ruhr West' :
+                name == 'Ruhr region west' ? 'Ruhr East' :
+                name == 'Frankfurt am Main' ? 'Frankfurt' :
+                  name)
       }
 
       data.forEach(function (d, i) {
@@ -105,10 +109,7 @@
         var lat = parseFloat(d['lon']);
         var shape = d['Rank by filter']
         var name = namer(d['City']);
-        if (name=='Washington') {
-          lon= 38.930378
-          lat=-77.057839
-        }
+
         var radius = parseInt(Math.pow(parseFloat(d['pop']), 0.72) + 5000);
         // var radius = 10000;
         var height = (Math.pow(Math.max(parseInt(d['Congestion Level2']) - 12, 3), 1.5)) * 2000;
@@ -122,9 +123,9 @@
           else {
             this_height = Math.min(height, segment_height)
           }
-          
+
           czml.push({
-            "id": String(shape) +'#'+ String(i),
+            "id": String(shape) + '#' + String(i),
             "name": name,
             "description": '<a style="text-decoration:none;" target="_blank" href="' + d['a'] + '"><table><tr><td style="font-size:40px;"><b>' + parseInt(d['Rank by filter']) + '&nbsp;</b></td><td>' +
               '<b>' + name + '</b> has a population of <b>' + Math.round(d['pop'] / 10000, 2) / 100.0 + '</b> million people.<br>The ' +
@@ -152,37 +153,37 @@
           })
         }
         if (mobile)
-        czml.push({
-          "id": shape + 'l',
-          "name": name,
-          "description": '<a style="text-decoration:none;" target="_blank" href="' + d['a'] + '"><table><tr><td style="font-size:40px;"><b>' + parseInt(d['Rank by filter']) + '&nbsp;</b></td><td>' +
-            '<b>' + name + '</b> has a population of <b>' + Math.round(d['pop'] / 10000, 2) / 100.0 + '</b> million people.<br>The ' +
-            'average congestion level of the city is <b>' + d['Congestion Level2'] + '%</b>.' +
-            '</td></tr><tr><td colspan="2">' +
-            '<br>In the morning rush hour is ' + d['morning'] + '%, while in the evening is ' + d['eve'] + '%.<br>' +
-            'Your typical 1 hour trip takes ' + parseInt((parseInt(d['eve']) + 100) * 0.6) + ' minutes instead.<br><br>' +
-            name + ' is <b>#' + parseInt(d['Rank by filter']) + '</b> most congested in the world' + (parseInt(d['eu']) ? ' and <b>#' + parseInt(d['eu']) + '</b> in EU.' : '.') +
-            '</td></tr></table></a>',
-          "position": {
-            "cartographicDegrees": [lat, lon, height + radius / 2]
-          },
-          "label": {
-            "fillColor": { "rgba": [241, 241, 241, 255] },
-            "font": Math.min(Math.max(12, radius / 3000), 30) + "pt Arial",
-            "horizontalOrigin": "CENTER",
-            "eyeOffset": {
-              "cartesian": [0, 0, 0]
+          czml.push({
+            "id": shape + 'l',
+            "name": name,
+            "description": '<a style="text-decoration:none;" target="_blank" href="' + d['a'] + '"><table><tr><td style="font-size:40px;"><b>' + parseInt(d['Rank by filter']) + '&nbsp;</b></td><td>' +
+              '<b>' + name + '</b> has a population of <b>' + Math.round(d['pop'] / 10000, 2) / 100.0 + '</b> million people.<br>The ' +
+              'average congestion level of the city is <b>' + d['Congestion Level2'] + '%</b>.' +
+              '</td></tr><tr><td colspan="2">' +
+              '<br>In the morning rush hour is ' + d['morning'] + '%, while in the evening is ' + d['eve'] + '%.<br>' +
+              'Your typical 1 hour trip takes ' + parseInt((parseInt(d['eve']) + 100) * 0.6) + ' minutes instead.<br><br>' +
+              name + ' is <b>#' + parseInt(d['Rank by filter']) + '</b> most congested in the world' + (parseInt(d['eu']) ? ' and <b>#' + parseInt(d['eu']) + '</b> in EU.' : '.') +
+              '</td></tr></table></a>',
+            "position": {
+              "cartographicDegrees": [lat, lon, height + radius / 2]
             },
-            "translucencyByDistance": {
-              "nearFarScalar": [Math.max(radius * 90, 3000000), 1.0, Math.max(radius * 110, 4000000), 0.0]
-            },
-            "outlineColor": { "rgba": [0, 0, 0, 255] },
-            "outlineWidth": 1,
-            "style": "FILL_AND_OUTLINE",
-            // "style": "FILL",
-            "text": name
-          }
-        })
+            "label": {
+              "fillColor": { "rgba": [241, 241, 241, 255] },
+              "font": Math.min(Math.max(12, radius / 3000), 30) + "pt Arial",
+              "horizontalOrigin": "CENTER",
+              "eyeOffset": {
+                "cartesian": [0, 0, 0]
+              },
+              "translucencyByDistance": {
+                "nearFarScalar": [Math.max(radius * 90, 3000000), 1.0, Math.max(radius * 110, 4000000), 0.0]
+              },
+              "outlineColor": { "rgba": [0, 0, 0, 255] },
+              "outlineWidth": 1,
+              "style": "FILL_AND_OUTLINE",
+              // "style": "FILL",
+              "text": name
+            }
+          })
       })
 
       var viewer = new Cesium.Viewer('cesiumContainer', {
@@ -268,8 +269,8 @@
         .attr("id", "subs")
       d3.select("#subs").append("div")
         .attr("class", "cesium-viewer-cesiumWidgetContainer")
-        .html('<div style="font-size:20px;">Most congested '+
-          ((!(mobile))?'<br>':'')+
+        .html('<div style="font-size:20px;">Most congested ' +
+          ((!(mobile)) ? '<br>' : '') +
           'cities of the world</div>' +
           '<div style="font-size:15px;margin-top:5px;">🚗 based on <b>TomTom' + "'s " +
           '<a style="color:#eee;text-decoration:none" href="https://www.tomtom.com/en_gb/traffic-index/ranking/">2019 Traffic Index</a></b></div>' +
