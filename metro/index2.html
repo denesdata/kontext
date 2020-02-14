@@ -155,51 +155,24 @@
               "fillColor": { "rgba": [241, 241, 241, 255] },
               "font": "14pt Arial",
               "horizontalOrigin": "CENTER",
+              "eyeOffset": {
+                "cartesian": [0, 0, 0]
+              },
               "translucencyByDistance": {
-                "nearFarScalar": [50000, 0, 100000, 1]
+                "nearFarScalar": [100000, 0, 400000, 1]
               },
               "style": "FILL",
               "text": metro.name
             }
           });
-          // czml.push({
-          //   "id": metro.name+'2',
-          //   "name": metro.name,
-          //   "description": metro.desc,
-          //   "position": {
-          //     "cartographicDegrees": [coords[1], coords[0], 1000]
-          //   },
-          //   "cylinder": {
-          //     "length": 2000,
-          //     "topRadius":50,
-          //     "bottomRadius": 50,
-          //     "material": {
-          //       "solidColor": {
-          //         "color": {
-          //           'rgba': [241,241,241,255]
-          //         }
-          //       }
-          //     }
-          //   },
-          //   "label": {
-          //     "fillColor": { "rgba": [241, 241, 241, 255] },
-          //     "font": "14pt Arial",
-          //     "horizontalOrigin": "CENTER",
-          //     "translucencyByDistance": {
-          //       "nearFarScalar": [50000, 0, 40000, 1]
-          //     },
-          //     "style": "FILL",
-          //     "text": metro.name
-          //   }
-          // });
 
           metro.stations.forEach(function (station, i) {
 
             radius = (station.lines.length > 1) ? 150 : 100;
             height = (station.lines.length > 1) ? 120 : 100;
-            station.color = [hexToRgb(color(metro.lines, station.lines)).r,
-            hexToRgb(color(metro.lines, station.lines)).g,
-            hexToRgb(color(metro.lines, station.lines)).b, 245]
+            station.color=[hexToRgb(color(metro.lines, station.lines)).r,
+                      hexToRgb(color(metro.lines, station.lines)).g,
+                      hexToRgb(color(metro.lines, station.lines)).b, 255]
             czml.push({
               "id": metro.name + ' | ' + station.name,
               "name": (station.lines + ' | ' + station.name).replace(',', ', '),
@@ -221,27 +194,21 @@
               }
             });
             czml.push({
-              "id": metro.name + ' | ' + station.name+'2',
-              "name": (station.lines + ' | ' + station.name).replace(',', ', ').
-                replace(',', ', ').replace(',', ', ').replace(',', ', ').replace(',', ', ')
-                .replace(',', ', ').replace(',', ', ').replace(',', ', ').replace(',', ', '),
+              "id": metro.name + ' |  ' + station.name,
+              "name": (station.lines + ' | ' + station.name).replace(',', ', '),
               // "description": metro.desc,
               "position": {
                 "cartographicDegrees": [station.lon, station.lat, 140]
               },
               "label": {
-                // "fillColor": { "rgba": station.color },
-                "fillColor": { "rgba": [241, 241, 241, 255] },
-                "font": "12pt Open Sans",
-                "horizontalOrigin": "CENTER",
-                "pixelOffset": {
-                  "cartesian2": [0, 0]
-                },
+                "fillColor": { "rgba": station.color },
+                "font": "12pt Arial",
+                "horizontalOrigin": "LEFT",
                 "translucencyByDistance": {
-                  "nearFarScalar": [7000, 1, 10000, 0]
+                  "nearFarScalar": [10000, 1, 20000, 0]
                 },
                 "outlineColor": { "rgba": [0, 0, 0, 255] },
-                "outlineWidth": 2,
+                "outlineWidth": 1.5,
                 "style": "FILL_AND_OUTLINE",
                 "text": station.name
               }
@@ -261,7 +228,7 @@
                     "color": {
                       "rgba": [hexToRgb(line.color).r,
                       hexToRgb(line.color).g,
-                      hexToRgb(line.color).b, 245]
+                      hexToRgb(line.color).b, 255]
                     }
                   },
                 },
