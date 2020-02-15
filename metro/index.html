@@ -169,15 +169,16 @@
       }
 
       metros.forEach(function (metro, i) {
-        // if ((['Budapest Metro', 'Bucharest Metro', 'Vienna U-Bahn', 'London Underground and DLR'].indexOf(metro.name) > -1)) {
-        if (true) {
+        if ((['Budapest Metro', 'Bucharest Metro', 'Vienna U-Bahn', 'London Underground and DLR'].indexOf(metro.name) > -1)) {
+          // if (true) {
 
           coords = central(metro.stations)
 
           czml.push({
-            "id": metro.name,
+            "id": metro.url,
             "name": metro.name,
-            "description": '<table><tr><td>' + metro.desc + '</td></tr></table>',
+            "description": '<a style="text-decoration:none;" target="_blank" href="' + metro.url + '"><table><tr><td>' +
+              metro.desc + '</td></tr></table></a>',
             "position": {
               "cartographicDegrees": [coords[1], coords[0], 100]
             },
@@ -204,13 +205,14 @@
             czml.push({
               "id": metro.name + ' | ' + station.name,
               "name": station.name,
-              "description": '<table>' +
+              "description": '<a style="text-decoration:none;" target="_blank" href="' + station.url + '"><table>' +
                 colored(station.name, metro.lines, station.lines, station.branches) +
-                '</table>',
+                '</table></a>',
               "position": {
                 "cartographicDegrees": [station.lon, station.lat, 40]
               },
               "cylinder": {
+                // "show": false,
                 "length": height,
                 "topRadius": radius,
                 "bottomRadius": radius,
@@ -226,9 +228,9 @@
             czml.push({
               "id": metro.name + ' | ' + station.name + '2',
               "name": station.name,
-              "description": '<table>' +
+              "description": '<a style="text-decoration:none;" target="_blank" href="' + station.url + '"><table>' +
                 colored(station.name, metro.lines, station.lines, station.branches) +
-                '</table>',
+                '</table></a>',
               "position": {
                 "cartographicDegrees": [station.lon, station.lat, 140]
               },
@@ -241,7 +243,7 @@
                   "cartesian2": [0, 0]
                 },
                 "translucencyByDistance": {
-                  "nearFarScalar": [10000, 1, 20000, 0]
+                  "nearFarScalar": [10000, 1, 13000, 0]
                 },
                 "outlineColor": { "rgba": (dark) ? [0, 0, 0, 255] : [255, 255, 255, 255] },
                 "outlineWidth": ((station.lines.length > 1) ? 2 : 2),
@@ -309,22 +311,87 @@
 
       var dataSourcePromise = Cesium.CzmlDataSource.load(czml);
       viewer.dataSources.add(dataSourcePromise);
-      // viewer.zoomTo(dataSourcePromise);
-      viewer.camera.flyTo({
-        // destination: Cesium.Cartesian3.fromDegrees(19.1, 47.42, 20000.0),
-        destination: Cesium.Cartesian3.fromDegrees(0, 47.42, 20000.0),
-        orientation: {
-          heading: Cesium.Math.toRadians(0.0),
-          pitch: Cesium.Math.toRadians(-60.0),
-          roll: 0.0
-        }
-      });
+      // viewer.zoomTo('4');
+      // viewer.camera.flyTo({
+      //   // destination: Cesium.Cartesian3.fromDegrees(19.1, 47.42, 20000.0),
+      //   destination: Cesium.Cartesian3.fromDegrees(0, 47.42, 20000.0),
+      //   orientation: {
+      //     heading: Cesium.Math.toRadians(0.0),
+      //     pitch: Cesium.Math.toRadians(-60.0),
+      //     roll: 0.0
+      //   }
+      // });
 
-      // var layers = viewer.scene.imageryLayers;
-      // layers.addImageryProvider(new Cesium.SingleTileImageryProvider({
-      //   url: '../klima/szekelydata_klimacsikok.png',
-      //   rectangle: Cesium.Rectangle.fromDegrees(16.5, 44.5, 21.0, 45.5)
-      // }));
+      // function degrees2(path) {
+      //   points = [];
+      //   path.forEach(function (point) {
+      //     points.push(point.lng)
+      //     points.push(point.lat)
+      //   })
+      //   return points
+      // }
+
+      // function computeCircle(radius) {
+      //   var positions = [];
+      //   for (var i = 0; i < 360; i++) {
+      //     var radians = Cesium.Math.toRadians(i);
+      //     positions.push(new Cesium.Cartesian2(radius * Math.cos(radians), radius * Math.sin(radians)));
+      //   }
+      //   return positions;
+      // }
+
+      // metros.forEach(function (metro, i) {
+      //   if ((['Budapest Metro', 'Bucharest Metro', 'Vienna U-Bahn', 'London Underground and DLR'].indexOf(metro.name) > -1)) {
+      //     // if (true) {
+
+      //     coords = central(metro.stations)
+
+      //     metro.lines.forEach(function (line, i) {
+      //       viewer.entities.add({
+      //         name: line.name + 'p',
+      //         polylineVolume: {
+      //           positions: Cesium.Cartesian3.fromDegreesArray(degrees2(line.path)),
+      //           shape: computeCircle(60.0),
+      //           material: Cesium.Color.RED
+      //         }
+      //       })
+      //     })
+      //   }
+      // })
+
+      function fly(id) {
+        console.log(id)
+        setTimeout(function () {
+          // viewer.selectedEntity = viewer.dataSources.get([0]).entities.getById(id)
+        }, 1000)
+        data = qdata[id]
+        console.log(data)
+        k = 0
+        i = 0
+        // for (var i = 0; i < 6; i++) {
+        // setInterval(function () {
+        //   i = i + 1
+        //   if (i == data.lines[k].path.length - 1) i = 0
+        // viewer.camera.flyToBoundingSphere({
+        //   center: Cesium.Cartesian3.fromDegrees(
+        //     data.lines[k].path[i].lng,
+        //     data.lines[k].path[i].lat,
+        //     100.0),
+        //   radius: 3000
+        // },
+        //   {
+        //     duration: 1,
+        //     easingFunction: Cesium.EasingFunction.LINEAR_NONE
+        //   }
+        // );
+        // var center = Cesium.Cartesian3.fromDegrees(data.lines[k].path[i].lng, data.lines[k].path[i].lat);
+        // viewer.camera.lookAt(center, new Cesium.Cartesian3(0.0, -2000, 10000));
+
+        // }, 1000)
+        // }
+      }
+
+      fly('https://www.metrolinemap.com/metro/bucharest/')
 
       d3.select(".cesium-widget-credits").insert("a", ":first-child")
         .attr("class", "cesium-credit-imageContainer")
@@ -354,7 +421,22 @@
         .attr('target', '_blank')
         .attr("title", "Help - TomTom 2019 Traffic Index")
         .style('font-size', '20px')
-        .attr('href', 'https://www.tomtom.com/en_gb/traffic-index/ranking/')
+        // .attr('href', 'https://www.tomtom.com/en_gb/traffic-index/ranking/')
+        .on('click', function () { fly('https://www.metrolinemap.com/metro/bucharest/') })
+        .append('img')
+        .attr('src', 'https://www.tomtom.com/favicon.ico')
+        .attr('width', '30px')
+      d3.select(".cesium-viewer-toolbar").insert("div")
+        .attr("class", "cesium-button cesium-toolbar-button material-icons")
+        .style("padding-left", "0px")
+        .style("padding-top", "0px")
+        .append('a')
+        .text("")
+        .attr('target', '_blank')
+        .attr("title", "Help - TomTom 2019 Traffic Index")
+        .style('font-size', '20px')
+        // .attr('href', 'https://www.tomtom.com/en_gb/traffic-index/ranking/')
+        .on('click', function () { fly('https://www.metrolinemap.com/metro/budapest/') })
         .append('img')
         .attr('src', 'https://www.tomtom.com/favicon.ico')
         .attr('width', '30px')
