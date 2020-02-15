@@ -70,9 +70,9 @@
       overflow: hidden;
     }
 
-    .cesium-infoBox {
+    /* .cesium-infoBox {
       min-width: 300px !important;
-    }
+    } */
   </style>
 </head>
 
@@ -86,7 +86,10 @@
       var qdata = JSON.parse(zip.files["metrosg.json"].asText());
       var metros = Object.values(qdata)
 
-      console.log(metros)
+      // console.log(metros)
+
+      var dark = true;
+      var opaque = 255;
 
       var czml = [{
         "id": "document",
@@ -94,18 +97,24 @@
         "version": "1.0"
       }];
 
-      function color(mlines, slines) {
+      function color(mlines, slines, sbranches) {
+        e = []
         if (slines.length > 1)
-          c = '#eeeeee'
+          c = (dark) ? '#eeeeee' : '#aaaaaa'
         else {
-          c = '#999999'
+          c = '#888888'
           mlines.forEach(function (line) {
             if (line.name == slines[0]) {
               c = line.color.toLowerCase()
+              sbranches.forEach(function (branch) {
+                if (line.id == branch) {
+                  e.push(line.branch)
+                }
+              })
             }
           })
         }
-        return c
+        return [c, e]
       }
 
       function hexToRgb(hex) {
@@ -139,20 +148,41 @@
         return coords
       }
 
+      function colored(station, mlines, slines, sbranches) {
+        r = ''
+        slines.forEach(function (line) {
+          r = r + '<tr><td style="text-align:center;padding:3px;background-color:' +
+            color(mlines, [line], sbranches)[0] + '";>' +
+            line + '</td><td style="padding-left:3px;">' +
+            branches(color(mlines, [line], sbranches)[1]) +
+            '</tr></td>'
+        })
+        return r
+      }
+
+      function branches(branches) {
+        r = '';
+        branches.forEach(function (branch) {
+          r = r + '<div>' + branch + '</div>';
+        })
+        return r
+      }
+
       metros.forEach(function (metro, i) {
-        if ((['Budapest Metro', 'Bucharest Metro', 'Vienna U-Bahn'].indexOf(metro.name) > -1)) {
+        // if ((['Budapest Metro', 'Bucharest Metro', 'Vienna U-Bahn', 'London Underground and DLR'].indexOf(metro.name) > -1)) {
+        if (true) {
 
           coords = central(metro.stations)
 
           czml.push({
             "id": metro.name,
             "name": metro.name,
-            "description": metro.desc,
+            "description": '<table><tr><td>' + metro.desc + '</td></tr></table>',
             "position": {
               "cartographicDegrees": [coords[1], coords[0], 100]
             },
             "label": {
-              "fillColor": { "rgba": [241, 241, 241, 255] },
+              "fillColor": { "rgba": (dark) ? [241, 241, 241, 255] : [14, 14, 14, 255] },
               "font": "14pt Arial",
               "horizontalOrigin": "CENTER",
               "translucencyByDistance": {
@@ -162,48 +192,21 @@
               "text": metro.name
             }
           });
-          // czml.push({
-          //   "id": metro.name+'2',
-          //   "name": metro.name,
-          //   "description": metro.desc,
-          //   "position": {
-          //     "cartographicDegrees": [coords[1], coords[0], 1000]
-          //   },
-          //   "cylinder": {
-          //     "length": 2000,
-          //     "topRadius":50,
-          //     "bottomRadius": 50,
-          //     "material": {
-          //       "solidColor": {
-          //         "color": {
-          //           'rgba': [241,241,241,255]
-          //         }
-          //       }
-          //     }
-          //   },
-          //   "label": {
-          //     "fillColor": { "rgba": [241, 241, 241, 255] },
-          //     "font": "14pt Arial",
-          //     "horizontalOrigin": "CENTER",
-          //     "translucencyByDistance": {
-          //       "nearFarScalar": [50000, 0, 40000, 1]
-          //     },
-          //     "style": "FILL",
-          //     "text": metro.name
-          //   }
-          // });
 
           metro.stations.forEach(function (station, i) {
 
             radius = (station.lines.length > 1) ? 150 : 100;
             height = (station.lines.length > 1) ? 120 : 100;
-            station.color = [hexToRgb(color(metro.lines, station.lines)).r,
-            hexToRgb(color(metro.lines, station.lines)).g,
-            hexToRgb(color(metro.lines, station.lines)).b, 245]
+            opacity = (station.lines.length > 1) ? opaque : 255;
+            station.color = [hexToRgb(color(metro.lines, station.lines, station.branches)[0]).r,
+            hexToRgb(color(metro.lines, station.lines, station.branches)[0]).g,
+            hexToRgb(color(metro.lines, station.lines, station.branches)[0]).b, opacity]
             czml.push({
               "id": metro.name + ' | ' + station.name,
-              "name": (station.lines + ' | ' + station.name).replace(',', ', '),
-              // "description": metro.desc,
+              "name": station.name,
+              "description": '<table>' +
+                colored(station.name, metro.lines, station.lines, station.branches) +
+                '</table>',
               "position": {
                 "cartographicDegrees": [station.lon, station.lat, 40]
               },
@@ -221,27 +224,27 @@
               }
             });
             czml.push({
-              "id": metro.name + ' | ' + station.name+'2',
-              "name": (station.lines + ' | ' + station.name).replace(',', ', ').
-                replace(',', ', ').replace(',', ', ').replace(',', ', ').replace(',', ', ')
-                .replace(',', ', ').replace(',', ', ').replace(',', ', ').replace(',', ', '),
-              // "description": metro.desc,
+              "id": metro.name + ' | ' + station.name + '2',
+              "name": station.name,
+              "description": '<table>' +
+                colored(station.name, metro.lines, station.lines, station.branches) +
+                '</table>',
               "position": {
                 "cartographicDegrees": [station.lon, station.lat, 140]
               },
               "label": {
                 // "fillColor": { "rgba": station.color },
-                "fillColor": { "rgba": [241, 241, 241, 255] },
-                "font": "12pt Open Sans",
+                "fillColor": { "rgba": (dark) ? [241, 241, 241, 255] : [14, 14, 14, 255] },
+                "font": ((station.lines.length > 1) ? 14 : 12) + "pt Open Sans",
                 "horizontalOrigin": "CENTER",
                 "pixelOffset": {
                   "cartesian2": [0, 0]
                 },
                 "translucencyByDistance": {
-                  "nearFarScalar": [7000, 1, 10000, 0]
+                  "nearFarScalar": [10000, 1, 20000, 0]
                 },
-                "outlineColor": { "rgba": [0, 0, 0, 255] },
-                "outlineWidth": 2,
+                "outlineColor": { "rgba": (dark) ? [0, 0, 0, 255] : [255, 255, 255, 255] },
+                "outlineWidth": ((station.lines.length > 1) ? 2 : 2),
                 "style": "FILL_AND_OUTLINE",
                 "text": station.name
               }
@@ -250,8 +253,12 @@
           metro.lines.forEach(function (line, i) {
             czml.push({
               "id": metro.name + ' | ' + line.id,
-              "name": metro.name + ' | ' + line.name,
-              "description": metro.desc,
+              "name": line.name,
+              "description": '<table><tr><td style="text-align:center;padding:3px;background-color:' +
+                color(metro.lines, [line.name], [line.id])[0] + '";>' +
+                line.name + '</td><td style="padding-left:3px;">' +
+                branches(color(metro.lines, [line.name], [line.id])[1]) +
+                '</tr></td></table>',
               "corridor": {
                 "positions": {
                   "cartographicDegrees": degrees(line.path)
@@ -261,7 +268,7 @@
                     "color": {
                       "rgba": [hexToRgb(line.color).r,
                       hexToRgb(line.color).g,
-                      hexToRgb(line.color).b, 245]
+                      hexToRgb(line.color).b, opaque]
                     }
                   },
                 },
@@ -278,8 +285,8 @@
 
       var viewer = new Cesium.Viewer('cesiumContainer', {
         imageryProvider: new Cesium.OpenStreetMapImageryProvider({
-          url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/'
-          // url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/'
+          url: (dark) ? 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/'
+            : 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/'
         }),
         baseLayerPicker: false,
         shouldAnimate: true,
@@ -304,7 +311,8 @@
       viewer.dataSources.add(dataSourcePromise);
       // viewer.zoomTo(dataSourcePromise);
       viewer.camera.flyTo({
-        destination: Cesium.Cartesian3.fromDegrees(19.1, 47.42, 20000.0),
+        // destination: Cesium.Cartesian3.fromDegrees(19.1, 47.42, 20000.0),
+        destination: Cesium.Cartesian3.fromDegrees(0, 47.42, 20000.0),
         orientation: {
           heading: Cesium.Math.toRadians(0.0),
           pitch: Cesium.Math.toRadians(-60.0),
