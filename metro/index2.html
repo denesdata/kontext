@@ -59,10 +59,7 @@
   <script src="jszip.min.js"></script>
   <script src="JSZipUtils.min.js"></script>
 
-  <link href="https://fonts.googleapis.com/css?family=Metrophobic|Hammersmith+One&display=swap" rel="stylesheet">
-
   <style>
-    
     html,
     body,
     #cesiumContainer {
@@ -73,23 +70,8 @@
       overflow: hidden;
     }
 
-    #info,
-    .cesium-infoBox,
-    .cesium-infoBox-iframe {
-      font-family: "Metrophobic";
-    }
-
-    #info{
-      width:250px;
-      position:fixed;
-      top:0;
-      left:0;
-      padding:10px;
-      background-image: linear-gradient(to bottom right, rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0));
-    }
-
-    /* .cesium-infoBox, #id {
-      max-width: 300px !important;
+    /* .cesium-infoBox {
+      min-width: 300px !important;
     } */
   </style>
 </head>
@@ -108,8 +90,6 @@
 
       var dark = true;
       var opaque = 255;
-      var myfont = 'Hammersmith One';
-      var fontstyle='<link href="https://fonts.googleapis.com/css?family=Metrophobic|Hammersmith+One&display=swap" rel="stylesheet">'
 
       var czml = [{
         "id": "document",
@@ -156,27 +136,23 @@
         return points
       }
 
-      function central(stations, already) {
+      function central(stations) {
         maxStations = 0
         coords = []
-        name = ''
         stations.forEach(function (station) {
           if (station.lines.length > maxStations) {
-            if (already.indexOf(station.name) < 0) {
-              name = station.name
-              maxStations = station.lines.length
-              coords = [station.lat, station.lon]
-            }
+            maxStations = station.lines.length
+            coords = [station.lat, station.lon]
           }
         })
-        return [coords, name]
+        return coords
       }
 
       function colored(station, mlines, slines, sbranches) {
         r = ''
         slines.forEach(function (line) {
-          r = r + '<tr><td style="text-align:center;padding:3px;text-shadow: 1px 1px 0px #000000;font-family:' + myfont +';background-color:' +
-            color(mlines, [line], sbranches)[0] +';">' +
+          r = r + '<tr><td style="text-align:center;padding:3px;background-color:' +
+            color(mlines, [line], sbranches)[0] + '";>' +
             line + '</td><td style="padding-left:3px;">' +
             branches(color(mlines, [line], sbranches)[1]) +
             '</tr></td>'
@@ -193,23 +169,22 @@
       }
 
       metros.forEach(function (metro, i) {
-        // if ((['Budapest Metro', 'Bucharest Metro', 'Vienna U-Bahn', 'London Underground and DLR'].indexOf(metro.name) > -1)) {
-        if (true) {
+        if ((['Budapest Metro', 'Bucharest Metro', 'Vienna U-Bahn', 'London Underground and DLR'].indexOf(metro.name) > -1)) {
+          // if (true) {
 
-          centrals = central(metro.stations, [])
-          coords = centrals[0]
+          coords = central(metro.stations)
 
           czml.push({
             "id": metro.url,
             "name": metro.name,
-            "description": fontstyle+'<a style="text-decoration:none;font-family:Metrophobic;" target="_blank" href="' + metro.url + '"><table><tr><td>' +
+            "description": '<a style="text-decoration:none;" target="_blank" href="' + metro.url + '"><table><tr><td>' +
               metro.desc + '</td></tr></table></a>',
             "position": {
               "cartographicDegrees": [coords[1], coords[0], 100]
             },
             "label": {
               "fillColor": { "rgba": (dark) ? [241, 241, 241, 255] : [14, 14, 14, 255] },
-              "font": "14pt " + myfont,
+              "font": "14pt Arial",
               "horizontalOrigin": "CENTER",
               "translucencyByDistance": {
                 "nearFarScalar": [50000, 0, 100000, 1]
@@ -230,7 +205,7 @@
             czml.push({
               "id": metro.name + ' | ' + station.name,
               "name": station.name,
-              "description": fontstyle +'<a style="text-decoration:none;font-family:Metrophobic;" target="_blank" href="' + station.url + '"><table>' +
+              "description": '<a style="text-decoration:none;" target="_blank" href="' + station.url + '"><table>' +
                 colored(station.name, metro.lines, station.lines, station.branches) +
                 '</table></a>',
               "position": {
@@ -253,22 +228,22 @@
             czml.push({
               "id": metro.name + ' | ' + station.name + '2',
               "name": station.name,
-              "description": fontstyle +'<a style="text-decoration:none;font-family:Metrophobic;" target="_blank" href="' + station.url + '"><table>' +
+              "description": '<a style="text-decoration:none;" target="_blank" href="' + station.url + '"><table>' +
                 colored(station.name, metro.lines, station.lines, station.branches) +
                 '</table></a>',
               "position": {
-                "cartographicDegrees": [station.lon, station.lat, 180]
+                "cartographicDegrees": [station.lon, station.lat, 140]
               },
               "label": {
                 // "fillColor": { "rgba": station.color },
                 "fillColor": { "rgba": (dark) ? [241, 241, 241, 255] : [14, 14, 14, 255] },
-                "font": ((station.lines.length > 1) ? 14 : 12) + "pt " + myfont,
+                "font": ((station.lines.length > 1) ? 14 : 12) + "pt Open Sans",
                 "horizontalOrigin": "CENTER",
                 "pixelOffset": {
                   "cartesian2": [0, 0]
                 },
                 "translucencyByDistance": {
-                  "nearFarScalar": [12000, 1, 15000, 0]
+                  "nearFarScalar": [10000, 1, 13000, 0]
                 },
                 "outlineColor": { "rgba": (dark) ? [0, 0, 0, 255] : [255, 255, 255, 255] },
                 "outlineWidth": ((station.lines.length > 1) ? 2 : 2),
@@ -281,7 +256,7 @@
             czml.push({
               "id": metro.name + ' | ' + line.id,
               "name": line.name,
-              "description": fontstyle +'<table style="font-family:Metrophobic;"><tr><td style="text-align:center;text-shadow: 1px 1px 0px #000000;padding:3px;font-family:' + myfont +';background-color:' +
+              "description": '<table><tr><td style="text-align:center;padding:3px;background-color:' +
                 color(metro.lines, [line.name], [line.id])[0] + '";>' +
                 line.name + '</td><td style="padding-left:3px;">' +
                 branches(color(metro.lines, [line.name], [line.id])[1]) +
@@ -317,7 +292,6 @@
             : 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/'
         }),
         baseLayerPicker: false,
-        sceneModePicker: false,
         shouldAnimate: true,
         animation: false,
         // geocoder: false,
@@ -326,96 +300,132 @@
         navigationInstructionsInitiallyVisible: false
       });
 
-      // viewer.dataSources.add(Cesium.CzmlDataSource.load(czml));
+      var train = {
+        "id": "train",
+        "name": "Train",
+        "position": {
+          "cartographicDegrees": [26.13, 44.41, 100]
+        },
+        "model": {
+          "gltf": "Cesium_Air.glb",
+          "scale": 10,
+          "color": {
+            "rgba": [241, 241, 241, 235]
+          }
+        }
+      };
 
-      var dataSourcePromise = Cesium.CzmlDataSource.load(czml);
-      viewer.dataSources.add(dataSourcePromise);
+      // czml.push(train)
 
-      var step = function () { };
-      var tour = function () { };
-      var mstep = function () { };
+
+      viewer.dataSources.add(Cesium.CzmlDataSource.load(czml));
+
+
+      // viewer.dataSources.add(Cesium.CzmlDataSource.load(czml)).then(function (ds) {
+      //   viewer.trackedEntity = ds.entities.getById('train');
+      // })
+
+      // var dataSourcePromise = Cesium.CzmlDataSource.load(czml);
+      // viewer.dataSources.add(dataSourcePromise);
+
+      // viewer.zoomTo('4');
+      // viewer.camera.flyTo({
+      //   // destination: Cesium.Cartesian3.fromDegrees(19.1, 47.42, 20000.0),
+      //   destination: Cesium.Cartesian3.fromDegrees(0, 47.42, 20000.0),
+      //   orientation: {
+      //     heading: Cesium.Math.toRadians(0.0),
+      //     pitch: Cesium.Math.toRadians(-60.0),
+      //     roll: 0.0
+      //   }
+      // });
+
+      // function degrees2(path) {
+      //   points = [];
+      //   path.forEach(function (point) {
+      //     points.push(point.lng)
+      //     points.push(point.lat)
+      //   })
+      //   return points
+      // }
+
+      // function computeCircle(radius) {
+      //   var positions = [];
+      //   for (var i = 0; i < 360; i++) {
+      //     var radians = Cesium.Math.toRadians(i);
+      //     positions.push(new Cesium.Cartesian2(radius * Math.cos(radians), radius * Math.sin(radians)));
+      //   }
+      //   return positions;
+      // }
+
+      // metros.forEach(function (metro, i) {
+      //   if ((['Budapest Metro', 'Bucharest Metro', 'Vienna U-Bahn', 'London Underground and DLR'].indexOf(metro.name) > -1)) {
+      //     // if (true) {
+
+      //     coords = central(metro.stations)
+
+      //     metro.lines.forEach(function (line, i) {
+      //       viewer.entities.add({
+      //         name: line.name + 'p',
+      //         polylineVolume: {
+      //           positions: Cesium.Cartesian3.fromDegreesArray(degrees2(line.path)),
+      //           shape: computeCircle(60.0),
+      //           material: Cesium.Color.RED
+      //         }
+      //       })
+      //     })
+      //   }
+      // })
+
+      // camera.flyTo({
+      //   destination: Cesium.Cartesian3.fromDegrees(-73.98580932617188, 40.74843406689482, 363.34038727246224),
+      //   complete: function () {
+      //     setTimeout(function () {
+      //       camera.flyTo({
+      //         destination: Cesium.Cartesian3.fromDegrees(-73.98585975679403, 40.75759944127251, 186.50838555841779),
+      //         orientation: {
+      //           heading: Cesium.Math.toRadians(200.0),
+      //           pitch: Cesium.Math.toRadians(-50.0)
+      //         },
+      //         easingFunction: Cesium.EasingFunction.LINEAR_NONE
+      //       });
+      //     }, 1000);
+      //   }
+      // });
 
       function fly(id) {
-
-        data = qdata[id]
-
+        console.log(id)
         setTimeout(function () {
-          mstep = viewer.selectedEntity = viewer.dataSources.get([0]).entities.getById(id)
-          d3.select("#title").text(data.name)
-          d3.select("#desc").text(basedesc)
-        }, 200)
+          // viewer.selectedEntity = viewer.dataSources.get([0]).entities.getById(id)
+        }, 1000)
+        data = qdata[id]
+        console.log(data)
+        k = 0
+        i = 0
+        // for (var i = 0; i < 6; i++) {
+        setInterval(function () {
+          i = i + 1
+          if (i == data.lines[k].path.length - 1) i = 0
+          viewer.camera.flyToBoundingSphere({
+            center: Cesium.Cartesian3.fromDegrees(
+              data.lines[k].path[i].lng,
+              data.lines[k].path[i].lat,
+              100.0),
+            radius: 4000
+          },
+            {
+              duration: 2,
+              easingFunction: Cesium.EasingFunction.LINEAR_NONE
+            }
+          );
+          // var center = Cesium.Cartesian3.fromDegrees(data.lines[k].path[i].lng, data.lines[k].path[i].lat);
+          // viewer.camera.lookAt(center, new Cesium.Cartesian3(0.0, -2000, 10000));
 
-        if (tour) clearInterval(tour)
-        if (step) clearTimeout(step)
-        if (mstep) clearTimeout(mstep)
-
-        already = []
-        d = 3; //duration of flight in sec
-        n = 3;//nr of stations to show on tour
-        m = 0; //tour iteration
-        var loop = true //back to start at the end of tour
-        centrals = central(data.stations, already)
-        coords = centrals[0]
-        console.log(data.name)
-
-        viewer.camera.flyToBoundingSphere({
-          center: Cesium.Cartesian3.fromDegrees(
-            coords[1],
-            coords[0],
-            100.0),
-          radius: 6000
-        }, { duration: d });
-
-        tour = setInterval(function () {
-          m = m + 1;
-          if (m > n - (loop ? 0 : 1)) clearInterval(tour)
-          if (already.length == n) already = [];
-          centrals = central(data.stations, already)
-          console.log(centrals[1])
-          coords = centrals[0]
-          already.push(centrals[1])
-          step = setTimeout(function () {
-            mstep = setTimeout(function () {
-              viewer.selectedEntity = viewer.dataSources.get([0]).entities.getById(data.name + ' | ' + centrals[1])
-              d3.select("#desc").text(data.desc.split('.').slice(0, 2).join('.') + '.')
-            }, 200)
-            viewer.camera.flyToBoundingSphere({
-              center: Cesium.Cartesian3.fromDegrees(
-                coords[1],
-                coords[0],
-                100.0),
-              radius: 4000
-            }, { duration: d, easingFunction: Cesium.EasingFunction.SINUSOIDAL_IN_OUT });
-          }, (already.length) ? 10 : 2 * d * 1000);
-        }, d * 1000)
-
+        }, 2000)
       }
 
+      var start = 'https://www.metrolinemap.com/metro/london/'
 
-      var start = 'https://www.metrolinemap.com/metro/budapest/'
-
-      var basedesc = 'Loading ...'
-
-      stationkeys = Object.keys(qdata)
-      // shuffle(stationkeys);
-      stationkeys.unshift(start);
-      currentstation = 0;
-
-      function shuffle(array) {
-        array.sort(() => Math.random() - 0.5);
-      }
-
-      function next() {
-        currentstation = currentstation + 1;
-        if (currentstation > stationkeys.length - 1) currentstation = 0;
-        fly(stationkeys[currentstation])
-      }
-
-      function prev() {
-        currentstation = currentstation - 1;
-        if (currentstation < 0) currentstation = stationkeys.length - 1;
-        fly(stationkeys[currentstation])
-      }
+      // viewer.dataSources.get([0]).entities.getById('Bucharest Metro | 323')['show']= false
 
       fly(start)
 
@@ -447,7 +457,8 @@
         .attr('target', '_blank')
         .attr("title", "Help - TomTom 2019 Traffic Index")
         .style('font-size', '20px')
-        .on('click', function () { next(); })
+        // .attr('href', 'https://www.tomtom.com/en_gb/traffic-index/ranking/')
+        .on('click', function () { fly('https://www.metrolinemap.com/metro/bucharest/') })
         .append('img')
         .attr('src', 'https://www.tomtom.com/favicon.ico')
         .attr('width', '30px')
@@ -460,7 +471,8 @@
         .attr('target', '_blank')
         .attr("title", "Help - TomTom 2019 Traffic Index")
         .style('font-size', '20px')
-        .on('click', function () { prev(); })
+        // .attr('href', 'https://www.tomtom.com/en_gb/traffic-index/ranking/')
+        .on('click', function () { fly('https://www.metrolinemap.com/metro/budapest/') })
         .append('img')
         .attr('src', 'https://www.tomtom.com/favicon.ico')
         .attr('width', '30px')
@@ -473,15 +485,14 @@
         .attr("id", "subs")
       d3.select("#subs").append("div")
         .attr("class", "cesium-viewer-cesiumWidgetContainer")
-        .html('<div id="info" style="font-size:20px;"><div id="title">Global Metro System Map</div>' +
+        .html('<div style="font-size:20px;">Global Metro ' +
+          ((!(mobile)) ? '<br>' : '') +
+          'System Map</div>' +
           '<div style="font-size:15px;margin-top:5px;">🚇 based on <b>' +
           '<a target="_blank" style="color:#eee;text-decoration:none" href="//metrolinemap.com">metrolinemap.com</a></b></div>' +
           '<div>' +
           '<svg height="20" width="300"><line x1="0" y1="15" x2="235" y2="15" style="stroke:#eee;stroke-width:1" />' +
-          '</div>' +
-          '<div style="font-size:15px;margin-top:5px; width:245px;" id="desc">' + basedesc + '</div>'
-        )
-
+          '</div>')
     })
 
   </script>
