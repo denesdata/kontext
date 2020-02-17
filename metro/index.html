@@ -122,7 +122,7 @@
   <div id="cesiumContainer"></div>
   <script>
     Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiZWYxMTQwMC1iZjRiLTQ2ZmQtYTk0MS0zNGI3MjI1MzRlZTYiLCJpZCI6MTY5MjcsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1NzEzMjU3ODd9.InYGD_zyuB-tFLaIahXGyU5SoYyd5tjI3EaInQ5zrOs';
-    var mobile = (!(window.matchMedia("(any-pointer:coarse)").matches));
+    var mobile = (window.matchMedia("(any-pointer:coarse)").matches);
     JSZipUtils.getBinaryContent("metrosy.zip", function (err, rawdata) {
       var zip = new JSZip(rawdata);
       var qdata = JSON.parse(zip.files["metrosy.json"].asText());
@@ -228,7 +228,8 @@
 
           centrals = central(metro.stations, [])
           coords = centrals[0]
-
+          
+          if (!mobile)
           czml.push({
             "id": metro.url,
             "name": metro.name,
@@ -281,6 +282,7 @@
                 }
               }
             });
+            if (!mobile)
             czml.push({
               "id": metro.name + ' | ' + station.name + '2',
               "name": station.name,
