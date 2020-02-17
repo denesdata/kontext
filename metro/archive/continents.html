@@ -167,11 +167,14 @@
         "version": "1.0"
       };
 
-      loaddata = {
-        'labels': [czml]
+      continents = {
+        'Europe': [czml],
+        'Africa': [czml],
+        'North America': [czml],
+        'South America': [czml],
+        'Asia': [czml],
+        'Australia / Oceania': [czml]
       };
-
-      loaded = [];
 
       function color(mlines, slines, sbranches) {
         e = []
@@ -255,10 +258,9 @@
           centrals = central(metro.stations, []);
           coords = centrals[0];
           continent = metro.geo.continent;
-          loaddata[metro.url] = [czml]
 
           if (!mobile)
-            loaddata['labels'].push({
+            continents[continent].push({
               "id": metro.url,
               "name": metro.name,
               "type": 'system',
@@ -287,7 +289,7 @@
             station.color = [hexToRgb(color(metro.lines, station.lines, station.branches)[0]).r,
             hexToRgb(color(metro.lines, station.lines, station.branches)[0]).g,
             hexToRgb(color(metro.lines, station.lines, station.branches)[0]).b, opacity]
-            loaddata[metro.url].push({
+            continents[continent].push({
               "id": metro.name + ' | ' + station.name,
               "name": station.name,
               "description": fontstyle + '<a style="text-decoration:none;font-family:Metrophobic;" target="_blank" href="' + station.url + '"><table>' +
@@ -311,7 +313,7 @@
               }
             });
             if (!mobile)
-              loaddata[metro.url].push({
+              continents[continent].push({
                 "id": metro.name + ' | ' + station.name + '2',
                 "name": station.name,
                 "description": fontstyle + '<a style="text-decoration:none;font-family:Metrophobic;" target="_blank" href="' + station.url + '"><table>' +
@@ -339,7 +341,7 @@
               })
           });
           metro.lines.forEach(function (line, i) {
-            loaddata['labels'].push({
+            continents[continent].push({
               "id": metro.name + ' | ' + line.id,
               "name": line.name,
               "description": fontstyle + '<table style="font-family:Metrophobic;"><tr><td style="text-align:center;text-shadow: 1px 1px 0px #000000;padding:3px;font-family:' + myfont + ';background-color:' +
@@ -388,12 +390,30 @@
         navigationInstructionsInitiallyVisible: false
       });
 
-      var dataSourcePromise = Cesium.CzmlDataSource.load(loaddata['labels']);
+      // viewer.dataSources.add(Cesium.CzmlDataSource.load(czml));
 
-      viewer.dataSources.add(dataSourcePromise);
-      console.log("Loading labels...")
+      // var dataSourcePromise = Cesium.CzmlDataSource.load(czml);
+      // console.log(czml1.length)
+      // setTimeout(function () {
+      //   // viewer.dataSources.add(dataSourcePromise);
+      //   viewer.dataSources.add(Cesium.CzmlDataSource.load(czml1.slice(0,czml1.length/5)));
+      //   console.log("Loading labels...")
+      // }, 10)
 
-      //set u load on first view
+      setTimeout(function () {
+        viewer.dataSources.add(Cesium.CzmlDataSource.load(continents['Europe']));
+        console.log("Loading labels...")
+      }, 10)
+
+      // setTimeout(function () {
+      //   viewer.dataSources.add(Cesium.CzmlDataSource.load(czml2));
+      //   console.log("Loading lines...")
+      // }, 3000)
+
+      // setTimeout(function () {
+      //   viewer.dataSources.add(Cesium.CzmlDataSource.load(czml3));
+      //   console.log("Loading stations...")
+      // }, 6000)
 
       var step = function () { };
       var tour = function () { };
@@ -409,21 +429,15 @@
 
         data = qdata[id]
         currentstation = name2id[data.name]
-
-        if (loaded.indexOf(id) < 0) {
-          console.log('Loading data for ' + data.name + '...')
-          viewer.dataSources.add(Cesium.CzmlDataSource.load(loaddata[id]))
-          loaded.push(id);
-        }
-
-        //lazy load on zoom if closer than a certain distance
-
         d3.select('#citydrop').node().value = data.name
 
         setTimeout(function () {
-          viewer.selectedEntity = viewer.dataSources.get([0]).entities.getById(id)
+          // mstep = viewer.selectedEntity = viewer.dataSources.get([0]).entities.getById(id)
           viewer.infoBox.viewModel.closeClicked.raiseEvent(this)
+          // viewer.infoBox.element.hidden=false
           d3.select("#title").html('<a target="_blank" href="' + data.url + '">&nbsp;<b>' + data.year + '</b> 🚇 ' + data.name + '</a>')
+          // d3.select("#desc").text(basedesc)
+          // d3.select("#desc").text(data.desc.split('.').slice(0, 2).join('.') + '.')
           d3.select("#desc").text(data.desc)
 
         }, 200)
