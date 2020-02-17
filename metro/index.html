@@ -59,10 +59,9 @@
   <script src="jszip.min.js"></script>
   <script src="JSZipUtils.min.js"></script>
 
-  <link href="https://fonts.googleapis.com/css?family=Metrophobic|Hammersmith+One&display=swap" rel="stylesheet">
+  <!-- <link href="https://fonts.googleapis.com/css?family=Metrophobic|Hammersmith+One&display=swap" rel="stylesheet"> -->
 
   <style>
-
     /* @font-face {
       font-family: "Hammersmith One";
       src: url(HammersmithOne-Regular.ttf) format("truetype");
@@ -131,6 +130,14 @@
 </head>
 
 <body>
+  <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js?0fb003&0fb003"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: ['Hammersmith One', 'Metrophobic']
+      }
+    });
+  </script>
   <div id="cesiumContainer"></div>
   <script>
     Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiZWYxMTQwMC1iZjRiLTQ2ZmQtYTk0MS0zNGI3MjI1MzRlZTYiLCJpZCI6MTY5MjcsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1NzEzMjU3ODd9.InYGD_zyuB-tFLaIahXGyU5SoYyd5tjI3EaInQ5zrOs';
