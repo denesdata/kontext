@@ -126,6 +126,18 @@
     /* .cesium-infoBox, #id {
       max-width: 300px !important;
     } */
+
+    @media screen and (max-width: 600px) {
+
+      #title,
+      #source {
+        visibility: hidden !important;
+      }
+
+      #info {
+        margin-top: -15px !important;
+      }
+    }
   </style>
 </head>
 
@@ -626,7 +638,7 @@
       d3.select("#subs").append("div")
         .attr("class", "cesium-viewer-cesiumWidgetContainer")
         .html('<div id="info" style="font-size:20px;"><div id="title">' + basetitle + '</div>' +
-          '<div style="font-size:15px;margin-top:5px;margin-left:10px;color:' + theme + ';">Ⓜ based on <b>' +
+          '<div id="source" style="font-size:15px;margin-top:5px;margin-left:10px;color:' + theme + ';">Ⓜ based on <b>' +
           '<a target="_blank" href="//metrolinemap.com">metrolinemap.com</a></b></div>' +
           '<div>' +
           '<svg height="20" width="300"><line x1="0" y1="15" x2="235" y2="15" style="stroke:' + theme + ';stroke-width:1" />' +
@@ -635,8 +647,10 @@
         )
       d3.select('.cesium-navigationHelpButton-wrapper').on('click', function () { reset(); home(); })
 
-
-      // viewer.camera.defaultRotateAmount =7
+      // d3.select("#title")
+      //   .style('visibility', mobile ? 'hidden' : 'visible')
+      // d3.select("#source")
+      //   .style('visibility', mobile ? 'hidden' : 'visible')
 
       var scene = viewer.scene;
       var handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
