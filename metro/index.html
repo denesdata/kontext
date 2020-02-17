@@ -62,6 +62,16 @@
   <link href="https://fonts.googleapis.com/css?family=Metrophobic|Hammersmith+One&display=swap" rel="stylesheet">
 
   <style>
+
+    /* @font-face {
+      font-family: "Hammersmith One";
+      src: url(HammersmithOne-Regular.ttf) format("truetype");
+    }
+    @font-face {
+      font-family: "Metrophobic";
+      src: url(Metrophobic-Regular.ttf) format("truetype");
+    } */
+
     html,
     body,
     #cesiumContainer {
@@ -71,13 +81,14 @@
       padding: 0;
       overflow: hidden;
       color: #FFD166;
+      font-family: sans-serif;
     }
 
     #info,
     .cesium-infoBox,
     .cesium-infoBox-iframe,
     a {
-      font-family: "Metrophobic";
+      font-family: 'Metrophobic', sans-serif;
       color: #FFD166;
       text-decoration: none;
     }
@@ -138,7 +149,8 @@
       var red = hexToRgb(stationcolor).r;
       var green = hexToRgb(stationcolor).g;
       var blue = hexToRgb(stationcolor).b;
-      var myfont = 'Hammersmith One';
+      // var myfont = 'Hammersmith One';
+      var myfont = "'Hammersmith One', sans-serif";
       var fontstyle = '<link href="https://fonts.googleapis.com/css?family=Metrophobic|Hammersmith+One&display=swap" rel="stylesheet">' +
         '<style>html,body,div,a,td,table{color: ' + stationcolor + ';text-decoration:none;}</style>'
 
@@ -242,7 +254,7 @@
               },
               "label": {
                 "fillColor": { "rgba": [red, green, blue, 255] },
-                "font": "14pt Arial",// + myfont,
+                "font": "14pt " + myfont,
                 "horizontalOrigin": "CENTER",
                 "translucencyByDistance": {
                   "nearFarScalar": [50000, 0, 100000, 1]
@@ -296,7 +308,7 @@
                 "label": {
                   // "fillColor": { "rgba": station.color },
                   "fillColor": { "rgba": [red, green, blue, 255] },
-                  "font": ((station.lines.length > 1) ? 14 : 12) + "pt Arial",// + myfont,
+                  "font": ((station.lines.length > 1) ? 14 : 12) + "pt " + myfont,
                   "horizontalOrigin": "CENTER",
                   "pixelOffset": {
                     "cartesian2": [0, 0]
@@ -366,7 +378,7 @@
       var dataSourcePromise = Cesium.CzmlDataSource.load(czml);
       setTimeout(function () {
         viewer.dataSources.add(dataSourcePromise);
-      }, 100)
+      }, 10)
 
       var step = function () { };
       var tour = function () { };
@@ -549,7 +561,7 @@
 
       d3.select('#citydrop')
         .style('background', 'none')
-        .style('font-family', "Metrophobic")
+        .style('font-family', "'Metrophobic' sans-serif")
         .style('font-size', '14px')
         .style('color', theme)
         .style("height", "18px")
@@ -646,7 +658,7 @@
 
       setTimeout(function () {
         fly(start)
-      }, 200)
+      }, 20)
 
     })
 
