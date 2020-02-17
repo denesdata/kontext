@@ -654,14 +654,22 @@
       var handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
 
       handler.setInputAction(function (movement) {
-        var feature = scene.pick(movement.position);
-        if (!Cesium.defined(feature)) {
-          reset();
-          return;
-        }
+        reset();
+        return;
       }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
 
       handler.setInputAction(function (movement) {
+        reset();
+        return;
+      }, Cesium.ScreenSpaceEventType.PINCH_MOVE);
+
+      handler.setInputAction(function (movement) {
+        reset();
+        return;
+      }, Cesium.ScreenSpaceEventType.WHEEL);
+
+      handler.setInputAction(function (movement) {
+        reset();
         var feature = scene.pick(movement.position);
         if (Cesium.defined(feature)) {
           if (Object.keys(qdata).indexOf(feature.id.id) > 0) {
