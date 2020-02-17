@@ -223,33 +223,33 @@
       }
 
       metros.forEach(function (metro, i) {
-        if ((['Budapest Metro', 'Bucharest Metro', 'Vienna U-Bahn', 'London Underground and DLR'].indexOf(metro.name) > -1)) {
-          // if (true) {
+        // if ((['Budapest Metro', 'Bucharest Metro', 'Vienna U-Bahn', 'London Underground and DLR'].indexOf(metro.name) > -1)) {
+        if (true) {
 
           centrals = central(metro.stations, [])
           coords = centrals[0]
-          
+
           if (!mobile)
-          czml.push({
-            "id": metro.url,
-            "name": metro.name,
-            "type": 'system',
-            "description": fontstyle + '<a style="text-decoration:none;font-family:Metrophobic;" target="_blank" href="' + metro.url + '"><table><tr><td>' +
-              metro.desc + '</td></tr></table></a>',
-            "position": {
-              "cartographicDegrees": [coords[1], coords[0], 100]
-            },
-            "label": {
-              "fillColor": { "rgba": [red, green, blue, 255] },
-              "font": "14pt " + myfont,
-              "horizontalOrigin": "CENTER",
-              "translucencyByDistance": {
-                "nearFarScalar": [50000, 0, 100000, 1]
+            czml.push({
+              "id": metro.url,
+              "name": metro.name,
+              "type": 'system',
+              "description": fontstyle + '<a style="text-decoration:none;font-family:Metrophobic;" target="_blank" href="' + metro.url + '"><table><tr><td>' +
+                metro.desc + '</td></tr></table></a>',
+              "position": {
+                "cartographicDegrees": [coords[1], coords[0], 100]
               },
-              "style": "FILL",
-              "text": metro.name
-            }
-          });
+              "label": {
+                "fillColor": { "rgba": [red, green, blue, 255] },
+                "font": "14pt " + myfont,
+                "horizontalOrigin": "CENTER",
+                "translucencyByDistance": {
+                  "nearFarScalar": [50000, 0, 100000, 1]
+                },
+                "style": "FILL",
+                "text": metro.name
+              }
+            });
 
           metro.stations.forEach(function (station, i) {
 
@@ -283,32 +283,32 @@
               }
             });
             if (!mobile)
-            czml.push({
-              "id": metro.name + ' | ' + station.name + '2',
-              "name": station.name,
-              "description": fontstyle + '<a style="text-decoration:none;font-family:Metrophobic;" target="_blank" href="' + station.url + '"><table>' +
-                colored(station.name, metro.lines, station.lines, station.branches) +
-                '</table></a>',
-              "position": {
-                "cartographicDegrees": [station.lon, station.lat, 180]
-              },
-              "label": {
-                // "fillColor": { "rgba": station.color },
-                "fillColor": { "rgba": [red, green, blue, 255] },
-                "font": ((station.lines.length > 1) ? 14 : 12) + "pt " + myfont,
-                "horizontalOrigin": "CENTER",
-                "pixelOffset": {
-                  "cartesian2": [0, 0]
+              czml.push({
+                "id": metro.name + ' | ' + station.name + '2',
+                "name": station.name,
+                "description": fontstyle + '<a style="text-decoration:none;font-family:Metrophobic;" target="_blank" href="' + station.url + '"><table>' +
+                  colored(station.name, metro.lines, station.lines, station.branches) +
+                  '</table></a>',
+                "position": {
+                  "cartographicDegrees": [station.lon, station.lat, 180]
                 },
-                "translucencyByDistance": {
-                  "nearFarScalar": [12000, 1, 15000, 0]
-                },
-                "outlineColor": { "rgba": (dark) ? [0, 0, 0, 255] : [255, 255, 255, 255] },
-                "outlineWidth": ((station.lines.length > 1) ? 2 : 2),
-                "style": "FILL_AND_OUTLINE",
-                "text": station.name
-              }
-            })
+                "label": {
+                  // "fillColor": { "rgba": station.color },
+                  "fillColor": { "rgba": [red, green, blue, 255] },
+                  "font": ((station.lines.length > 1) ? 14 : 12) + "pt " + myfont,
+                  "horizontalOrigin": "CENTER",
+                  "pixelOffset": {
+                    "cartesian2": [0, 0]
+                  },
+                  "translucencyByDistance": {
+                    "nearFarScalar": [12000, 1, 15000, 0]
+                  },
+                  "outlineColor": { "rgba": (dark) ? [0, 0, 0, 255] : [255, 255, 255, 255] },
+                  "outlineWidth": ((station.lines.length > 1) ? 2 : 2),
+                  "style": "FILL_AND_OUTLINE",
+                  "text": station.name
+                }
+              })
           });
           metro.lines.forEach(function (line, i) {
             czml.push({
@@ -447,7 +447,7 @@
         // d3.select("#desc").html('<img src="https://cesium.com/downloads/cesiumjs/releases/1.63/Build/Cesium/Widgets/Images/NavigationHelp/MouseLeft.svg"/>'+
         // '<img src="https://cesium.com/downloads/cesiumjs/releases/1.63/Build/Cesium/Widgets/Images/NavigationHelp/MouseRight.svg"/>'
         // );
-        d3.select("#desc").html('<table><tr><td class="leftq"><div><b>Left click</b><br>on city</td>' +
+        d3.select("#desc").html('<div>&nbsp;Last updated on <b>17/02/2020</b><br>&nbsp;</div><table><tr><td class="leftq"><div><b>Left click</b><br>on city</td>' +
           '<td class="rightq">fly to city</div></td></tr>' +
           '<tr><td class="leftq"><div><b>Left click</b><br>on station</td><td class="rightq">view lines</div></td></tr>' +
           '<tr><td class="leftq"><div><b>Left click</b><br>and drag</td><td class="rightq">pan</div></td></tr>' +
@@ -520,6 +520,17 @@
         .attr("href", "https://csaladen.es")
         .attr("target", "_blank")
         .html("<img style='margin-bottom:-2px;margin-left:8px;height:30px;' src='https://csaladen.es/favicon.ico' alt='by Dénes Csala' title='by Dénes Csala' />")
+      d3.select(".cesium-viewer-toolbar").insert("div")
+        .attr("class", "cesium-button cesium-toolbar-button material-icons")
+        .style("padding-left", "2px")
+        .style("padding-top", "2px")
+        .append('a')
+        .text("📊")//〽
+        .attr('target', '_blank')
+        .attr("title", "data visualizations")
+        .attr('href', 'https://public.flourish.studio/story/193465/embed')
+        .style('font-size', '20px')
+        .on('click', function () { next(); })
       d3.select(".cesium-viewer-toolbar").insert("div")
         .attr("class", "cesium-button")
         .style("width", "130px")
