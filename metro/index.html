@@ -431,8 +431,6 @@
           loaded.push(id);
         }
 
-        //lazy load on zoom if closer than a certain distance
-
         d3.select('#citydrop').node().value = data.name
 
         setTimeout(function () {
@@ -486,7 +484,6 @@
         }, d * 1000)
 
       }
-
 
       var start = 'https://www.metrolinemap.com/metro/budapest/'
 
@@ -613,11 +610,11 @@
       })
 
       d3.select('#citydrop').on('mouseover', function () {
-        d3.select('#citydrop').node().value=''
+        d3.select('#citydrop').node().value = ''
       })
 
       d3.select('#citydrop').on('mouseout', function () {
-        d3.select('#citydrop').node().value=stationnames[currentstation]
+        d3.select('#citydrop').node().value = stationnames[currentstation]
       })
 
       d3.select(".cesium-viewer-toolbar").insert("div")
@@ -625,7 +622,7 @@
         .style("padding-left", "5px")
         // .style("padding-top", "2px")
         .append('a')
-        .text("⬅")
+        .text("←")
         .attr('target', '_blank')
         .attr("title", "fly to previous city")
         .style('font-size', '20px')
@@ -634,7 +631,7 @@
         .attr("class", "cesium-button cesium-toolbar-button material-icons")
         .style("padding-left", "5px")
         .append('a')
-        .text("➡")
+        .text("→")
         .attr('target', '_blank')
         .attr("title", "fly to next city")
         .style('font-size', '20px')
@@ -732,10 +729,7 @@
 
     })
 
-    //dropdown
-    //html labels
-    //fontload
-    //data attribution
+
 
   </script>
 </body>
