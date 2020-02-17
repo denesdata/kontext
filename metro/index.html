@@ -141,7 +141,7 @@
 </head>
 
 <body>
-  <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js?0fb003&0fb003"></script>
+  <script src='//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js?0fb003&0fb003'></script>
   <script>
     WebFont.load({
       google: {
@@ -169,8 +169,9 @@
       var blue = hexToRgb(stationcolor).b;
       // var myfont = 'Hammersmith One';
       var myfont = "'Hammersmith One', sans-serif";
+      var fontstyle = '';
       var fontstyle = '<link href="https://fonts.googleapis.com/css?family=Metrophobic|Hammersmith+One&display=swap" rel="stylesheet">' +
-        '<style>html,body,div,a,td,table{color: ' + stationcolor + ';text-decoration:none;overflow:hidden;}</style>'
+        '<style>html,body,div,a,td,table{color: ' + stationcolor + ';text-decoration:none;overflow:hidden;}</style>';
 
       var czml = {
         "id": "document",
@@ -531,6 +532,7 @@
       })
 
       stationkeys = metros.map(function (el) { return el.url; });
+      stationnames = metros.map(function (el) { return el.name; });
       // shuffle(stationkeys);
       // stationkeys.unshift(start);
       currentstation = 0;
@@ -587,7 +589,7 @@
         .style("height", "24px")
         .style('margin-bottom', '-12px')
         .style('padding-top', '2px')
-        .html('<input list="cities" id="citydrop" name="city"/><datalist id="cities"></datalist>')
+        .html('<input list="cities" id="citydrop" placeholder="Enter city name..." name="city"/><datalist id="cities"></datalist>')
 
       metros.sortOn('name', true)
       metros.forEach(function (city) {
@@ -608,6 +610,14 @@
         if (Object.keys(name2url).indexOf(city) > -1) {
           fly(name2url[city]);
         }
+      })
+
+      d3.select('#citydrop').on('mouseover', function () {
+        d3.select('#citydrop').node().value=''
+      })
+
+      d3.select('#citydrop').on('mouseout', function () {
+        d3.select('#citydrop').node().value=stationnames[currentstation]
       })
 
       d3.select(".cesium-viewer-toolbar").insert("div")
@@ -722,6 +732,10 @@
 
     })
 
+    //dropdown
+    //html labels
+    //fontload
+    //data attribution
 
   </script>
 </body>
