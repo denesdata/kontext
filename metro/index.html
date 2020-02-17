@@ -301,7 +301,6 @@
             hexToRgb(color(metro.lines, station.lines, station.branches)[0]).b, opacity]
 
             mobileload = (mobile) ? loaddata[metro.url] : loaddata['labels']
-
             mobileload.push({
               "id": metro.name + ' | ' + station.name,
               "name": station.name,
@@ -316,6 +315,7 @@
                 "length": height,
                 "topRadius": radius,
                 "bottomRadius": radius,
+                "slices": 6,
                 "material": {
                   "solidColor": {
                     "color": {
@@ -358,7 +358,8 @@
               })
           });
           metro.lines.forEach(function (line, i) {
-            loaddata[metro.url].push({
+            mobileload = (mobile) ? loaddata[metro.url] : loaddata['labels']
+            mobileload.push({
               "id": metro.name + ' | ' + line.id,
               "name": line.name,
               "description": fontstyle + '<table style="font-family:Metrophobic;"><tr><td style="text-align:center;text-shadow: 1px 1px 0px #000000;padding:3px;font-family:' + myfont + ';background-color:' +
