@@ -93,8 +93,7 @@
     }
 
     #info {
-      width: 350px;
-      height: 350px;
+      width: 310px;
       position: fixed;
       top: 0;
       left: 0;
@@ -436,7 +435,7 @@
           viewer.selectedEntity = viewer.dataSources.get([0]).entities.getById(id)
           viewer.infoBox.viewModel.closeClicked.raiseEvent(this)
           d3.select("#title").html('<a target="_blank" href="' + data.url + '">&nbsp;<b>' + data.year + '</b> 🚇 ' + data.name + '</a>')
-          d3.select("#desc").text(data.desc)
+          d3.select("#desc").text((mobile) ? (data.desc.split('.').slice(0, 2).join('.') + '.') : data.desc)
 
         }, 200)
 
@@ -632,7 +631,6 @@
         .style("position", "absolute")
         .style("top", "10px")
         .style("left", "10px")
-        .style("width", "400px")
         .style("color", theme)
         .attr("id", "subs")
       d3.select("#subs").append("div")
