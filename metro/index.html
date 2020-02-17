@@ -687,8 +687,9 @@
           }
           else {
             id = name2url[feature.id.id.split(' | ')[0]]
-            fly(id)
-            // if (loaded.indexOf(id) < 0) {
+            if (loaded.indexOf(id) < 0) {
+              fly(id)
+            }
             //   if (Object.keys(loaddata).indexOf(id) > -1)
             //     console.log('Loading data for ' + feature.id.id.split('|')[0] + '...')
             //   viewer.dataSources.add(Cesium.CzmlDataSource.load(loaddata[id]))
@@ -717,11 +718,10 @@
         }
       }, false);
 
-      setTimeout(function () {
-        fly(start)
-      }, 20)
+      fly(start)
 
     })
+
 
   </script>
 </body>
