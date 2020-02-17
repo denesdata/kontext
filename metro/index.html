@@ -169,8 +169,9 @@
       var blue = hexToRgb(stationcolor).b;
       // var myfont = 'Hammersmith One';
       var myfont = "'Hammersmith One', sans-serif";
-      var fontstyle = '';
-      var fontstyle = '<link href="https://fonts.googleapis.com/css?family=Metrophobic|Hammersmith+One&display=swap" rel="stylesheet">' +
+      var fontload = '<link href="https://fonts.googleapis.com/css?family=Metrophobic|Hammersmith+One&display=swap" rel="stylesheet">';
+      //var fontload = '<style>@font-face {font - family: "Metrophobic";src: url(//blog.csaladen.es/metro/Metrophobic - Regular.ttf) format("truetype");}</style>'
+      var fontstyle = fontload +
         '<style>html,body,div,a,td,table{color: ' + stationcolor + ';text-decoration:none;overflow:hidden;}</style>';
 
       var czml = {
