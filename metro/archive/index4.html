@@ -336,12 +336,8 @@
                   "cartographicDegrees": [station.lon, station.lat, 180]
                 },
                 "label": {
-                  "fillColor": {
-                    "rgba": Cesium.Color.fromBytes(station.color[0], station.color[1],
-                      station.color[2], station.color[3]).brighten(0.4, new Cesium.Color()).toBytes()
-                  },
                   // "fillColor": { "rgba": station.color },
-                  // "fillColor": { "rgba": [red, green, blue, 255] },
+                  "fillColor": { "rgba": [red, green, blue, 255] },
                   "font": ((station.lines.length > 1) ? 14 : 12) + "pt " + myfont,
                   "horizontalOrigin": "CENTER",
                   "pixelOffset": {
@@ -411,6 +407,8 @@
 
       viewer.dataSources.add(dataSourcePromise);
       console.log("Loading labels...")
+
+      //set u load on first view
 
       var step = function () { };
       var tour = function () { };
@@ -655,6 +653,11 @@
           '<div style="font-size:15px;margin-top:5px; width:245px;" id="desc">' + basedesc + '</div>'
         )
       d3.select('.cesium-navigationHelpButton-wrapper').on('click', function () { reset(); home(); })
+
+      // d3.select("#title")
+      //   .style('visibility', mobile ? 'hidden' : 'visible')
+      // d3.select("#source")
+      //   .style('visibility', mobile ? 'hidden' : 'visible')
 
       var scene = viewer.scene;
       var handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
