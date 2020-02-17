@@ -19,9 +19,8 @@
   <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
   <meta name="viewport"
     content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-  <title>Most congested cities of the world | Kontext</title>
-  <meta name="description"
-    content="Most congested cities of the world 🚗 based on TomTom's 2019 Traffic Index #dataviz #cesiumjs #cesium #tomtom @csaladenes" />
+  <title>Metrocyclopaedia 🚇 Kontext</title>
+  <meta name="description" content="🚇 Metrocyclopaedia #dataviz #cesiumjs #cesium @csaladenes" />
   <meta name="keywords"
     content="csaladenes, d3.js, data visualization, infographic, d3plus, d3, cesium, cesiumjs, map, interactivemap, data visualization, mit oec, mit, mit atlas, macro connections, tomtom, gps, congestion, global cities, city, population" />
   <meta property="og:image" content="https://blog.csaladen.es/tomtom/tomtom.png" />
@@ -62,7 +61,6 @@
   <link href="https://fonts.googleapis.com/css?family=Metrophobic|Hammersmith+One&display=swap" rel="stylesheet">
 
   <style>
-    
     html,
     body,
     #cesiumContainer {
@@ -71,21 +69,47 @@
       margin: 0;
       padding: 0;
       overflow: hidden;
+      color: #FFD166;
     }
 
     #info,
     .cesium-infoBox,
-    .cesium-infoBox-iframe {
+    .cesium-infoBox-iframe,
+    a {
       font-family: "Metrophobic";
+      color: #FFD166;
+      text-decoration: none;
     }
 
-    #info{
-      width:250px;
-      position:fixed;
-      top:0;
-      left:0;
-      padding:10px;
-      background-image: linear-gradient(to bottom right, rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0));
+    #info {
+      width: 350px;
+      height: 350px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 10px;
+      background-image: linear-gradient(to bottom right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));
+    }
+
+    .rightq {
+      border-bottom: 1px solid;
+      padding-left: 5px;
+      text-align: left;
+    }
+
+    .leftq {
+      border-bottom: 1px solid;
+      border-right: 1px solid;
+      padding-right: 5px;
+      text-align: right;
+    }
+
+    .leftq div {
+      padding: 5px;
+    }
+
+    .bq {
+      border-bottom: none !important;
     }
 
     /* .cesium-infoBox, #id {
@@ -99,17 +123,23 @@
   <script>
     Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiZWYxMTQwMC1iZjRiLTQ2ZmQtYTk0MS0zNGI3MjI1MzRlZTYiLCJpZCI6MTY5MjcsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1NzEzMjU3ODd9.InYGD_zyuB-tFLaIahXGyU5SoYyd5tjI3EaInQ5zrOs';
     var mobile = (!(window.matchMedia("(any-pointer:coarse)").matches));
-    JSZipUtils.getBinaryContent("metrosg.zip", function (err, rawdata) {
+    JSZipUtils.getBinaryContent("metrosy.zip", function (err, rawdata) {
       var zip = new JSZip(rawdata);
-      var qdata = JSON.parse(zip.files["metrosg.json"].asText());
+      var qdata = JSON.parse(zip.files["metrosy.json"].asText());
       var metros = Object.values(qdata)
 
       // console.log(metros)
 
       var dark = true;
       var opaque = 255;
+      var theme = '#FFD166';
+      var stationcolor = '#FFD166';//'#FCFCFC'
+      var red = hexToRgb(stationcolor).r;
+      var green = hexToRgb(stationcolor).g;
+      var blue = hexToRgb(stationcolor).b;
       var myfont = 'Hammersmith One';
-      var fontstyle='<link href="https://fonts.googleapis.com/css?family=Metrophobic|Hammersmith+One&display=swap" rel="stylesheet">'
+      var fontstyle = '<link href="https://fonts.googleapis.com/css?family=Metrophobic|Hammersmith+One&display=swap" rel="stylesheet">' +
+        '<style>html,body,div,a,td,table{color: ' + stationcolor + ';text-decoration:none;}</style>'
 
       var czml = [{
         "id": "document",
@@ -120,7 +150,7 @@
       function color(mlines, slines, sbranches) {
         e = []
         if (slines.length > 1)
-          c = (dark) ? '#eeeeee' : '#aaaaaa'
+          c = (dark) ? '#dddddd' : '#aaaaaa'
         else {
           c = '#888888'
           mlines.forEach(function (line) {
@@ -175,8 +205,8 @@
       function colored(station, mlines, slines, sbranches) {
         r = ''
         slines.forEach(function (line) {
-          r = r + '<tr><td style="text-align:center;padding:3px;text-shadow: 1px 1px 0px #000000;font-family:' + myfont +';background-color:' +
-            color(mlines, [line], sbranches)[0] +';">' +
+          r = r + '<tr><td style="text-align:center;padding:3px;text-shadow: 1px 1px 0px #000000;font-family:' + myfont + ';background-color:' +
+            color(mlines, [line], sbranches)[0] + ';">' +
             line + '</td><td style="padding-left:3px;">' +
             branches(color(mlines, [line], sbranches)[1]) +
             '</tr></td>'
@@ -193,8 +223,8 @@
       }
 
       metros.forEach(function (metro, i) {
-        // if ((['Budapest Metro', 'Bucharest Metro', 'Vienna U-Bahn', 'London Underground and DLR'].indexOf(metro.name) > -1)) {
-        if (true) {
+        if ((['Budapest Metro', 'Bucharest Metro', 'Vienna U-Bahn', 'London Underground and DLR'].indexOf(metro.name) > -1)) {
+          // if (true) {
 
           centrals = central(metro.stations, [])
           coords = centrals[0]
@@ -202,13 +232,14 @@
           czml.push({
             "id": metro.url,
             "name": metro.name,
-            "description": fontstyle+'<a style="text-decoration:none;font-family:Metrophobic;" target="_blank" href="' + metro.url + '"><table><tr><td>' +
+            "type": 'system',
+            "description": fontstyle + '<a style="text-decoration:none;font-family:Metrophobic;" target="_blank" href="' + metro.url + '"><table><tr><td>' +
               metro.desc + '</td></tr></table></a>',
             "position": {
               "cartographicDegrees": [coords[1], coords[0], 100]
             },
             "label": {
-              "fillColor": { "rgba": (dark) ? [241, 241, 241, 255] : [14, 14, 14, 255] },
+              "fillColor": { "rgba": [red, green, blue, 255] },
               "font": "14pt " + myfont,
               "horizontalOrigin": "CENTER",
               "translucencyByDistance": {
@@ -230,7 +261,7 @@
             czml.push({
               "id": metro.name + ' | ' + station.name,
               "name": station.name,
-              "description": fontstyle +'<a style="text-decoration:none;font-family:Metrophobic;" target="_blank" href="' + station.url + '"><table>' +
+              "description": fontstyle + '<a style="text-decoration:none;font-family:Metrophobic;" target="_blank" href="' + station.url + '"><table>' +
                 colored(station.name, metro.lines, station.lines, station.branches) +
                 '</table></a>',
               "position": {
@@ -253,7 +284,7 @@
             czml.push({
               "id": metro.name + ' | ' + station.name + '2',
               "name": station.name,
-              "description": fontstyle +'<a style="text-decoration:none;font-family:Metrophobic;" target="_blank" href="' + station.url + '"><table>' +
+              "description": fontstyle + '<a style="text-decoration:none;font-family:Metrophobic;" target="_blank" href="' + station.url + '"><table>' +
                 colored(station.name, metro.lines, station.lines, station.branches) +
                 '</table></a>',
               "position": {
@@ -261,7 +292,7 @@
               },
               "label": {
                 // "fillColor": { "rgba": station.color },
-                "fillColor": { "rgba": (dark) ? [241, 241, 241, 255] : [14, 14, 14, 255] },
+                "fillColor": { "rgba": [red, green, blue, 255] },
                 "font": ((station.lines.length > 1) ? 14 : 12) + "pt " + myfont,
                 "horizontalOrigin": "CENTER",
                 "pixelOffset": {
@@ -281,7 +312,7 @@
             czml.push({
               "id": metro.name + ' | ' + line.id,
               "name": line.name,
-              "description": fontstyle +'<table style="font-family:Metrophobic;"><tr><td style="text-align:center;text-shadow: 1px 1px 0px #000000;padding:3px;font-family:' + myfont +';background-color:' +
+              "description": fontstyle + '<table style="font-family:Metrophobic;"><tr><td style="text-align:center;text-shadow: 1px 1px 0px #000000;padding:3px;font-family:' + myfont + ';background-color:' +
                 color(metro.lines, [line.name], [line.id])[0] + '";>' +
                 line.name + '</td><td style="padding-left:3px;">' +
                 branches(color(metro.lines, [line.name], [line.id])[1]) +
@@ -321,6 +352,7 @@
         shouldAnimate: true,
         animation: false,
         // geocoder: false,
+        // selectionIndicator : false,
         homeButton: false,
         timeline: false,
         navigationInstructionsInitiallyVisible: false
@@ -335,19 +367,30 @@
       var tour = function () { };
       var mstep = function () { };
 
-      function fly(id) {
-
-        data = qdata[id]
-
-        setTimeout(function () {
-          mstep = viewer.selectedEntity = viewer.dataSources.get([0]).entities.getById(id)
-          d3.select("#title").text(data.name)
-          d3.select("#desc").text(basedesc)
-        }, 200)
-
+      function reset() {
         if (tour) clearInterval(tour)
         if (step) clearTimeout(step)
         if (mstep) clearTimeout(mstep)
+      }
+
+      function fly(id) {
+
+        data = qdata[id]
+        currentstation = name2id[data.name]
+        d3.select('#citydrop').node().value = data.name
+
+        setTimeout(function () {
+          // mstep = viewer.selectedEntity = viewer.dataSources.get([0]).entities.getById(id)
+          viewer.infoBox.viewModel.closeClicked.raiseEvent(this)
+          // viewer.infoBox.element.hidden=false
+          d3.select("#title").html('<a target="_blank" href="' + data.url + '">&nbsp;<b>' + data.year + '</b> 🚇 ' + data.name + '</a>')
+          // d3.select("#desc").text(basedesc)
+          // d3.select("#desc").text(data.desc.split('.').slice(0, 2).join('.') + '.')
+          d3.select("#desc").text(data.desc)
+
+        }, 200)
+
+        reset()
 
         already = []
         d = 3; //duration of flight in sec
@@ -377,14 +420,14 @@
           step = setTimeout(function () {
             mstep = setTimeout(function () {
               viewer.selectedEntity = viewer.dataSources.get([0]).entities.getById(data.name + ' | ' + centrals[1])
-              d3.select("#desc").text(data.desc.split('.').slice(0, 2).join('.') + '.')
+              // d3.select("#desc").text(data.desc.split('.').slice(0, 2).join('.') + '.')
             }, 200)
             viewer.camera.flyToBoundingSphere({
               center: Cesium.Cartesian3.fromDegrees(
                 coords[1],
                 coords[0],
                 100.0),
-              radius: 4000
+              radius: 3000 + Math.random() * 2000
             }, { duration: d, easingFunction: Cesium.EasingFunction.SINUSOIDAL_IN_OUT });
           }, (already.length) ? 10 : 2 * d * 1000);
         }, d * 1000)
@@ -395,10 +438,49 @@
       var start = 'https://www.metrolinemap.com/metro/budapest/'
 
       var basedesc = 'Loading ...'
+      var basetitle = '&nbsp;<b>🚇</b> Metrocyclopaedia'
 
-      stationkeys = Object.keys(qdata)
+      function home() {
+        d3.select("#title").html(basetitle);
+        // d3.select("#desc").html('<img src="https://cesium.com/downloads/cesiumjs/releases/1.63/Build/Cesium/Widgets/Images/NavigationHelp/MouseLeft.svg"/>'+
+        // '<img src="https://cesium.com/downloads/cesiumjs/releases/1.63/Build/Cesium/Widgets/Images/NavigationHelp/MouseRight.svg"/>'
+        // );
+        d3.select("#desc").html('<table><tr><td class="leftq"><div><b>Left click</b><br>on city</td>' +
+          '<td class="rightq">fly to city</div></td></tr>' +
+          '<tr><td class="leftq"><div><b>Left click</b><br>on station</td><td class="rightq">view lines</div></td></tr>' +
+          '<tr><td class="leftq"><div><b>Left click</b><br>and drag</td><td class="rightq">pan</div></td></tr>' +
+          '<tr><td class="leftq"><div><b>Right click</b></td><td class="rightq">stop tour</div></td></tr>' +
+          '<tr><td class="leftq"><div><b>Right click</b><br>and drag</td><td class="rightq">zoom</div></td></tr>' +
+          '<tr><td class="leftq"><div><b>Wheel</b></td><td class="rightq">zoom</div></td></tr>' +
+          '<tr><td class="leftq"><div><b>▶</b></td><td class="rightq">next city</div></td></tr>' +
+          '<tr><td class="leftq bq"><div><b>◀</b></td><td class="rightq bq">previous city</div></td></tr>' +
+          '</table>'
+        )
+      }
+
+      Array.prototype.sortOn = function (key, up) {
+        this.sort(function (a, b) {
+          if (a[key] < b[key]) {
+            return up ? -1 : 1;
+          } else if (a[key] > b[key]) {
+            return up ? 1 : -1;
+          }
+          return 0;
+        });
+      }
+
+      metros.sortOn("year", false)
+      name2url = {}
+      name2id = {}
+      metros.forEach(function (metro, i) {
+        // console.log(metro,i)
+        name2url[metro.name] = metro.url;
+        name2id[metro.name] = i;
+      })
+
+      stationkeys = metros.map(function (el) { return el.url; });
       // shuffle(stationkeys);
-      stationkeys.unshift(start);
+      // stationkeys.unshift(start);
       currentstation = 0;
 
       function shuffle(array) {
@@ -417,8 +499,6 @@
         fly(stationkeys[currentstation])
       }
 
-      fly(start)
-
       d3.select(".cesium-widget-credits").insert("a", ":first-child")
         .attr("class", "cesium-credit-imageContainer")
         .text('fd')
@@ -427,60 +507,128 @@
         .html("<img style='margin-bottom:-8px;margin-left:8px;height:40px;' src='//szekelydata.csaladen.es/klima/szd_logo.png' alt='székelydata' title='székelydata' />")
       d3.select(".cesium-widget-credits").insert("a", ":first-child")
         .attr("class", "cesium-credit-imageContainer")
-        .text('fd')
+        .text('.')
         .attr("href", "https://blog.csaladen.es")
         .attr("target", "_blank")
         .html("<img style='height:32px;margin-bottom:-2px;margin-left:8px;' src='https://blog.csaladen.es/favicon.ico' alt='Kontext blog' title='Kontext blog' />")
       d3.select(".cesium-widget-credits").insert("a", ":first-child")
         .attr("class", "cesium-credit-imageContainer")
-        .text('fd')
+        .text('.')
         .attr("rel", "author")
         .attr("href", "https://csaladen.es")
         .attr("target", "_blank")
         .html("<img style='margin-bottom:-2px;margin-left:8px;height:30px;' src='https://csaladen.es/favicon.ico' alt='by Dénes Csala' title='by Dénes Csala' />")
       d3.select(".cesium-viewer-toolbar").insert("div")
-        .attr("class", "cesium-button cesium-toolbar-button material-icons")
-        .style("padding-left", "0px")
-        .style("padding-top", "0px")
-        .append('a')
-        .text("")
-        .attr('target', '_blank')
-        .attr("title", "Help - TomTom 2019 Traffic Index")
-        .style('font-size', '20px')
-        .on('click', function () { next(); })
-        .append('img')
-        .attr('src', 'https://www.tomtom.com/favicon.ico')
-        .attr('width', '30px')
+        .attr("class", "cesium-button")
+        .style("width", "130px")
+        .style("height", "24px")
+        .style('margin-bottom', '-12px')
+        .style('padding-top', '2px')
+        .html('<input list="cities" id="citydrop" name="city"/><datalist id="cities"></datalist>')
+
+      metros.sortOn('name', true)
+      metros.forEach(function (city) {
+        d3.select('#cities').append('option').attr('value', city.name)
+      })
+
+      d3.select('#citydrop')
+        .style('background', 'none')
+        .style('font-family', "Metrophobic")
+        .style('font-size', '14px')
+        .style('color', theme)
+        .style("height", "18px")
+        .style("width", "128px")
+        .style('border', 'none')
+
+      d3.select('#citydrop').on('change', function () {
+        city = d3.select('#citydrop').node().value;
+        if (Object.keys(name2url).indexOf(city) > -1) {
+          fly(name2url[city]);
+        }
+      })
+
       d3.select(".cesium-viewer-toolbar").insert("div")
         .attr("class", "cesium-button cesium-toolbar-button material-icons")
-        .style("padding-left", "0px")
-        .style("padding-top", "0px")
+        .style("padding-left", "5px")
+        .style("padding-top", "4px")
         .append('a')
-        .text("")
+        .text("◄")
         .attr('target', '_blank')
-        .attr("title", "Help - TomTom 2019 Traffic Index")
+        .attr("title", "fly to previous city")
+        .style('font-size', '20px')
+        .on('click', function () { next(); })
+      d3.select(".cesium-viewer-toolbar").insert("div")
+        .attr("class", "cesium-button cesium-toolbar-button material-icons")
+        .style("padding-left", "5px")
+        .style("padding-top", "4px")
+        .append('a')
+        .text("►")
+        .attr('target', '_blank')
+        .attr("title", "fly to next city")
         .style('font-size', '20px')
         .on('click', function () { prev(); })
-        .append('img')
-        .attr('src', 'https://www.tomtom.com/favicon.ico')
-        .attr('width', '30px')
       d3.select(".cesium-viewer-cesiumWidgetContainer").append("div")
         .style("position", "absolute")
         .style("top", "10px")
         .style("left", "10px")
         .style("width", "400px")
-        .style("color", "#eee")
+        .style("color", theme)
         .attr("id", "subs")
       d3.select("#subs").append("div")
         .attr("class", "cesium-viewer-cesiumWidgetContainer")
-        .html('<div id="info" style="font-size:20px;"><div id="title">Global Metro System Map</div>' +
-          '<div style="font-size:15px;margin-top:5px;">🚇 based on <b>' +
-          '<a target="_blank" style="color:#eee;text-decoration:none" href="//metrolinemap.com">metrolinemap.com</a></b></div>' +
+        .html('<div id="info" style="font-size:20px;"><div id="title">' + basetitle + '</div>' +
+          '<div style="font-size:15px;margin-top:5px;margin-left:10px;color:' + theme + ';">Ⓜ based on <b>' +
+          '<a target="_blank" href="//metrolinemap.com">metrolinemap.com</a></b></div>' +
           '<div>' +
-          '<svg height="20" width="300"><line x1="0" y1="15" x2="235" y2="15" style="stroke:#eee;stroke-width:1" />' +
+          '<svg height="20" width="300"><line x1="0" y1="15" x2="235" y2="15" style="stroke:' + theme + ';stroke-width:1" />' +
           '</div>' +
           '<div style="font-size:15px;margin-top:5px; width:245px;" id="desc">' + basedesc + '</div>'
         )
+      d3.select('.cesium-navigationHelpButton-wrapper').on('click', function () { reset(); home(); })
+
+
+      // viewer.camera.defaultRotateAmount =7
+
+      var scene = viewer.scene;
+      var handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
+
+      handler.setInputAction(function (movement) {
+        var feature = scene.pick(movement.position);
+        if (!Cesium.defined(feature)) {
+          reset();
+          return;
+        }
+      }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
+
+      handler.setInputAction(function (movement) {
+        var feature = scene.pick(movement.position);
+        if (Cesium.defined(feature)) {
+          if (Object.keys(qdata).indexOf(feature.id.id) > 0) {
+            fly(feature.id.id)
+          }
+        }
+      }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+      document.addEventListener("keydown", function (event) {
+        if ((event.keyCode >= 33 && event.keyCode <= 34) || (event.keyCode >= 37 && event.keyCode <= 40)) {
+          switch (event.keyCode) {
+            case 33: // pg up
+            case 37: // left
+            case 38: // up
+              next();
+              break;
+            case 34: // pg down
+            case 39: // right
+            case 40: // down 
+              prev();
+              break;
+          }
+
+          event.preventDefault();
+        }
+      }, false);
+
+      fly(start)
 
     })
 
