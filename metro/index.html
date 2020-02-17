@@ -20,7 +20,8 @@
   <meta name="viewport"
     content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
   <title>Metrocyclopaedia 🚇 Kontext</title>
-  <meta name="description" content="🚇 Metrocyclopaedia | Interactive map of all metro systems of the world #dataviz #cesiumjs #cesium @csaladenes" />
+  <meta name="description"
+    content="🚇 Metrocyclopaedia | Interactive map of all metro systems of the world #dataviz #cesiumjs #cesium @csaladenes" />
   <meta name="keywords"
     content="csaladenes, d3.js, data visualization, metro, subway, metropolitan, mbta, mtr, rapid transit, infographic, d3plus, d3, cesium, cesiumjs, map, interactivemap, data visualization, mit oec, mit, mit atlas, macro connections, tomtom, gps, congestion, global cities, city, population" />
   <meta property="og:image" content="https://blog.csaladen.es/metro/snapshot.png" />
@@ -241,7 +242,7 @@
               },
               "label": {
                 "fillColor": { "rgba": [red, green, blue, 255] },
-                "font": "14pt " + myfont,
+                "font": "14pt Arial",// + myfont,
                 "horizontalOrigin": "CENTER",
                 "translucencyByDistance": {
                   "nearFarScalar": [50000, 0, 100000, 1]
@@ -295,7 +296,7 @@
                 "label": {
                   // "fillColor": { "rgba": station.color },
                   "fillColor": { "rgba": [red, green, blue, 255] },
-                  "font": ((station.lines.length > 1) ? 14 : 12) + "pt " + myfont,
+                  "font": ((station.lines.length > 1) ? 14 : 12) + "pt Arial",// + myfont,
                   "horizontalOrigin": "CENTER",
                   "pixelOffset": {
                     "cartesian2": [0, 0]
@@ -363,7 +364,9 @@
       // viewer.dataSources.add(Cesium.CzmlDataSource.load(czml));
 
       var dataSourcePromise = Cesium.CzmlDataSource.load(czml);
-      viewer.dataSources.add(dataSourcePromise);
+      setTimeout(function () {
+        viewer.dataSources.add(dataSourcePromise);
+      }, 100)
 
       var step = function () { };
       var tour = function () { };
@@ -641,7 +644,9 @@
         }
       }, false);
 
-      fly(start)
+      setTimeout(function () {
+        fly(start)
+      }, 200)
 
     })
 
