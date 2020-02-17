@@ -660,11 +660,19 @@
 
       handler.setInputAction(function (movement) {
         reset();
+        viewer.camera.cancelFlight();
         return;
       }, Cesium.ScreenSpaceEventType.PINCH_MOVE);
 
       handler.setInputAction(function (movement) {
         reset();
+        viewer.camera.cancelFlight();
+        return;
+      }, Cesium.ScreenSpaceEventType.LEFT_DOWN);
+
+      handler.setInputAction(function (movement) {
+        reset();
+        viewer.camera.cancelFlight();
         return;
       }, Cesium.ScreenSpaceEventType.WHEEL);
 
