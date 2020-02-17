@@ -298,7 +298,10 @@
             station.color = [hexToRgb(color(metro.lines, station.lines, station.branches)[0]).r,
             hexToRgb(color(metro.lines, station.lines, station.branches)[0]).g,
             hexToRgb(color(metro.lines, station.lines, station.branches)[0]).b, opacity]
-            loaddata[metro.url].push({
+
+            mobileload = (mobile) ? loaddata[metro.url] : loaddata['labels']
+
+            mobileload.push({
               "id": metro.name + ' | ' + station.name,
               "name": station.name,
               "description": fontstyle + '<a style="text-decoration:none;font-family:Metrophobic;" target="_blank" href="' + station.url + '"><table>' +
@@ -679,8 +682,18 @@
         reset();
         var feature = scene.pick(movement.position);
         if (Cesium.defined(feature)) {
-          if (Object.keys(qdata).indexOf(feature.id.id) > 0) {
+          if (Object.keys(qdata).indexOf(feature.id.id) > -1) {
             fly(feature.id.id)
+          }
+          else {
+            id = name2url[feature.id.id.split(' | ')[0]]
+            fly(id)
+            // if (loaded.indexOf(id) < 0) {
+            //   if (Object.keys(loaddata).indexOf(id) > -1)
+            //     console.log('Loading data for ' + feature.id.id.split('|')[0] + '...')
+            //   viewer.dataSources.add(Cesium.CzmlDataSource.load(loaddata[id]))
+            //   loaded.push(id);
+            // }
           }
         }
       }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
