@@ -188,8 +188,19 @@
 
       function color(mlines, slines, sbranches) {
         e = []
-        if (slines.length > 1)
+        if (slines.length > 1) {
           c = (dark) ? '#dddddd' : '#aaaaaa'
+          cs = []
+          slines.forEach(function (sline) {
+            mlines.forEach(function (line) {
+              if (line.name == sline) {
+                ci = line.color.toLowerCase()
+                if (cs.indexOf(ci) < 0) cs.push(ci)
+              }
+            })
+          })
+          if (cs.length == 1) c = cs[0]
+        }
         else {
           c = '#888888'
           mlines.forEach(function (line) {
@@ -313,7 +324,7 @@
               },
               "cylinder": {
                 // "show": false,
-                "length": height,
+                "length": height*(0.95+Math.random()/10),
                 "topRadius": radius,
                 "bottomRadius": radius,
                 "slices": 8,
@@ -383,7 +394,7 @@
                 },
                 "width": 60,
                 "extrudedHeight": 60,
-                "height": 20,
+                "height": 20 * (0.95 + Math.random() / 10),
                 "clampToGround": true,
                 "cornerType": "MITERED",
                 // "distanceDisplayCondition": new Cesium.DistanceDisplayCondition(10.0, 20.0)
