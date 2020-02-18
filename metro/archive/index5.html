@@ -324,7 +324,7 @@
               },
               "cylinder": {
                 // "show": false,
-                "length": height * (0.95 + Math.random() / 10),
+                "length": height*(0.95+Math.random()/10),
                 "topRadius": radius,
                 "bottomRadius": radius,
                 "slices": 8,
@@ -394,7 +394,7 @@
                 },
                 "width": 60 * (0.95 + Math.random() / 10),
                 "extrudedHeight": 60 * (0.95 + Math.random() / 10),
-                "height": 20,
+                "height": 20 ,
                 "clampToGround": true,
                 "cornerType": "MITERED",
                 // "distanceDisplayCondition": new Cesium.DistanceDisplayCondition(10.0, 20.0)
@@ -619,7 +619,6 @@
 
       d3.select('#citydrop').on('change', function () {
         city = d3.select('#citydrop').node().value;
-        d3.select('#citydrop').node().blur();
         if (Object.keys(name2url).indexOf(city) > -1) {
           fly(name2url[city]);
         }
@@ -629,7 +628,7 @@
         d3.select('#citydrop').node().value = ''
       })
 
-      d3.select('#citydrop').on('focusout', function () {
+      d3.select('#citydrop').on('mouseout', function () {
         d3.select('#citydrop').node().value = stationnames[currentstation]
       })
 
@@ -681,21 +680,18 @@
       handler.setInputAction(function (movement) {
         reset();
         viewer.camera.cancelFlight();
-        d3.select('#citydrop').node().blur();
         return;
       }, Cesium.ScreenSpaceEventType.PINCH_MOVE);
 
       handler.setInputAction(function (movement) {
         reset();
         viewer.camera.cancelFlight();
-        d3.select('#citydrop').node().blur();
         return;
       }, Cesium.ScreenSpaceEventType.LEFT_DOWN);
 
       handler.setInputAction(function (movement) {
         reset();
         viewer.camera.cancelFlight();
-        d3.select('#citydrop').node().blur();
         return;
       }, Cesium.ScreenSpaceEventType.WHEEL);
 
