@@ -157,9 +157,9 @@
   <script>
     Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiZWYxMTQwMC1iZjRiLTQ2ZmQtYTk0MS0zNGI3MjI1MzRlZTYiLCJpZCI6MTY5MjcsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1NzEzMjU3ODd9.InYGD_zyuB-tFLaIahXGyU5SoYyd5tjI3EaInQ5zrOs';
     var mobile = (window.matchMedia("(any-pointer:coarse)").matches);
-    JSZipUtils.getBinaryContent("metrosy.zip", function (err, rawdata) {
+    JSZipUtils.getBinaryContent("metrosx.zip", function (err, rawdata) {
       var zip = new JSZip(rawdata);
-      var qdata = JSON.parse(zip.files["metrosy.json"].asText());
+      var qdata = JSON.parse(zip.files["metrosx.json"].asText());
       var metros = Object.values(qdata)
 
       // console.log(metros)
@@ -175,49 +175,26 @@
       };
 
       loaded = [];
+      show_osm_metros = true;
 
       var start = 'https://www.metrolinemap.com/metro/budapest/'
-      qdata[start]['lr'] = [{
-        'name': 'Budapest HEV',
-        'id': 'budapest_hev'
-      }]
 
-      qdata['https://www.metrolinemap.com/metro/vienna/']['lr'] = [{
-        'name': 'Vienna',
-        'id': 'vienna'
-      },
-      {
-        'name': 'Vienna S-Bahn',
-        'id': 'vienna_s-bahn',
-      }]
+      function station_cleaner(stationr) {
+        return String(stationr).slice(0, String(stationr).lastIndexOf('(') - 1)
+      }
 
-      qdata['https://www.metrolinemap.com/metro/tokyo/']['lr'] = [{
-        'name': 'Tokyo',
-        'id': 'tokyo'
-      },
-      {
-        'name': 'Tokyo - Toei',
-        'id': 'tokyo_-_toei',
-      },
-      {
-        'name': 'Tokyo - Haneda Monorail',
-        'id': 'tokyo_-_haneda_monorail',
-      },
-      {
-        'name': 'Tokyo - Nippori-Toneri Liner',
-        'id': 'tokyo_-_nippori-toneri_liner',
-      }]
+      function sharedStart(array) {
+        var A = array.concat().sort(),
+          a1 = A[0], a2 = A[A.length - 1], L = a1.length, i = 0;
+        while (i < L && a1.charAt(i) === a2.charAt(i)) i++;
+        return a1.substring(0, i);
+      }
 
-      //TODO: simplify paths from OSM
-      //async load all
-      //fix descirptions
+      function get_yaml(metro, iteration) {
 
-      function get_yaml(metro) {
-
-
-
-        // metro['lr'].slice(1).forEach(function (lr) {
-        metro['lr'].forEach(function (lr, i) {
+        if (iteration > ((show_osm_metros) ? -1 : 0)) {
+          lr = metro['lr'][iteration]
+          // console.log(lr, iteration)
           console.log('Loading OSM data for ' + lr.name + '...')
           yaml = 'http://osm-subway.maps.me/' + lr['id'] + '.yaml';
           json = 'http://osm-subway.maps.me/' + lr['id'] + '.geojson';
@@ -235,33 +212,76 @@
                   ylines = {}
                   ystations = {}
                   ydata = [czml]
-                  console.log(yamldoc, jsondoc)
+                  // console.log(yamldoc, jsondoc)
+                  co = 0;
                   yamldoc.routes.forEach(function (route) {
-                    ylines[route.ref] = { "name": route.ref, "id": route.name, "branch": route.name, "color": route.colour, 'path': [] }
-                    route.stations.forEach(function (station) {
-                      if (Object.keys(ystations).indexOf(station) < 0) {
-                        ystations[station] = { 'lines': [], 'branches': [], 'url': '#', 'color': route.colour, 'name': station }
-                      }
-                      ystations[station].lines.push(route.ref)
-                      ystations[station].branches.push(route.name)
+                    itineraries = {}
+                    Object.values(route.itineraries).forEach(function (itinerary) {
+                      id = String(co)
+                      co = co + 1;
+                      branch = station_cleaner(itinerary.slice(0, 1)) + ' - ' + station_cleaner(itinerary.slice(itinerary.length - 1))
+                      ylines[id] = { "name": route.ref, "id": id, "branch": branch, "color": '', 'path': [] }
+                      route.stations.forEach(function (station) {
+                        if (Object.keys(ystations).indexOf(station) < 0) {
+                          ystations[station] = { 'lines': [], 'branches': [], 'url': '#', 'color': route.colour, 'name': station, 'lat': 0, 'lon': 0 }
+                        }
+                        if (ystations[station].lines.indexOf(route.ref) < 0) {
+                          ystations[station].lines.push(route.ref)
+                        }
+                        ystations[station].branches.push(id)
+                      })
                     })
                   })
+                  co = 0;
                   jsondoc.features.forEach(function (feature) {
+                    id = String(co)
+                    co = co + 1;
                     if (feature.geometry.type == "LineString") {
-                      feature.geometry.coordinates.forEach(function (c) {
-                        ylines[feature.properties.ref].path.push({ 'lat': c[1], 'lng': c[0] })
-                      })
+                      if (Object.keys(ylines).indexOf(id) > -1) {
+                        feature.geometry.coordinates.forEach(function (c) {
+                          ylines[id].path.push({ 'lat': c[1], 'lng': c[0] })
+                        })
+                        ylines[id].color = feature.properties.stroke;
+                        ylines[id].name = feature.properties.ref
+                        ylines[id].branch = feature.properties.name
+                      }
                     }
                     else if (feature.geometry.type == "Point") {
                       if (Object.keys(feature.properties).indexOf('name') > -1) {
-                        ystations[feature.properties.name]['lon'] = feature.geometry.coordinates[0];
-                        ystations[feature.properties.name]['lat'] = feature.geometry.coordinates[1];
+                        station = feature.properties.name
+                        if (Object.keys(ystations).indexOf(station) > -1) {
+                          ystations[station]['lon'] = feature.geometry.coordinates[0];
+                          ystations[station]['lat'] = feature.geometry.coordinates[1];
+                        }
                       }
                     }
                   })
+                  if (Object.keys(yamldoc).indexOf('transfers') > -1) {
+                    if (yamldoc.transfers) {
+                      yamldoc.transfers.forEach(function (transfer) {
+                        common = sharedStart(transfer)
+                        if (common) {
+                          ystations[common] = ystations[station_cleaner(transfer[0])]
+                          ystations[common]['name'] = common
+                          transfer.forEach(function (station, i) {
+                            if (i > 0) {
+                              ystations[common]['lines'] = ystations[common]['lines'].concat(
+                                ystations[station_cleaner(station)]['lines'])
+                              ystations[common]['branches'] = ystations[common]['branches'].concat(
+                                ystations[station_cleaner(station)]['branches'])
+                            }
+                          })
+                          transfer.forEach(function (station, i) {
+                            delete ystations[station_cleaner(station)];
+                          })
+                        }
+                      })
+                    }
+                  }
+
                   lr['lines'] = Object.values(ylines)
                   lr['stations'] = Object.values(ystations)
-                  console.log(lr)
+                  // console.log(lr)
 
                   if (!mobile)
                     ydata.push(get_metro_label(lr));
@@ -279,39 +299,16 @@
                     if (!mobile)
                       ydata.push(get_station_label(lr, station))
                   });
-                  lr.lines.forEach(function (line, i) {
+                  lr.lines.forEach(function (line) {
                     ydata.push(get_line_glyph(lr, line))
                   })
 
-                  // console.log(ydata, i, metro['lr'].length)
-
-                  if (i == metro['lr'].length - 1) viewer.dataSources.add(Cesium.CzmlDataSource.load(ydata))
+                  viewer.dataSources.add(Cesium.CzmlDataSource.load(ydata))
+                  get_yaml(metro, iteration - 1)
                 })
             })
-        })
+        }
       }
-
-      // console.log(contents)
-      // d3.csv(url, function (ydata) {
-      //   console.log(ydata)
-      // })
-
-      // var xmlhttp;
-      // if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
-      //   xmlhttp = new XMLHttpRequest();
-      // }
-      // else { // code for IE6, IE5
-      //   xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-      // }
-      // xmlhttp.onreadystatechange = function () {
-      //   if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      //     document.getElementById("myDiv").innerHTML = xmlhttp.responseText;
-      //   }
-      // }
-      // xmlhttp.open("GET", , true);
-      // xmlhttp.send();
-      // var doc = jsyaml.load(xmlhttp);
-      // console.log(qdata[start], doc)
 
       var dark = true;
       var opaque = 255;
@@ -502,11 +499,11 @@
         return {
           "id": metro.name + ' | ' + line.id + Math.random(),
           "name": line.name,
-          // "description": fontstyle + '<table style="font-family:Metrophobic;"><tr><td style="text-align:center;text-shadow: 1px 1px 0px #000000;padding:3px;font-family:' + myfont + ';background-color:' +
-          //   color(metro.lines, [line.name], [line.id])[0] + '";>' +
-          //   line.name + '</td><td style="padding-left:3px;">' +
-          //   branches(color(metro.lines, [line.name], [line.id])[1]) +
-          //   '</tr></td></table>',
+          "description": fontstyle + '<table style="font-family:Metrophobic;"><tr><td style="text-align:center;text-shadow: 1px 1px 0px #000000;padding:3px;font-family:' + myfont + ';background-color:' +
+            color(metro.lines, [line.name], [line.id])[0] + '";>' +
+            line.name + '</td><td style="padding-left:3px;">' +
+            branches(color(metro.lines, [line.name], [line.id])[1]) +
+            '</tr></td></table>',
           "corridor": {
             "positions": {
               "cartographicDegrees": degrees(line.path)
@@ -553,13 +550,13 @@
             hexToRgb(color(metro.lines, station.lines, station.branches)[0]).b, opacity]
 
             mobileload = (mobile) ? loaddata[metro.url] : loaddata['labels']
-            mobileload.push(get_station_glyph(metro, station));
-            if (!mobile)
-              loaddata[metro.url].push(get_station_label(metro, station))
+            // mobileload.push(get_station_glyph(metro, station));
+            // if (!mobile)
+            //   loaddata[metro.url].push(get_station_label(metro, station))
           });
           metro.lines.forEach(function (line, i) {
             mobileload = (mobile) ? loaddata[metro.url] : loaddata['labels']
-            mobileload.push(get_line_glyph(metro, line))
+            // mobileload.push(get_line_glyph(metro, line))
           })
         }
       })
@@ -605,7 +602,7 @@
           // viewer.dataSources.add(Cesium.CzmlDataSource.load(loaddata[id]))
           loaded.push(id);
           //
-          get_yaml(data)
+          get_yaml(data, data['lr'].length - 1)
           //
         }
 
