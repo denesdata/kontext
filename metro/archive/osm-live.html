@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -- szekelydata -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-57335320-4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-57335320-4');
+  </script>
+
+  <!-- Use correct character set. -->
+  <meta charset="utf-8">
+  <!-- Tell IE to use the latest, best version. -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+  <title>Metrocyclopaedia 🚇 Kontext</title>
+  <meta name="description"
+    content="🚇 Metrocyclopaedia | Interactive map of all metro systems of the world #dataviz #cesiumjs #cesium @csaladenes" />
+  <meta name="keywords"
+    content="csaladenes, d3.js, data visualization, metro, subway, metropolitan, mbta, mtr, rapid transit, infographic, d3plus, d3, cesium, cesiumjs, map, interactivemap, data visualization, mit oec, mit, mit atlas, macro connections, tomtom, gps, congestion, global cities, city, population" />
+  <meta property="og:image" content="https://blog.csaladen.es/metro/snapshot.png" />
+  <meta property="og:image:width" content="807px" />
+  <meta property="og:image:height" content="665px" />
+  <meta property="twitter:image" content="https://blog.csaladen.es/metro/snapshot.png" />
+  <meta property="og:description"
+    content="🚇 Metrocyclopaedia | Interactive map of all metro systems of the world #dataviz #cesiumjs #cesium @csaladenes" />
+  <meta property="twitter:description"
+    content="🚇 Metrocyclopaedia | Interactive map of all metro systems of the world #dataviz #cesiumjs #cesium @csaladenes" />
+  <meta property="og:title" content="Metrocyclopaedia 🚇 Kontext" />
+  <meta property="twitter:title" content="Metrocyclopaedia 🚇 Kontext" />
+  <meta http-equiv="content-Type" content="text/html; charset=utf-8" />
+  <meta property="og:url" content="https://blog.csaladen.es/metro" />
+  <meta property="twitter:url" content="https://blog.csaladen.es/metro" />
+  <meta property="og:site_name" content="Kontext" />
+  <meta property="fb:admins" content="100943737036023614165" />
+  <link rel="shortcut icon" href="https://blog.csaladen.es/favicon.ico" />
+  <link rel="publisher" href="https://plus.google.com/106181965793093327960" />
+
+
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.63/Build/Cesium/Cesium.js"></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.63/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <script src="https://d3js.org/d3-collection.v1.min.js"></script>
+  <script src="https://d3js.org/d3-selection.v1.min.js"></script>
+  <script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
+  <script src="https://d3js.org/d3-dsv.v1.min.js"></script>
+  <script src="https://d3js.org/d3-request.v1.min.js"></script>
+  <script src="https://d3js.org/d3-color.v1.min.js"></script>
+  <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+  <script src="https://d3js.org/d3-scale.v3.min.js"></script>
+
+
+  <script src="jszip.min.js"></script>
+  <script src="JSZipUtils.min.js"></script>
+
+  <!-- esprima required only for !!js/function -->
+  <!-- <script src="esprima.js"></script> -->
+  <script src="js-yaml.min.js"></script>
+
+  <!-- <link href="https://fonts.googleapis.com/css?family=Metrophobic|Hammersmith+One&display=swap" rel="stylesheet"> -->
+
+  <style>
+    /* @font-face {
+      font-family: "Hammersmith One";
+      src: url(HammersmithOne-Regular.ttf) format("truetype");
+    }
+    @font-face {
+      font-family: "Metrophobic";
+      src: url(Metrophobic-Regular.ttf) format("truetype");
+    } */
+
+    html,
+    body,
+    #cesiumContainer {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      color: #FFD166;
+      font-family: sans-serif;
+    }
+
+    #info,
+    .cesium-infoBox,
+    .cesium-infoBox-iframe,
+    a {
+      font-family: 'Metrophobic', sans-serif;
+      color: #FFD166;
+      text-decoration: none;
+    }
+
+    #info {
+      width: 310px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 10px;
+      background-image: linear-gradient(to bottom right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));
+    }
+
+    .rightq {
+      border-bottom: 1px solid;
+      padding-left: 5px;
+      text-align: left;
+    }
+
+    .leftq {
+      border-bottom: 1px solid;
+      border-right: 1px solid;
+      padding-right: 5px;
+      text-align: right;
+    }
+
+    .leftq div {
+      padding: 5px;
+    }
+
+    .bq {
+      border-bottom: none !important;
+    }
+
+    /* .cesium-infoBox, #id {
+      max-width: 300px !important;
+    } */
+
+    @media screen and (max-width: 600px) {
+
+      #title,
+      #source {
+        visibility: hidden !important;
+      }
+
+      #info {
+        margin-top: -15px !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <script src='//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js?0fb003&0fb003'></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: ['Hammersmith One', 'Metrophobic']
+      }
+    });
+  </script>
+  <div id="cesiumContainer"></div>
+  <script>
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiZWYxMTQwMC1iZjRiLTQ2ZmQtYTk0MS0zNGI3MjI1MzRlZTYiLCJpZCI6MTY5MjcsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1NzEzMjU3ODd9.InYGD_zyuB-tFLaIahXGyU5SoYyd5tjI3EaInQ5zrOs';
+    var mobile = (window.matchMedia("(any-pointer:coarse)").matches);
+    JSZipUtils.getBinaryContent("metrosy.zip", function (err, rawdata) {
+      var zip = new JSZip(rawdata);
+      var qdata = JSON.parse(zip.files["metrosy.json"].asText());
+      var metros = Object.values(qdata)
+
+      // console.log(metros)
+
+      var czml = {
+        "id": "document",
+        "name": "Metros",
+        "version": "1.0"
+      };
+
+      loaddata = {
+        'labels': [czml]
+      };
+
+      loaded = [];
+
+      var start = 'https://www.metrolinemap.com/metro/budapest/'
+      qdata[start]['lr'] = [{
+        'name': 'Budapest HEV',
+        'id': 'budapest_hev'
+      }]
+
+      qdata['https://www.metrolinemap.com/metro/vienna/']['lr'] = [{
+        'name': 'Vienna',
+        'id': 'vienna'
+      },
+      {
+        'name': 'Vienna S-Bahn',
+        'id': 'vienna_s-bahn',
+      }]
+
+      qdata['https://www.metrolinemap.com/metro/tokyo/']['lr'] = [{
+        'name': 'Tokyo',
+        'id': 'tokyo'
+      },
+      {
+        'name': 'Tokyo - Toei',
+        'id': 'tokyo_-_toei',
+      },
+      {
+        'name': 'Tokyo - Haneda Monorail',
+        'id': 'tokyo_-_haneda_monorail',
+      },
+      {
+        'name': 'Tokyo - Nippori-Toneri Liner',
+        'id': 'tokyo_-_nippori-toneri_liner',
+      }]
+
+      //TODO: simplify paths from OSM
+      //async load all
+      //fix descirptions
+
+      function get_yaml(metro) {
+
+
+
+        // metro['lr'].slice(1).forEach(function (lr) {
+        metro['lr'].forEach(function (lr, i) {
+          console.log('Loading OSM data for ' + lr.name + '...')
+          yaml = 'http://osm-subway.maps.me/' + lr['id'] + '.yaml';
+          json = 'http://osm-subway.maps.me/' + lr['id'] + '.geojson';
+          lr.url = 'http://osm-subway.maps.me/';
+          lr.desc = '';
+          const proxyurl = "https://cors-anywhere.herokuapp.com/";
+          fetch(proxyurl + yaml)
+            .then(response => response.text())
+            .then(function (contents) {
+              yamldoc = jsyaml.load(contents)
+              fetch(proxyurl + json)
+                .then(response => response.text())
+                .then(function (contents) {
+                  jsondoc = JSON.parse(contents)
+                  ylines = {}
+                  ystations = {}
+                  ydata = [czml]
+                  console.log(yamldoc, jsondoc)
+                  yamldoc.routes.forEach(function (route) {
+                    ylines[route.ref] = { "name": route.ref, "id": route.name, "branch": route.name, "color": route.colour, 'path': [] }
+                    route.stations.forEach(function (station) {
+                      if (Object.keys(ystations).indexOf(station) < 0) {
+                        ystations[station] = { 'lines': [], 'branches': [], 'url': '#', 'color': route.colour, 'name': station }
+                      }
+                      ystations[station].lines.push(route.ref)
+                      ystations[station].branches.push(route.name)
+                    })
+                  })
+                  jsondoc.features.forEach(function (feature) {
+                    if (feature.geometry.type == "LineString") {
+                      feature.geometry.coordinates.forEach(function (c) {
+                        ylines[feature.properties.ref].path.push({ 'lat': c[1], 'lng': c[0] })
+                      })
+                    }
+                    else if (feature.geometry.type == "Point") {
+                      if (Object.keys(feature.properties).indexOf('name') > -1) {
+                        ystations[feature.properties.name]['lon'] = feature.geometry.coordinates[0];
+                        ystations[feature.properties.name]['lat'] = feature.geometry.coordinates[1];
+                      }
+                    }
+                  })
+                  lr['lines'] = Object.values(ylines)
+                  lr['stations'] = Object.values(ystations)
+                  console.log(lr)
+
+                  if (!mobile)
+                    ydata.push(get_metro_label(lr));
+
+                  lr.stations.forEach(function (station, i) {
+
+                    radius = (station.lines.length > 1) ? 150 : 100;
+                    height = (station.lines.length > 1) ? 120 : 100;
+                    opacity = (station.lines.length > 1) ? opaque : 255;
+                    station.color = [hexToRgb(color(lr.lines, station.lines, station.branches)[0]).r,
+                    hexToRgb(color(lr.lines, station.lines, station.branches)[0]).g,
+                    hexToRgb(color(lr.lines, station.lines, station.branches)[0]).b, opacity]
+
+                    ydata.push(get_station_glyph(lr, station));
+                    if (!mobile)
+                      ydata.push(get_station_label(lr, station))
+                  });
+                  lr.lines.forEach(function (line, i) {
+                    ydata.push(get_line_glyph(lr, line))
+                  })
+
+                  // console.log(ydata, i, metro['lr'].length)
+
+                  if (i == metro['lr'].length - 1) viewer.dataSources.add(Cesium.CzmlDataSource.load(ydata))
+                })
+            })
+        })
+      }
+
+      // console.log(contents)
+      // d3.csv(url, function (ydata) {
+      //   console.log(ydata)
+      // })
+
+      // var xmlhttp;
+      // if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+      //   xmlhttp = new XMLHttpRequest();
+      // }
+      // else { // code for IE6, IE5
+      //   xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      // }
+      // xmlhttp.onreadystatechange = function () {
+      //   if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+      //     document.getElementById("myDiv").innerHTML = xmlhttp.responseText;
+      //   }
+      // }
+      // xmlhttp.open("GET", , true);
+      // xmlhttp.send();
+      // var doc = jsyaml.load(xmlhttp);
+      // console.log(qdata[start], doc)
+
+      var dark = true;
+      var opaque = 255;
+      var theme = '#FFD166';
+      var stationcolor = '#FFD166';//'#FCFCFC'
+      var red = hexToRgb(stationcolor).r;
+      var green = hexToRgb(stationcolor).g;
+      var blue = hexToRgb(stationcolor).b;
+      // var myfont = 'Hammersmith One';
+      var myfont = "'Hammersmith One', sans-serif";
+      var fontload = '<link href="https://fonts.googleapis.com/css?family=Metrophobic|Hammersmith+One&display=swap" rel="stylesheet">';
+      //var fontload = '<style>@font-face {font - family: "Metrophobic";src: url(//blog.csaladen.es/metro/Metrophobic - Regular.ttf) format("truetype");}</style>'
+      var fontstyle = fontload +
+        '<style>html,body,div,a,td,table{color: ' + stationcolor + ';text-decoration:none;overflow:hidden;}</style>';
+
+      function color(mlines, slines, sbranches) {
+        e = []
+        if (slines.length > 1) {
+          c = (dark) ? '#dddddd' : '#aaaaaa'
+          cs = []
+          slines.forEach(function (sline) {
+            mlines.forEach(function (line) {
+              if (line.name == sline) {
+                ci = line.color.toLowerCase()
+                if (cs.indexOf(ci) < 0) cs.push(ci)
+              }
+            })
+          })
+          if (cs.length == 1) c = cs[0]
+        }
+        else {
+          c = '#888888'
+          mlines.forEach(function (line) {
+            if (line.name == slines[0]) {
+              c = line.color.toLowerCase()
+              sbranches.forEach(function (branch) {
+                if (line.id == branch) {
+                  e.push(line.branch)
+                }
+              })
+            }
+          })
+        }
+        return [c, e]
+      }
+
+      function hexToRgb(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16)
+        } : null;
+      }
+
+      function degrees(path) {
+        points = [];
+        path.forEach(function (point) {
+          points.push(point.lng)
+          points.push(point.lat)
+          points.push(0)
+        })
+        return points
+      }
+
+      function central(stations, already) {
+        maxStations = 0
+        coords = []
+        name = ''
+        stations.forEach(function (station) {
+          if (station.lines.length > maxStations) {
+            if (already.indexOf(station.name) < 0) {
+              name = station.name
+              maxStations = station.lines.length
+              coords = [station.lat, station.lon]
+            }
+          }
+        })
+        return [coords, name]
+      }
+
+      function colored(station, mlines, slines, sbranches) {
+        r = ''
+        slines.forEach(function (line) {
+          r = r + '<tr><td style="text-align:center;padding:3px;text-shadow: 1px 1px 0px #000000;font-family:' + myfont + ';background-color:' +
+            color(mlines, [line], sbranches)[0] + ';">' +
+            line + '</td><td style="padding-left:3px;">' +
+            branches(color(mlines, [line], sbranches)[1]) +
+            '</tr></td>'
+        })
+        return r
+      }
+
+      function branches(branches) {
+        r = '';
+        branches.forEach(function (branch) {
+          r = r + '<div>' + branch + '</div>';
+        })
+        return r
+      }
+
+      function get_station_label(metro, station) {
+        return {
+          "id": metro.name + ' | ' + station.name + '2',
+          "name": station.name,
+          "description": fontstyle + '<a style="text-decoration:none;font-family:Metrophobic;" target="_blank" href="' + station.url + '"><table>' +
+            colored(station.name, metro.lines, station.lines, station.branches) +
+            '</table></a>',
+          "position": {
+            "cartographicDegrees": [station.lon, station.lat, 180]
+          },
+          "label": {
+            "fillColor": {
+              "rgba": Cesium.Color.fromBytes(station.color[0], station.color[1],
+                station.color[2], station.color[3]).brighten(0.4, new Cesium.Color()).toBytes()
+            },
+            // "fillColor": { "rgba": station.color },
+            // "fillColor": { "rgba": [red, green, blue, 255] },
+            "font": ((station.lines.length > 1) ? 14 : 12) + "pt " + myfont,
+            "horizontalOrigin": "CENTER",
+            "pixelOffset": {
+              "cartesian2": [0, 0]
+            },
+            "translucencyByDistance": {
+              "nearFarScalar": [15000, 1, 19000, 0]
+            },
+            "outlineColor": { "rgba": (dark) ? [0, 0, 0, 255] : [255, 255, 255, 255] },
+            "outlineWidth": ((station.lines.length > 1) ? 2 : 2),
+            "style": "FILL_AND_OUTLINE",
+            "text": station.name
+          }
+        }
+      }
+
+      function get_station_glyph(metro, station) {
+        return {
+          "id": metro.name + ' | ' + station.name,
+          "name": station.name,
+          "description": fontstyle + '<a style="text-decoration:none;font-family:Metrophobic;" target="_blank" href="' + station.url + '"><table>' +
+            colored(station.name, metro.lines, station.lines, station.branches) +
+            '</table></a>',
+          "position": {
+            "cartographicDegrees": [station.lon, station.lat, 40]
+          },
+          "cylinder": {
+            // "show": false,
+            "length": height * (0.95 + Math.random() / 10),
+            "topRadius": radius,
+            "bottomRadius": radius,
+            "slices": 8,
+            "material": {
+              "solidColor": {
+                "color": {
+                  'rgba': station.color
+                }
+              }
+            }
+          }
+        }
+      }
+
+      function get_metro_label(metro) {
+        centrals = central(metro.stations, []);
+        coords = centrals[0];
+        return {
+          "id": metro.url,
+          "name": metro.name,
+          "type": 'system',
+          "description": fontstyle + '<a style="text-decoration:none;font-family:Metrophobic;" target="_blank" href="' + metro.url + '"><table><tr><td>' +
+            metro.desc + '</td></tr></table></a>',
+          "position": {
+            "cartographicDegrees": [coords[1], coords[0], 100]
+          },
+          "label": {
+            "fillColor": { "rgba": [red, green, blue, 255] },
+            "font": "14pt " + myfont,
+            "horizontalOrigin": "CENTER",
+            "translucencyByDistance": {
+              "nearFarScalar": [50000, 0, 100000, 1]
+            },
+            "style": "FILL",
+            "text": metro.name
+          }
+        }
+      }
+
+      function get_line_glyph(metro, line) {
+        return {
+          "id": metro.name + ' | ' + line.id + Math.random(),
+          "name": line.name,
+          // "description": fontstyle + '<table style="font-family:Metrophobic;"><tr><td style="text-align:center;text-shadow: 1px 1px 0px #000000;padding:3px;font-family:' + myfont + ';background-color:' +
+          //   color(metro.lines, [line.name], [line.id])[0] + '";>' +
+          //   line.name + '</td><td style="padding-left:3px;">' +
+          //   branches(color(metro.lines, [line.name], [line.id])[1]) +
+          //   '</tr></td></table>',
+          "corridor": {
+            "positions": {
+              "cartographicDegrees": degrees(line.path)
+            },
+            "material": {
+              "solidColor": {
+                "color": {
+                  "rgba": [hexToRgb(line.color).r,
+                  hexToRgb(line.color).g,
+                  hexToRgb(line.color).b, opaque]
+                }
+              },
+            },
+            "width": 60 * (0.95 + Math.random() / 10),
+            "extrudedHeight": 60 * (0.95 + Math.random() / 10),
+            "height": 20,
+            "clampToGround": true,
+            "cornerType": "MITERED",
+            // "distanceDisplayCondition": new Cesium.DistanceDisplayCondition(10.0, 20.0)
+          }
+        }
+      }
+
+      metros.forEach(function (metro, i) {
+        // if ((['Budapest Metro', 'Bucharest Metro', 'Vienna U-Bahn', 'London Underground'].indexOf(metro.name) > -1)) {
+        // if ((['Budapest Metro'].indexOf(metro.name) > -1)) {
+        if (true) {
+
+          // centrals = central(metro.stations, []);
+          // coords = centrals[0];
+          // continent = metro.geo.continent;
+          loaddata[metro.url] = [czml]
+
+          if (!mobile)
+            loaddata['labels'].push(get_metro_label(metro));
+
+          metro.stations.forEach(function (station, i) {
+
+            radius = (station.lines.length > 1) ? 150 : 100;
+            height = (station.lines.length > 1) ? 120 : 100;
+            opacity = (station.lines.length > 1) ? opaque : 255;
+            station.color = [hexToRgb(color(metro.lines, station.lines, station.branches)[0]).r,
+            hexToRgb(color(metro.lines, station.lines, station.branches)[0]).g,
+            hexToRgb(color(metro.lines, station.lines, station.branches)[0]).b, opacity]
+
+            mobileload = (mobile) ? loaddata[metro.url] : loaddata['labels']
+            mobileload.push(get_station_glyph(metro, station));
+            if (!mobile)
+              loaddata[metro.url].push(get_station_label(metro, station))
+          });
+          metro.lines.forEach(function (line, i) {
+            mobileload = (mobile) ? loaddata[metro.url] : loaddata['labels']
+            mobileload.push(get_line_glyph(metro, line))
+          })
+        }
+      })
+
+      var viewer = new Cesium.Viewer('cesiumContainer', {
+        imageryProvider: new Cesium.OpenStreetMapImageryProvider({
+          url: (dark) ? 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/'
+            : 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/'
+        }),
+        baseLayerPicker: false,
+        sceneModePicker: false,
+        shouldAnimate: true,
+        animation: false,
+        // geocoder: false,
+        // selectionIndicator : false,
+        homeButton: false,
+        timeline: false,
+        navigationInstructionsInitiallyVisible: false
+      });
+
+      var dataSourcePromise = Cesium.CzmlDataSource.load(loaddata['labels']);
+
+      viewer.dataSources.add(dataSourcePromise);
+      console.log("Loading labels...")
+
+      var step = function () { };
+      var tour = function () { };
+      var mstep = function () { };
+
+      function reset() {
+        if (tour) clearInterval(tour)
+        if (step) clearTimeout(step)
+        if (mstep) clearTimeout(mstep)
+      }
+
+      function fly(id) {
+
+        data = qdata[id]
+        currentstation = name2id[data.name]
+
+        if (loaded.indexOf(id) < 0) {
+          console.log('Loading data for ' + data.name + '...')
+          // viewer.dataSources.add(Cesium.CzmlDataSource.load(loaddata[id]))
+          loaded.push(id);
+          //
+          get_yaml(data)
+          //
+        }
+
+        d3.select('#citydrop').node().value = data.name
+
+        setTimeout(function () {
+          viewer.selectedEntity = viewer.dataSources.get([0]).entities.getById(id)
+          viewer.infoBox.viewModel.closeClicked.raiseEvent(this)
+          d3.select("#title").html('<a target="_blank" href="' + data.url + '">&nbsp;<b>' + data.year + '</b> 🚇 ' + data.name + '</a>')
+          d3.select("#desc").text((mobile) ? (data.desc.split('.').slice(0, 2).join('.') + '.') : data.desc)
+
+        }, 200)
+
+        reset()
+
+        already = []
+        d = 3; //duration of flight in sec
+        n = 3;//nr of stations to show on tour
+        m = 0; //tour iteration
+        var loop = true //back to start at the end of tour
+        centrals = central(data.stations, already)
+        coords = centrals[0]
+        console.log(data.name)
+
+        viewer.camera.flyToBoundingSphere({
+          center: Cesium.Cartesian3.fromDegrees(
+            coords[1],
+            coords[0],
+            100.0),
+          radius: 6000
+        }, { duration: d });
+
+        tour = setInterval(function () {
+          m = m + 1;
+          if (m > n - (loop ? 0 : 1)) clearInterval(tour)
+          if (already.length == n) already = [];
+          centrals = central(data.stations, already)
+          console.log(centrals[1])
+          coords = centrals[0]
+          already.push(centrals[1])
+          step = setTimeout(function () {
+            mstep = setTimeout(function () {
+              viewer.selectedEntity = viewer.dataSources.get([0]).entities.getById(data.name + ' | ' + centrals[1])
+              // d3.select("#desc").text(data.desc.split('.').slice(0, 2).join('.') + '.')
+            }, 200)
+            viewer.camera.flyToBoundingSphere({
+              center: Cesium.Cartesian3.fromDegrees(
+                coords[1],
+                coords[0],
+                100.0),
+              radius: 3000 + Math.random() * 2000
+            }, { duration: d, easingFunction: Cesium.EasingFunction.SINUSOIDAL_IN_OUT });
+          }, (already.length) ? 10 : 2 * d * 1000);
+        }, d * 1000)
+
+      }
+
+      var basedesc = 'Loading ...'
+      var basetitle = '&nbsp;<b>🚇</b> Metrocyclopaedia'
+
+      function home() {
+        d3.select("#title").html(basetitle);
+        // d3.select("#desc").html('<img src="https://cesium.com/downloads/cesiumjs/releases/1.63/Build/Cesium/Widgets/Images/NavigationHelp/MouseLeft.svg"/>'+
+        // '<img src="https://cesium.com/downloads/cesiumjs/releases/1.63/Build/Cesium/Widgets/Images/NavigationHelp/MouseRight.svg"/>'
+        // );
+        d3.select("#desc").html('<div>&nbsp;Last updated on <b>17/02/2020</b><br>&nbsp;</div><table><tr><td class="leftq"><div><b>Left click</b><br>on city</td>' +
+          '<td class="rightq">fly to city</div></td></tr>' +
+          '<tr><td class="leftq"><div><b>Left click</b><br>on station</td><td class="rightq">view lines</div></td></tr>' +
+          '<tr><td class="leftq"><div><b>Left click</b><br>and drag</td><td class="rightq">pan</div></td></tr>' +
+          '<tr><td class="leftq"><div><b>Right click</b></td><td class="rightq">stop tour</div></td></tr>' +
+          '<tr><td class="leftq"><div><b>Right click</b><br>and drag</td><td class="rightq">zoom</div></td></tr>' +
+          '<tr><td class="leftq"><div><b>Wheel</b></td><td class="rightq">zoom</div></td></tr>' +
+          '<tr><td class="leftq"><div><b>▶</b></td><td class="rightq">next city</div></td></tr>' +
+          '<tr><td class="leftq bq"><div><b>◀</b></td><td class="rightq bq">previous city</div></td></tr>' +
+          '</table>'
+        )
+      }
+
+      Array.prototype.sortOn = function (key, up) {
+        this.sort(function (a, b) {
+          if (a[key] < b[key]) {
+            return up ? -1 : 1;
+          } else if (a[key] > b[key]) {
+            return up ? 1 : -1;
+          }
+          return 0;
+        });
+      }
+
+      metros.sortOn("year", false)
+      name2url = {}
+      name2id = {}
+      metros.forEach(function (metro, i) {
+        // console.log(metro,i)
+        name2url[metro.name] = metro.url;
+        name2id[metro.name] = i;
+      })
+
+      stationkeys = metros.map(function (el) { return el.url; });
+      stationnames = metros.map(function (el) { return el.name; });
+      // shuffle(stationkeys);
+      // stationkeys.unshift(start);
+      currentstation = 0;
+
+      function shuffle(array) {
+        array.sort(() => Math.random() - 0.5);
+      }
+
+      function next() {
+        currentstation = currentstation + 1;
+        if (currentstation > stationkeys.length - 1) currentstation = 0;
+        fly(stationkeys[currentstation])
+      }
+
+      function prev() {
+        currentstation = currentstation - 1;
+        if (currentstation < 0) currentstation = stationkeys.length - 1;
+        fly(stationkeys[currentstation])
+      }
+
+      d3.select(".cesium-widget-credits").insert("a", ":first-child")
+        .attr("class", "cesium-credit-imageContainer")
+        .text('fd')
+        .attr("href", "https://szekelydata.csaladen.es")
+        .attr("target", "_blank")
+        .html("<img style='margin-bottom:-8px;margin-left:8px;height:40px;' src='//szekelydata.csaladen.es/klima/szd_logo.png' alt='székelydata' title='székelydata' />")
+      d3.select(".cesium-widget-credits").insert("a", ":first-child")
+        .attr("class", "cesium-credit-imageContainer")
+        .text('.')
+        .attr("href", "https://csaladenes.wordpress.com/?p=1246")
+        .attr("target", "_blank")
+        .html("<img style='height:32px;margin-bottom:-2px;margin-left:8px;' src='https://blog.csaladen.es/favicon.ico' alt='Kontext blog' title='Kontext blog' />")
+      d3.select(".cesium-widget-credits").insert("a", ":first-child")
+        .attr("class", "cesium-credit-imageContainer")
+        .text('.')
+        .attr("rel", "author")
+        .attr("href", "https://csaladen.es")
+        .attr("target", "_blank")
+        .html("<img style='margin-bottom:-2px;margin-left:8px;height:30px;' src='https://csaladen.es/favicon.ico' alt='by Dénes Csala' title='by Dénes Csala' />")
+      d3.select(".cesium-viewer-toolbar").insert("div")
+        .attr("class", "cesium-button cesium-toolbar-button material-icons")
+        .style("padding-left", "2px")
+        .style("padding-top", "2px")
+        .append('a')
+        .text("📊")//〽
+        .attr('target', '_blank')
+        .attr("title", "data visualizations")
+        .attr('href', 'https://public.flourish.studio/story/193465/embed')
+        .style('font-size', '20px')
+        .on('click', function () { next(); })
+      d3.select(".cesium-viewer-toolbar").insert("div")
+        .attr("class", "cesium-button")
+        .style("width", "130px")
+        .style("height", "24px")
+        .style('margin-bottom', '-12px')
+        .style('padding-top', '2px')
+        .html('<input list="cities" id="citydrop" placeholder="Enter city name..." name="city"/><datalist id="cities"></datalist>')
+
+      metros.sortOn('name', true)
+      metros.forEach(function (city) {
+        d3.select('#cities').append('option').attr('value', city.name)
+      })
+
+      d3.select('#citydrop')
+        .style('background', 'none')
+        .style('font-family', "'Metrophobic' sans-serif")
+        .style('font-size', '14px')
+        .style('color', theme)
+        .style("height", "18px")
+        .style("width", "128px")
+        .style('border', 'none')
+
+      d3.select('#citydrop').on('change', function () {
+        city = d3.select('#citydrop').node().value;
+        d3.select('#citydrop').node().blur();
+        if (Object.keys(name2url).indexOf(city) > -1) {
+          fly(name2url[city]);
+        }
+      })
+
+      d3.select('#citydrop').on('mouseover', function () {
+        d3.select('#citydrop').node().value = ''
+      })
+
+      d3.select('#citydrop').on('focusout', function () {
+        d3.select('#citydrop').node().value = stationnames[currentstation]
+      })
+
+      d3.select(".cesium-viewer-toolbar").insert("div")
+        .attr("class", "cesium-button cesium-toolbar-button material-icons")
+        .style("padding-left", "5px")
+        // .style("padding-top", "2px")
+        .append('a')
+        .text("←")
+        .attr('target', '_blank')
+        .attr("title", "fly to previous city")
+        .style('font-size', '20px')
+        .on('click', function () { next(); })
+      d3.select(".cesium-viewer-toolbar").insert("div")
+        .attr("class", "cesium-button cesium-toolbar-button material-icons")
+        .style("padding-left", "5px")
+        .append('a')
+        .text("→")
+        .attr('target', '_blank')
+        .attr("title", "fly to next city")
+        .style('font-size', '20px')
+        .on('click', function () { prev(); })
+      d3.select(".cesium-viewer-cesiumWidgetContainer").append("div")
+        .style("position", "absolute")
+        .style("top", "10px")
+        .style("left", "10px")
+        .style("color", theme)
+        .attr("id", "subs")
+      d3.select("#subs").append("div")
+        .attr("class", "cesium-viewer-cesiumWidgetContainer")
+        .html('<div id="info" style="font-size:20px;"><div id="title">' + basetitle + '</div>' +
+          '<div id="source" style="font-size:15px;margin-top:5px;margin-left:10px;color:' + theme + ';">Ⓜ based on <b>' +
+          '<a target="_blank" href="//metrolinemap.com">metrolinemap.com</a></b></div>' +
+          '<div>' +
+          '<svg height="20" width="300"><line x1="0" y1="15" x2="235" y2="15" style="stroke:' + theme + ';stroke-width:1" />' +
+          '</div>' +
+          '<div style="font-size:15px;margin-top:5px; width:245px;" id="desc">' + basedesc + '</div>'
+        )
+      d3.select('.cesium-navigationHelpButton-wrapper').on('click', function () { reset(); home(); })
+
+      var scene = viewer.scene;
+      var handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
+
+      handler.setInputAction(function (movement) {
+        reset();
+        return;
+      }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
+
+      handler.setInputAction(function (movement) {
+        reset();
+        viewer.camera.cancelFlight();
+        d3.select('#citydrop').node().blur();
+        return;
+      }, Cesium.ScreenSpaceEventType.PINCH_MOVE);
+
+      handler.setInputAction(function (movement) {
+        reset();
+        viewer.camera.cancelFlight();
+        d3.select('#citydrop').node().blur();
+        return;
+      }, Cesium.ScreenSpaceEventType.LEFT_DOWN);
+
+      handler.setInputAction(function (movement) {
+        reset();
+        viewer.camera.cancelFlight();
+        d3.select('#citydrop').node().blur();
+        return;
+      }, Cesium.ScreenSpaceEventType.WHEEL);
+
+      handler.setInputAction(function (movement) {
+        reset();
+        var feature = scene.pick(movement.position);
+        if (Cesium.defined(feature)) {
+          if (Object.keys(qdata).indexOf(feature.id.id) > -1) {
+            fly(feature.id.id)
+          }
+          else {
+            id = name2url[feature.id.id.split(' | ')[0]]
+            if (loaded.indexOf(id) < 0) {
+              fly(id)
+            }
+            //   if (Object.keys(loaddata).indexOf(id) > -1)
+            //     console.log('Loading data for ' + feature.id.id.split('|')[0] + '...')
+            //   viewer.dataSources.add(Cesium.CzmlDataSource.load(loaddata[id]))
+            //   loaded.push(id);
+            // }
+          }
+        }
+      }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+      document.addEventListener("keydown", function (event) {
+        if ((event.keyCode >= 33 && event.keyCode <= 34) || (event.keyCode >= 37 && event.keyCode <= 40)) {
+          switch (event.keyCode) {
+            case 33: // pg up
+            case 37: // left
+            case 38: // up
+              next();
+              break;
+            case 34: // pg down
+            case 39: // right
+            case 40: // down 
+              prev();
+              break;
+          }
+
+          event.preventDefault();
+        }
+      }, false);
+
+      fly(start)
+
+    })
+
+
+
+  </script>
+</body>
+
+</html>

@@ -273,8 +273,8 @@
       }
 
       metros.forEach(function (metro, i) {
-        // if ((['Budapest Metro', 'Bucharest Metro', 'Vienna U-Bahn', 'London Underground and DLR'].indexOf(metro.name) > -1)) {
-        if (true) {
+        // if ((['Budapest Metro', 'Santiago Metro', 'London Underground'].indexOf(metro.name) > -1)) {
+          if (true) {
 
           centrals = central(metro.stations, []);
           coords = centrals[0];
@@ -302,6 +302,39 @@
                 "text": metro.name
               }
             });
+
+          metro.lines.forEach(function (line, i) {
+            mobileload = (mobile) ? loaddata[metro.url] : loaddata['labels']
+            mobileload.push({
+              "id": metro.name + ' | ' + line.id,
+              "name": line.name,
+              "description": fontstyle + '<table style="font-family:Metrophobic;"><tr><td style="text-align:center;text-shadow: 1px 1px 0px #000000;padding:3px;font-family:' + myfont + ';background-color:' +
+                color(metro.lines, [line.name], [line.id])[0] + '";>' +
+                line.name + '</td><td style="padding-left:3px;">' +
+                branches(color(metro.lines, [line.name], [line.id])[1]) +
+                '</tr></td></table>',
+              "corridor": {
+                "positions": {
+                  "cartographicDegrees": degrees(line.path)
+                },
+                "material": {
+                  "solidColor": {
+                    "color": {
+                      "rgba": [hexToRgb(line.color).r,
+                      hexToRgb(line.color).g,
+                      hexToRgb(line.color).b, opaque]
+                    }
+                  },
+                },
+                "width": 60 * (0.95 + Math.random() / 10),
+                "extrudedHeight": 60 * (0.95 + Math.random() / 10),
+                "height": 20,
+                "clampToGround": true,
+                "cornerType": "MITERED",
+                // "distanceDisplayCondition": new Cesium.DistanceDisplayCondition(10.0, 20.0)
+              }
+            })
+          });
 
           metro.stations.forEach(function (station, i) {
 
@@ -368,38 +401,6 @@
                   "text": station.name
                 }
               })
-          });
-          metro.lines.forEach(function (line, i) {
-            mobileload = (mobile) ? loaddata[metro.url] : loaddata['labels']
-            mobileload.push({
-              "id": metro.name + ' | ' + line.id,
-              "name": line.name,
-              "description": fontstyle + '<table style="font-family:Metrophobic;"><tr><td style="text-align:center;text-shadow: 1px 1px 0px #000000;padding:3px;font-family:' + myfont + ';background-color:' +
-                color(metro.lines, [line.name], [line.id])[0] + '";>' +
-                line.name + '</td><td style="padding-left:3px;">' +
-                branches(color(metro.lines, [line.name], [line.id])[1]) +
-                '</tr></td></table>',
-              "corridor": {
-                "positions": {
-                  "cartographicDegrees": degrees(line.path)
-                },
-                "material": {
-                  "solidColor": {
-                    "color": {
-                      "rgba": [hexToRgb(line.color).r,
-                      hexToRgb(line.color).g,
-                      hexToRgb(line.color).b, opaque]
-                    }
-                  },
-                },
-                "width": 60 * (0.95 + Math.random() / 10),
-                "extrudedHeight": 60 * (0.95 + Math.random() / 10),
-                "height": 20,
-                "clampToGround": true,
-                "cornerType": "MITERED",
-                // "distanceDisplayCondition": new Cesium.DistanceDisplayCondition(10.0, 20.0)
-              }
-            })
           })
         }
       })
@@ -438,6 +439,7 @@
       function fly(id) {
 
         data = qdata[id]
+        // console.log(data)
         currentstation = name2id[data.name]
 
         if (loaded.indexOf(id) < 0) {

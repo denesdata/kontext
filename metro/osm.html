@@ -178,15 +178,8 @@
 
       var start = 'https://www.metrolinemap.com/metro/budapest/'
       qdata[start]['lr'] = [{
-        'name': 'Budapest',
-        'id': 'budapest'
-      },
-      {
         'name': 'Budapest HEV',
         'id': 'budapest_hev'
-      }, {
-        'name': 'Budapest',
-        'id': 'budapest'
       }]
 
       qdata['https://www.metrolinemap.com/metro/vienna/']['lr'] = [{
@@ -215,15 +208,13 @@
         'id': 'tokyo_-_nippori-toneri_liner',
       }]
 
-      ydata = [czml]
-
       //TODO: simplify paths from OSM
       //async load all
       //fix descirptions
 
       function get_yaml(metro) {
 
-        
+
 
         // metro['lr'].slice(1).forEach(function (lr) {
         metro['lr'].forEach(function (lr, i) {
@@ -233,16 +224,18 @@
           lr.url = 'http://osm-subway.maps.me/';
           lr.desc = '';
           const proxyurl = "https://cors-anywhere.herokuapp.com/";
-          fetch(proxyurl + yaml) // https://cors-anywhere.herokuapp.com/https://example.com
+          fetch(proxyurl + yaml)
             .then(response => response.text())
             .then(function (contents) {
               yamldoc = jsyaml.load(contents)
-              fetch(proxyurl + json) // https://cors-anywhere.herokuapp.com/https://example.com
+              fetch(proxyurl + json)
                 .then(response => response.text())
                 .then(function (contents) {
                   jsondoc = JSON.parse(contents)
                   ylines = {}
                   ystations = {}
+                  ydata = [czml]
+                  console.log(yamldoc, jsondoc)
                   yamldoc.routes.forEach(function (route) {
                     ylines[route.ref] = { "name": route.ref, "id": route.name, "branch": route.name, "color": route.colour, 'path': [] }
                     route.stations.forEach(function (station) {
@@ -290,7 +283,7 @@
                     ydata.push(get_line_glyph(lr, line))
                   })
 
-                  console.log(ydata, i, metro['lr'].length)
+                  // console.log(ydata, i, metro['lr'].length)
 
                   if (i == metro['lr'].length - 1) viewer.dataSources.add(Cesium.CzmlDataSource.load(ydata))
                 })
@@ -507,13 +500,13 @@
 
       function get_line_glyph(metro, line) {
         return {
-          "id": metro.name + ' | ' + line.id,
+          "id": metro.name + ' | ' + line.id + Math.random(),
           "name": line.name,
-          "description": fontstyle + '<table style="font-family:Metrophobic;"><tr><td style="text-align:center;text-shadow: 1px 1px 0px #000000;padding:3px;font-family:' + myfont + ';background-color:' +
-            color(metro.lines, [line.name], [line.id])[0] + '";>' +
-            line.name + '</td><td style="padding-left:3px;">' +
-            branches(color(metro.lines, [line.name], [line.id])[1]) +
-            '</tr></td></table>',
+          // "description": fontstyle + '<table style="font-family:Metrophobic;"><tr><td style="text-align:center;text-shadow: 1px 1px 0px #000000;padding:3px;font-family:' + myfont + ';background-color:' +
+          //   color(metro.lines, [line.name], [line.id])[0] + '";>' +
+          //   line.name + '</td><td style="padding-left:3px;">' +
+          //   branches(color(metro.lines, [line.name], [line.id])[1]) +
+          //   '</tr></td></table>',
           "corridor": {
             "positions": {
               "cartographicDegrees": degrees(line.path)
